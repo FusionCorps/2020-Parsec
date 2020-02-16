@@ -15,9 +15,32 @@ package frc.robot
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-class Constants {
-    companion object {
-        // Put Constants inside the companion object to make them globally accessible.
-        // ex. val motorPort: Int = 0
+object Constants {
+    object Inputs {
+        val ID_CONTROLLER = 0
+    }
+
+    object Chassis {
+        val ID_TALONFX_F_L = 0
+        val ID_TALONFX_B_L = 1
+        val ID_TALONFX_F_R = 2
+        val ID_TALONFX_B_R = 3
+    }
+
+    object Hopper {
+        val ID_VICTORSPX = 0
+    }
+
+    object Indexer {
+        val ID_TALONFX = 0
+    }
+
+    object Intake {
+        val ID_VICTORSPX = 0
+    }
+
+    object Lift {
+        val ID_TALONFX_EXTEND = 0
+        val ID_TALONFX_RETRACT = 1
     }
 }

@@ -24,7 +24,6 @@ class RobotContainer {
     private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
 
     val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
-
     var m_autoCommandChooser: SendableChooser<Command> = SendableChooser()
 
     /**
