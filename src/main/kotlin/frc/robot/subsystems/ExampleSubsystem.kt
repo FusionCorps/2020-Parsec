@@ -10,15 +10,15 @@ package frc.robot.subsystems
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 class ExampleSubsystem : SubsystemBase() {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  init {
-  }
+    /**
+    * Creates a new ExampleSubsystem.
+    */
+    init {
+    }
 
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  override fun periodic() {
-  }
+    /**
+    * Will be called periodically whenever the CommandScheduler runs.
+    */
+    override fun periodic() {
+    }
 }

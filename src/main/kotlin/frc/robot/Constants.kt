@@ -16,8 +16,8 @@ package frc.robot
  * constants are needed, to reduce verbosity.
  */
 class Constants {
-  companion object {
-    // Put Constants inside the companion object to make them globally accessible.
-    // ex. val motorPort: Int = 0
-  }
+    companion object {
+        // Put Constants inside the companion object to make them globally accessible.
+        // ex. val motorPort: Int = 0
+    }
 }

@@ -7,13 +7,11 @@
 
 package frc.robot
 
-import frc.robot.commands.ExampleCommand
-import frc.robot.subsystems.ExampleSubsystem
-import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import edu.wpi.first.wpilibj.GenericHID
-import edu.wpi.first.wpilibj.XboxController
+import edu.wpi.first.wpilibj2.command.Command
+import frc.robot.commands.ExampleCommand
+import frc.robot.subsystems.ExampleSubsystem
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,35 +20,34 @@ import edu.wpi.first.wpilibj.XboxController
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
+    // The robot's subsystems and commands are defined here...
+    private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
 
-  val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
+    val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
 
-  var m_autoCommandChooser: SendableChooser<Command> = SendableChooser()
+    var m_autoCommandChooser: SendableChooser<Command> = SendableChooser()
 
+    /**
+    * The container for the robot.  Contains subsystems, OI devices, and commands.
+    */
+    init {
+        // Configure the button bindings
+        configureButtonBindings()
+        m_autoCommandChooser.setDefaultOption("Default Auto", m_autoCommand)
+        SmartDashboard.putData("Auto mode", m_autoCommandChooser)
+    }
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
-  init {
-    // Configure the button bindings
-    configureButtonBindings()
-    m_autoCommandChooser.setDefaultOption("Default Auto", m_autoCommand)
-    SmartDashboard.putData("Auto mode", m_autoCommandChooser)
-  }
+    /**
+    * Use this method to define your button->command mappings.  Buttons can be created by
+    * instantiating a {@link GenericHID} or one of its subclasses ({@link
+    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
+    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+    */
+    fun configureButtonBindings() {
+    }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  fun configureButtonBindings() {
-  }
-
-  fun getAutonomousCommand(): Command {
-    // Return the selected command
-    return m_autoCommandChooser.getSelected()
-  }
+    fun getAutonomousCommand(): Command {
+        // Return the selected command
+        return m_autoCommandChooser.getSelected()
+    }
 }
