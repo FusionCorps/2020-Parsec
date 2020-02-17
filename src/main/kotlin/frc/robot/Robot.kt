@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
  * project.
  */
 class Robot : TimedRobot() {
-    lateinit var m_autonomousCommand: Command
+    lateinit var mAutonomousCommand: Command
 
-    lateinit var m_robotContainer: RobotContainer
+    lateinit var mRobotContainer: RobotContainer
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -29,9 +29,9 @@ class Robot : TimedRobot() {
     override fun robotInit() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
-        m_robotContainer = RobotContainer()
+        mRobotContainer = RobotContainer()
         // Automatically grab auto command to ensure m_autonomousCommand is defined before teleopInit is run
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand()
+        mAutonomousCommand = mRobotContainer.getAutonomousCommand()
     }
 
     /**
@@ -62,10 +62,10 @@ class Robot : TimedRobot() {
     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
     */
     override fun autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand()
+        mAutonomousCommand = mRobotContainer.getAutonomousCommand()
 
         // schedule the autonomous command (example)
-        m_autonomousCommand?.let { m_autonomousCommand.schedule() }
+        mAutonomousCommand?.let { mAutonomousCommand.schedule() }
     }
 
     /**
@@ -79,7 +79,7 @@ class Robot : TimedRobot() {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        m_autonomousCommand?.let { m_autonomousCommand.cancel() }
+        mAutonomousCommand?.let { mAutonomousCommand.cancel() }
     }
 
     /**

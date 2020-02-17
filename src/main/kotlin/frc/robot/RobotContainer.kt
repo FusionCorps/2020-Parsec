@@ -7,9 +7,16 @@
 
 package frc.robot
 
+import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.button.JoystickButton
+import frc.robot.commands.chassis.ChassisJoystickDrive
+import frc.robot.commands.hopper.HopperSetMovementCharacteristics
+import frc.robot.subsystems.Chassis
+import frc.robot.subsystems.Hopper
+import frc.robot.subsystems.Intake
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -19,10 +26,12 @@ import edu.wpi.first.wpilibj2.command.Command
  */
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
-//    private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
+    private val mChassis = Chassis
+    private val mHopper = Hopper
+    private val mIntake = Intake
 
-//    val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
-    var m_autoCommandChooser: SendableChooser<Command> = SendableChooser()
+    private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
+    val mChassisJoystickDrive = ChassisJoystickDrive(mChassis)
 
     /**
     * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -30,8 +39,8 @@ class RobotContainer {
     init {
         // Configure the button bindings
         configureButtonBindings()
-//        m_autoCommandChooser.setDefaultOption("Default Auto", m_autoCommand)
-        SmartDashboard.putData("Auto mode", m_autoCommandChooser)
+        mAutoCommandChooser.setDefaultOption("Default Auto", mChassisJoystickDrive)
+        SmartDashboard.putData("Auto mode", mAutoCommandChooser)
     }
 
     /**
@@ -41,10 +50,15 @@ class RobotContainer {
     * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
     */
     fun configureButtonBindings() {
+        JoystickButton(Controls.controller, XboxController.Button.kX.value)
+                .whenPressed(HopperSetMovementCharacteristics(mHopper, Constants.Hopper.TARGET_VELOCITY))
+                .whenReleased(HopperSetMovementCharacteristics(mHopper, 0.0))
+
+        JoystickButton(Controls.controller, XboxController.Button.kY.value)
     }
 
     fun getAutonomousCommand(): Command {
         // Return the selected command
-        return m_autoCommandChooser.getSelected()
+        return mAutoCommandChooser.getSelected()
     }
 }

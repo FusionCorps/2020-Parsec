@@ -1,17 +1,18 @@
 package frc.robot.commands.chassis
 
+import edu.wpi.first.wpilibj.GenericHID
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Controls
 import frc.robot.subsystems.Chassis
 
 class ChassisJoystickDrive(chassis: Chassis) : CommandBase() {
-    private final val m_chassis = chassis
+    private final val mChassis = chassis
 
     init {
-        addRequirements(m_chassis)
+        addRequirements(mChassis)
     }
 
     override fun execute() {
-        m_chassis.joystick_drive(Controls.controller.getX(), Controls.controller.getY())
+        mChassis.joystickDrive(Controls.controller.getX(GenericHID.Hand.kLeft), Controls.controller.getY(GenericHID.Hand.kLeft))
     }
 }

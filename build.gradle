@@ -7,7 +7,7 @@ plugins {
 
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
-    
+
     // Optionally configure plugin
     ktlint {
        debug.set(true)
@@ -62,11 +62,12 @@ repositories {
 // Also defines JUnit 4.
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation 'io.github.microutils:kotlin-logging:1.7.8'
+    implementation 'org.slf4j:slf4j-simple:1.7.26'
 
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
-
 
     implementation wpi.deps.vendor.java()
     nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)

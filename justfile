@@ -6,3 +6,7 @@ build:
 deploy:
    just build
    gradle deploy
+
+# Run the robot simulator
+sim:
+    gradle simulateJava

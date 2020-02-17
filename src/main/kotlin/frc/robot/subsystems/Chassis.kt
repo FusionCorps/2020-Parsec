@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.commands.chassis.ChassisJoystickDrive
+import mu.KotlinLogging
 
 object Chassis : SubsystemBase() {
     // Motor Controllers
@@ -25,12 +27,18 @@ object Chassis : SubsystemBase() {
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
 
+    private val logger = KotlinLogging.logger("Chassis")
+
     var driveSpd: Double = 0.5
+
+    init {
+        setDefaultCommand(ChassisJoystickDrive(this))
+    }
 
     override fun periodic() {
     }
 
-    fun joystick_drive(x: Double, z: Double) {
+    fun joystickDrive(x: Double, z: Double) {
         drive.curvatureDrive(x * driveSpd, z * driveSpd, true)
     }
 }

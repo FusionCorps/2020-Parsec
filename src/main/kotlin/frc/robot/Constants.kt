@@ -21,22 +21,24 @@ object Constants {
     }
 
     object Chassis {
-        const val ID_TALONFX_F_L = 0
-        const val ID_TALONFX_B_L = 1
-        const val ID_TALONFX_F_R = 2
-        const val ID_TALONFX_B_R = 3
+        const val ID_TALONFX_F_L = 11
+        const val ID_TALONFX_B_L = 12
+        const val ID_TALONFX_F_R = 10
+        const val ID_TALONFX_B_R = 13
     }
 
     object Hopper {
-        const val ID_VICTORSPX = 0
+        const val ID_VICTORSPX = 30
+        const val TARGET_VELOCITY = 1000.0
     }
 
     object Indexer {
-        const val ID_TALONFX = 0
+        const val ID_TALONFX = 40
     }
 
     object Intake {
-        const val ID_VICTORSPX = 0
+        const val ID_VICTORSPX = 20
+        const val TARGET_PERCENT = 0.7
     }
 
     object Lift {
@@ -45,7 +47,7 @@ object Constants {
     }
 
     object Shooter {
-        const val ID_TALONFX_LEFT = 0
-        const val ID_TALONFX_RIGHT = 1
+        const val ID_TALONFX_LEFT = 50
+        const val ID_TALONFX_RIGHT = 51
     }
 }

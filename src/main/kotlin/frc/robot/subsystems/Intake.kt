@@ -1,33 +1,35 @@
 package frc.robot.subsystems
 
+import com.ctre.phoenix.motorcontrol.InvertType
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode
-import com.ctre.phoenix.motorcontrol.can.VictorSPX
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.commands.intake.IntakeJoystickRun
 import mu.KotlinLogging
 
 object Intake : SubsystemBase() {
-    private val victorSPXIntake = VictorSPX(Constants.Indexer.ID_TALONFX)
+    private val victorSPXIntake = WPI_VictorSPX(Constants.Intake.ID_VICTORSPX).apply {
+        setInverted(InvertType.InvertMotorOutput)
+
+        config_kP(0, 0.5)
+        config_kI(0, 0.0)
+        config_kP(0, 0.0)
+    }
 
     private val logger = KotlinLogging.logger {}
 
-    var maxIntakePercent: Double = 0.5
-        set(newMaxIntakePercent) {
-            logger.info { "New intakeSpd: $newMaxIntakePercent" }
-            field = newMaxIntakePercent
-        }
+    init {
+        setDefaultCommand(IntakeJoystickRun(this))
+    }
 
-    var targetIntakeVelocity: Double = 2400.0  // m/s
+    var currentIntakePercent: Double = 0.0
         set(newTargetIntakeVelocity) {
             logger.info { "New targetIntakeVelocity: $newTargetIntakeVelocity" }
             field = newTargetIntakeVelocity
         }
 
-    fun setBelt(controlMode: VictorSPXControlMode, value: Double) {
-        if (controlMode == VictorSPXControlMode.PercentOutput) {
-            victorSPXIntake.set(controlMode, value * maxIntakePercent)
-        } else if (controlMode == VictorSPXControlMode.Velocity) {
-            victorSPXIntake.set(controlMode, value * targetIntakeVelocity)
-        }
+    fun setBelt(controlMode: VictorSPXControlMode = VictorSPXControlMode.PercentOutput, value: Double) {
+        victorSPXIntake.set(controlMode, value)
     }
 }
