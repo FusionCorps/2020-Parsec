@@ -10,3 +10,7 @@ deploy:
 # Run the robot simulator
 sim:
     gradle simulateJava
+
+# Format all code
+format:
+    gradle ktlintFormat

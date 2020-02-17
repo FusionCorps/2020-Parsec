@@ -53,12 +53,10 @@ class RobotContainer {
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
                 .whenPressed(HopperSetMovementCharacteristics(mHopper, Constants.Hopper.TARGET_VELOCITY))
                 .whenReleased(HopperSetMovementCharacteristics(mHopper, 0.0))
-
-        JoystickButton(Controls.controller, XboxController.Button.kY.value)
     }
 
     fun getAutonomousCommand(): Command {
         // Return the selected command
-        return mAutoCommandChooser.getSelected()
+        return mAutoCommandChooser.selected
     }
 }
