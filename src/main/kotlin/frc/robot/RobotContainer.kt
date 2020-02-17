@@ -10,8 +10,6 @@ package frc.robot
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
-import frc.robot.commands.ExampleCommand
-import frc.robot.subsystems.ExampleSubsystem
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -21,9 +19,9 @@ import frc.robot.subsystems.ExampleSubsystem
  */
 class RobotContainer {
     // The robot's subsystems and commands are defined here...
-    private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
+//    private val m_exampleSubsystem: ExampleSubsystem = ExampleSubsystem()
 
-    val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
+//    val m_autoCommand: ExampleCommand = ExampleCommand(m_exampleSubsystem)
     var m_autoCommandChooser: SendableChooser<Command> = SendableChooser()
 
     /**
@@ -32,7 +30,7 @@ class RobotContainer {
     init {
         // Configure the button bindings
         configureButtonBindings()
-        m_autoCommandChooser.setDefaultOption("Default Auto", m_autoCommand)
+//        m_autoCommandChooser.setDefaultOption("Default Auto", m_autoCommand)
         SmartDashboard.putData("Auto mode", m_autoCommandChooser)
     }
 

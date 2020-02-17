@@ -17,30 +17,35 @@ package frc.robot
  */
 object Constants {
     object Inputs {
-        val ID_CONTROLLER = 0
+        const val ID_CONTROLLER = 0
     }
 
     object Chassis {
-        val ID_TALONFX_F_L = 0
-        val ID_TALONFX_B_L = 1
-        val ID_TALONFX_F_R = 2
-        val ID_TALONFX_B_R = 3
+        const val ID_TALONFX_F_L = 0
+        const val ID_TALONFX_B_L = 1
+        const val ID_TALONFX_F_R = 2
+        const val ID_TALONFX_B_R = 3
     }
 
     object Hopper {
-        val ID_VICTORSPX = 0
+        const val ID_VICTORSPX = 0
     }
 
     object Indexer {
-        val ID_TALONFX = 0
+        const val ID_TALONFX = 0
     }
 
     object Intake {
-        val ID_VICTORSPX = 0
+        const val ID_VICTORSPX = 0
     }
 
     object Lift {
-        val ID_TALONFX_EXTEND = 0
-        val ID_TALONFX_RETRACT = 1
+        const val ID_TALONFX_EXTEND = 0
+        const val ID_TALONFX_RETRACT = 1
+    }
+
+    object Shooter {
+        const val ID_TALONFX_LEFT = 0
+        const val ID_TALONFX_RIGHT = 1
     }
 }
