@@ -27,8 +27,13 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     }
 
     override fun isFinished(): Boolean {
-        return mIndexer.getCurrentPosition() == (mTargetIndexerPosition + errorThreshold) ||
-                mIndexer.getCurrentPosition() == (mTargetIndexerPosition - errorThreshold)
+        return mIndexer.getCurrentPosition() > mTargetIndexerPosition
+//        return mIndexer.getCurrentPosition() == (mTargetIndexerPosition + errorThreshold) ||
+//                mIndexer.getCurrentPosition() == (mTargetIndexerPosition - errorThreshold)
+    }
+
+    override fun end(interrupted: Boolean) {
+        mIndexer.setBelt(TalonFXControlMode.PercentOutput, 0.0)
     }
 }
 

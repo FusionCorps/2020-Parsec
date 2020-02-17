@@ -35,18 +35,21 @@ object Constants {
     object Indexer {
         const val ID_TALONFX = 40
 
-        const val ID_FRONT_SENSOR = 1
-        const val ID_TOP_SENSOR = 2
+        const val ID_FRONT_SENSOR_TX = 9
+        const val ID_FRONT_SENSOR_RX = 1
 
-        const val SHIFT_TICKS = 2400.0
+        const val ID_TOP_SENSOR_TX = 2
+        const val ID_TOP_SENSOR_RX = 2
+
+        const val SHIFT_TICKS = 20000.0
 
         const val kF = 0.0
-        const val kP = 0.5
-        const val kI = 0.0
+        const val kP = 1.0
+        const val kI = 0.01
         const val kD = 0.0
 
-        const val VELOCITY = 15000
-        const val ACCELERATION = 6000
+        const val VELOCITY = 10000
+        const val ACCELERATION = 2500
     }
 
     object Intake {
@@ -60,7 +63,14 @@ object Constants {
     }
 
     object Shooter {
-        const val ID_TALONFX_LEFT = 50
-        const val ID_TALONFX_RIGHT = 51
+        const val ID_TALONFX_TOP = 50
+        const val ID_TALONFX_BOTTOM = 51
+
+        const val kF = 0.0
+        const val kP = 0.25
+        const val kI = 0.0
+        const val kD = 0.0
+
+        const val TARGET_VELOCITY = 17374.0
     }
 }
