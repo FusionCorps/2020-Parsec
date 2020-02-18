@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand
 import frc.robot.subsystems.Chassis
 
 class ChassisSetDriveSpd(chassis: Chassis, driveSpdNew: Double) : InstantCommand() {
-    private final val mChassis = chassis
+    private val mChassis = chassis
     private val mDriveSpdNew = driveSpdNew
 
     init {

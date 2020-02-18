@@ -16,7 +16,11 @@ import frc.robot.commands.chassis.ChassisJoystickDrive
 import frc.robot.commands.hopper.HopperSetMovementCharacteristics
 import frc.robot.commands.indexer.IndexerDump
 import frc.robot.commands.shooter.ShooterRun
-import frc.robot.subsystems.*
+import frc.robot.subsystems.Chassis
+import frc.robot.subsystems.Hopper
+import frc.robot.subsystems.Indexer
+import frc.robot.subsystems.Intake
+import frc.robot.subsystems.Shooter
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -46,22 +50,22 @@ class RobotContainer {
     }
 
     /**
-    * Use this method to define your button->command mappings.  Buttons can be created by
-    * instantiating a {@link GenericHID} or one of its subclasses ({@link
-    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
-    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-    */
+     * Use this method to define your button->command mappings.  Buttons can be created by
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then calling passing it to a
+     * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
     fun configureButtonBindings() {
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
-                .whenPressed(HopperSetMovementCharacteristics(mHopper, Constants.Hopper.TARGET_VELOCITY))
-                .whenReleased(HopperSetMovementCharacteristics(mHopper, 0.0))
+            .whenPressed(HopperSetMovementCharacteristics(mHopper, Constants.Hopper.TARGET_VELOCITY))
+            .whenReleased(HopperSetMovementCharacteristics(mHopper, 0.0))
 
         JoystickButton(Controls.controller, XboxController.Button.kY.value)
-                .whenPressed(ShooterRun(mShooter))
-                .whenReleased(ShooterRun(mShooter, targetVelocity = 0.0))
+            .whenPressed(ShooterRun(mShooter))
+            .whenReleased(ShooterRun(mShooter, targetVelocity = 0.0))
 
         JoystickButton(Controls.controller, XboxController.Button.kA.value)
-                .whenPressed(IndexerDump(mIndexer))
+            .whenPressed(IndexerDump(mIndexer))
     }
 
     fun getAutonomousCommand(): Command {

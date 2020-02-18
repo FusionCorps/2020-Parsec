@@ -20,7 +20,7 @@ object Intake : SubsystemBase() {
     private val logger = KotlinLogging.logger {}
 
     init {
-        setDefaultCommand(IntakeJoystickRun(this))
+        defaultCommand = IntakeJoystickRun(this)
     }
 
     var currentIntakePercent: Double = 0.0

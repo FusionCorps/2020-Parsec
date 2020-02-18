@@ -36,9 +36,10 @@ object Indexer : SubsystemBase() {
     }
 
     private val frontSensorRX = DigitalInput(Constants.Indexer.ID_FRONT_SENSOR_RX)
-    private val frontSensorTX = DigitalOutput(Constants.Indexer.ID_FRONT_SENSOR_TX).apply {
-        set(true)
-    }
+    private val frontSensorTX = DigitalOutput(Constants.Indexer.ID_FRONT_SENSOR_TX)
+        .apply {
+            set(true)
+        }
 
     private val topSensorRX = DigitalInput(Constants.Indexer.ID_TOP_SENSOR_TX)
 

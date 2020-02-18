@@ -6,7 +6,7 @@ import frc.robot.Controls
 import frc.robot.subsystems.Chassis
 
 class ChassisJoystickDrive(chassis: Chassis) : CommandBase() {
-    private final val mChassis = chassis
+    private val mChassis = chassis
 
     init {
         addRequirements(mChassis)

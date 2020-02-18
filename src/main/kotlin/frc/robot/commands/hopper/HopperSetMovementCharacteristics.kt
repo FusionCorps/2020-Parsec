@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand
 import frc.robot.subsystems.Hopper
 
 class HopperSetMovementCharacteristics(hopper: Hopper, value: Double) : InstantCommand() {
-    private final val mHopper = hopper
+    private val mHopper = hopper
     val mValue = value
 
     init {

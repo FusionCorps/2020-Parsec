@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Intake
 
 class IntakeSetMotionCharacteristics(intake: Intake, value: Double) : CommandBase() {
-    private final val mIntake = intake
+    private val mIntake = intake
     val mValue = value
 
     init {

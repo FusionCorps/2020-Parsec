@@ -19,7 +19,7 @@ object Hopper : SubsystemBase() {
     var currentHopperVelocity = 0.0
 
     init {
-        setDefaultCommand(HopperRun(this))
+        defaultCommand = HopperRun(this)
     }
 
     fun setBelt(controlMode: VictorSPXControlMode = VictorSPXControlMode.Velocity, value: Double) {

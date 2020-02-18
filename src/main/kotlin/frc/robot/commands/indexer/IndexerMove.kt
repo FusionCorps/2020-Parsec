@@ -20,8 +20,12 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
 
     override fun initialize() {
         val mTargetIndexerPosition = mIndexer.getCurrentPosition() +
-                (mTimes * (if (mDirection == IndexerMovementDirection.Forward) Constants.Indexer.SHIFT_TICKS
-                else -Constants.Indexer.SHIFT_TICKS))
+            (
+                mTimes * (
+                    if (mDirection == IndexerMovementDirection.Forward) Constants.Indexer.SHIFT_TICKS
+                    else -Constants.Indexer.SHIFT_TICKS
+                    )
+                )
 
         mIndexer.setBelt(TalonFXControlMode.MotionMagic, mTargetIndexerPosition)
     }

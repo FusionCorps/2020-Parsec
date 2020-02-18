@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Intake
 
 class IntakeRun(intake: Intake, controlMode: VictorSPXControlMode = VictorSPXControlMode.PercentOutput) : CommandBase() {
-    private final val mIntake = intake
+    private val mIntake = intake
 
     val mControlMode = controlMode
 

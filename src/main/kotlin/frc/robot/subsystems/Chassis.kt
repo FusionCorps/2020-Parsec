@@ -32,7 +32,7 @@ object Chassis : SubsystemBase() {
     var driveSpd: Double = 0.5
 
     init {
-        setDefaultCommand(ChassisJoystickDrive(this))
+        defaultCommand = ChassisJoystickDrive(this)
     }
 
     override fun periodic() {

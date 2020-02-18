@@ -7,16 +7,18 @@ import frc.robot.Controls
 import frc.robot.subsystems.Intake
 
 class IntakeJoystickRun(intake: Intake) : CommandBase() {
-    private final val mIntake = intake
+    private val mIntake = intake
 
     init {
         addRequirements(mIntake)
     }
 
     override fun execute() {
-        mIntake.setBelt(value = (
+        mIntake.setBelt(
+            value = (
                 (Controls.controller.getTriggerAxis(GenericHID.Hand.kLeft) - Controls.controller.getTriggerAxis(GenericHID.Hand.kRight)) *
-                Constants.Intake.TARGET_PERCENT)
+                    Constants.Intake.TARGET_PERCENT
+                )
         )
     }
 }

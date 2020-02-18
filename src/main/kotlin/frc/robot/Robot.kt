@@ -40,7 +40,7 @@ class Robot : TimedRobot() {
      *
      * <p>This runs after the mode specific periodic functions, but before
      * LiveWindow and SmartDashboard integrated updating.
-    */
+     */
     override fun robotPeriodic() {
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
@@ -50,8 +50,8 @@ class Robot : TimedRobot() {
     }
 
     /**
-    * This function is called once each time the robot enters Disabled mode.
-    */
+     * This function is called once each time the robot enters Disabled mode.
+     */
     override fun disabledInit() {
     }
 
@@ -59,18 +59,18 @@ class Robot : TimedRobot() {
     }
 
     /**
-    * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
-    */
+     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+     */
     override fun autonomousInit() {
         mAutonomousCommand = mRobotContainer.getAutonomousCommand()
 
         // schedule the autonomous command (example)
-        mAutonomousCommand?.let { mAutonomousCommand.schedule() }
+        mAutonomousCommand.let { mAutonomousCommand.schedule() }
     }
 
     /**
-    * This function is called periodically during autonomous.
-    */
+     * This function is called periodically during autonomous.
+     */
     override fun autonomousPeriodic() {
     }
 
@@ -79,12 +79,12 @@ class Robot : TimedRobot() {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        mAutonomousCommand?.let { mAutonomousCommand.cancel() }
+        mAutonomousCommand.let { mAutonomousCommand.cancel() }
     }
 
     /**
-    * This function is called periodically during operator control.
-    */
+     * This function is called periodically during operator control.
+     */
     override fun teleopPeriodic() {
     }
 
@@ -94,8 +94,8 @@ class Robot : TimedRobot() {
     }
 
     /**
-    * This function is called periodically during test mode.
-    */
+     * This function is called periodically during test mode.
+     */
     override fun testPeriodic() {
     }
 }
