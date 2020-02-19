@@ -11,15 +11,15 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     val mDirection = direction
     val mTimes = times
 
-    val mTargetIndexerPosition: Double = 0.0
-    val errorThreshold = 10.0
+    var mTargetIndexerPosition: Double = 0.0
+    val errorThreshold: Double = 4096.0
 
     init {
         addRequirements(mIndexer)
     }
 
     override fun initialize() {
-        val mTargetIndexerPosition = mIndexer.getCurrentPosition() +
+        mTargetIndexerPosition = mIndexer.getCurrentPosition() +
             (
                 mTimes * (
                     if (mDirection == IndexerMovementDirection.Forward) Constants.Indexer.SHIFT_TICKS
@@ -31,13 +31,9 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     }
 
     override fun isFinished(): Boolean {
-        return mIndexer.getCurrentPosition() > mTargetIndexerPosition
-//        return mIndexer.getCurrentPosition() == (mTargetIndexerPosition + errorThreshold) ||
-//                mIndexer.getCurrentPosition() == (mTargetIndexerPosition - errorThreshold)
-    }
+        val currentPosition = mIndexer.getCurrentPosition()
 
-    override fun end(interrupted: Boolean) {
-        mIndexer.setBelt(TalonFXControlMode.PercentOutput, 0.0)
+        return currentPosition > (mTargetIndexerPosition - errorThreshold)
     }
 }
 
