@@ -27,6 +27,14 @@ object Constants {
         const val ID_TALONFX_B_R = 13
     }
 
+    object Climb {
+        const val ID_HIGHSPEEDTALON = 40
+        const val ID_HIGHTORQUETALON = 41
+        const val ID_CLAW = 42
+        const val TICKS_TO_FULL = 15096.0
+        const val CLAW_TICKS = 512.0
+    }
+
     object Hopper {
         const val ID_VICTORSPX = 30
         const val TARGET_VELOCITY = 1000.0
