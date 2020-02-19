@@ -1,0 +1,17 @@
+package frc.robot.commands.climb
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode
+import frc.robot.subsystems.Climb
+import edu.wpi.first.wpilibj2.command.InstantCommand
+
+class ClimbBringArmDown(climb: Climb): InstantCommand() {
+    private val mClimb = climb
+
+    init {
+        addRequirements(Climb)
+    }
+
+    override fun initialize() {
+        mClimb.setHighSpeedMotor(TalonFXControlMode.MotionMagic, 0.0)
+    }
+}
