@@ -37,6 +37,11 @@ object Shooter : SubsystemBase() {
 
     private val logger = KotlinLogging.logger("Shooter")
 
+    val velocity: Int
+        get() {
+            return talonFXTop.getSelectedSensorVelocity()
+        }
+
     fun setShooter(controlMode: TalonFXControlMode, value: Double) {
         talonFXTop.set(controlMode, value)
     }

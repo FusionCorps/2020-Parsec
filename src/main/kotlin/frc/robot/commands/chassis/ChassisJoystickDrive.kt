@@ -1,6 +1,5 @@
 package frc.robot.commands.chassis
 
-import edu.wpi.first.wpilibj.GenericHID
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Controls
 import frc.robot.subsystems.Chassis
@@ -13,6 +12,6 @@ class ChassisJoystickDrive(chassis: Chassis) : CommandBase() {
     }
 
     override fun execute() {
-        mChassis.joystickDrive(Controls.controller.getX(GenericHID.Hand.kLeft), Controls.controller.getY(GenericHID.Hand.kLeft))
+        mChassis.joystickDrive(-Controls.controller.getRawAxis(4), Controls.controller.getRawAxis(1))
     }
 }

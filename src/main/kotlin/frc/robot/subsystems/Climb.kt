@@ -1,14 +1,12 @@
 package frc.robot.subsystems
 
-import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
-import edu.wpi.first.wpilibj.Talon
+import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.climb.ClimbRun
-import edu.wpi.first.wpilibj2.command.SubsystemBase
 
-object Climb: SubsystemBase() {
+object Climb : SubsystemBase() {
     private val climbHighSpeedMotor = WPI_TalonFX(Constants.Climb.ID_HIGHSPEEDTALON).apply {
         config_kP(0, 0.5)
         config_kI(0, 0.0)
@@ -71,6 +69,4 @@ object Climb: SubsystemBase() {
     fun getClaw(): Double {
         return clawMotor.get()
     }
-
 }
-

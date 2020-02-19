@@ -28,7 +28,7 @@ object Constants {
     }
 
     object Climb {
-        const val ID_HIGHSPEEDTALON =  40
+        const val ID_HIGHSPEEDTALON = 40
         const val ID_HIGHTORQUETALON = 41
         const val ID_CLAW = 42
         const val TICKS_TO_FULL = 15096.0
@@ -49,15 +49,15 @@ object Constants {
         const val ID_TOP_SENSOR_TX = 2
         const val ID_TOP_SENSOR_RX = 2
 
-        const val SHIFT_TICKS = 20000.0
+        const val SHIFT_TICKS = 50000.0
 
         const val kF = 0.0
         const val kP = 1.0
         const val kI = 0.01
         const val kD = 0.0
 
-        const val VELOCITY = 10000
-        const val ACCELERATION = 2500
+        const val VELOCITY = 5000
+        const val ACCELERATION = 500
     }
 
     object Intake {

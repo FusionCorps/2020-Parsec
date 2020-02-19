@@ -19,6 +19,7 @@ object Indexer : SubsystemBase() {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
         setInverted(TalonFXInvertType.Clockwise)
+//        setSensorPhase(true)
 
         setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10)
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
@@ -48,8 +49,7 @@ object Indexer : SubsystemBase() {
     }
 
     fun setBelt(controlMode: TalonFXControlMode, value: Double) {
-//        talonFXBelt.set(controlMode, value)
-        talonFXBelt.set(TalonFXControlMode.PercentOutput, 0.0)
+        talonFXBelt.set(controlMode, value)
     }
 
     fun getCurrentPosition(): Double {
