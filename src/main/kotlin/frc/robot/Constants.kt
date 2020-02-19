@@ -81,4 +81,8 @@ object Constants {
 
         const val TARGET_VELOCITY = 17374.0
     }
+
+    object Spinner {
+        const val ID_SPINNER = 60
+    }
 }
