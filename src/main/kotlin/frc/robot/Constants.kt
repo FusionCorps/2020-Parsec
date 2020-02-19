@@ -28,7 +28,7 @@ object Constants {
     }
 
     object Climb {
-        const val ID_HIGHSPEEDTALON =  40
+        const val ID_HIGHSPEEDTALON = 40
         const val ID_HIGHTORQUETALON = 41
         const val ID_CLAW = 42
         const val TICKS_TO_FULL = 15096.0

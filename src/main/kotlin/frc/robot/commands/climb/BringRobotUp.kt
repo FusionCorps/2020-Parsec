@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import edu.wpi.first.wpilibj2.command.InstantCommand
 import frc.robot.subsystems.Climb
 
-class BringRobotUp(climb: Climb): InstantCommand() {
+class BringRobotUp(climb: Climb) : InstantCommand() {
     private val mClimb = climb
 
     init {
