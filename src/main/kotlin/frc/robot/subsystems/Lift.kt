@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.climb.ClimbRun
+import frc.robot.commands.lift.ClimbRun
 
 object Lift : SubsystemBase() {
     private val talonFXExtend = TalonFX(Constants.Lift.ID_TALONFX_EXTEND).apply {  // Higher speed motor
