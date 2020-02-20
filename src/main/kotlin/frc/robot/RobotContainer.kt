@@ -7,6 +7,7 @@
 
 package frc.robot
 
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -39,6 +40,8 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
     val mChassisJoystickDrive = ChassisJoystickDrive(mChassis)
+
+    val iNetworkTables = NetworkTableInstance.getDefault()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.

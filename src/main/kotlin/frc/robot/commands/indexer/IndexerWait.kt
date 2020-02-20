@@ -11,11 +11,11 @@ class IndexerWait(indexer: Indexer) : CommandBase() {
     }
 
     override fun isFinished(): Boolean {
-        return (mIndexer.isBallFront()) && !(mIndexer.isBallTop())
+        return (mIndexer.isBallFront) && !(mIndexer.isBallTop)
     }
 
     override fun end(interrupted: Boolean) {
-        if (mIndexer.isBallFront() && !interrupted) {
+        if (mIndexer.isBallFront && !interrupted) {
             IndexerMove(mIndexer, IndexerMovementDirection.Forward).schedule()
         }
     }

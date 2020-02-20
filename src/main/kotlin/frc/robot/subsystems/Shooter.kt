@@ -42,7 +42,11 @@ object Shooter : SubsystemBase() {
             return talonFXTop.getSelectedSensorVelocity()
         }
 
+    override fun periodic() {
+    }
+
     fun setShooter(controlMode: TalonFXControlMode, value: Double) {
-        talonFXTop.set(controlMode, value)
+//        talonFXTop.set(controlMode, value)
+        talonFXTop.set(TalonFXControlMode.PercentOutput, 0.7)
     }
 }

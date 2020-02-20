@@ -18,6 +18,7 @@ class ShooterRunToVelocity(shooter: Shooter, velocity: Double = Constants.Shoote
     }
 
     override fun isFinished(): Boolean {
-        return mShooter.velocity >= mVelocity
+        return true
+//        return mShooter.velocity >= mVelocity
     }
 }

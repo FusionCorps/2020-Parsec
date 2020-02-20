@@ -46,8 +46,8 @@ object Constants {
         const val ID_FRONT_SENSOR_TX = 9
         const val ID_FRONT_SENSOR_RX = 1
 
-        const val ID_TOP_SENSOR_TX = 2
-        const val ID_TOP_SENSOR_RX = 2
+        const val ID_TOP_SENSOR_TX = 7
+        const val ID_TOP_SENSOR_RX = 8
 
         const val SHIFT_TICKS = 50000.0
 
@@ -57,7 +57,7 @@ object Constants {
         const val kD = 0.0
 
         const val VELOCITY = 5000
-        const val ACCELERATION = 500
+        const val ACCELERATION = 2000
     }
 
     object Intake {

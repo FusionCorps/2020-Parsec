@@ -19,7 +19,11 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     }
 
     override fun initialize() {
-        mTargetIndexerPosition = mIndexer.getCurrentPosition() +
+        if (mIndexer.isBallTop) {
+            end(true)
+        }
+
+        mTargetIndexerPosition = mIndexer.beltPosition +
             (
                 mTimes * (
                     if (mDirection == IndexerMovementDirection.Forward) Constants.Indexer.SHIFT_TICKS
@@ -31,7 +35,7 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     }
 
     override fun isFinished(): Boolean {
-        val currentPosition = mIndexer.getCurrentPosition()
+        val currentPosition = mIndexer.beltPosition
 
         return currentPosition > (mTargetIndexerPosition - errorThreshold)
     }
