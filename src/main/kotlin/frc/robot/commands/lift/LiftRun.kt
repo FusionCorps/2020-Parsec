@@ -16,6 +16,6 @@ class LiftRun(lift: Lift) : SequentialCommandGroup() {
 // Lift has to work:
 //     -Extend, Pull
 //     -Retract motor is a SPARK MAX -> Research the PID Controllers from WPILib
-// INDEXER - Dump comand revisions
+// INDEXER - Dump command revisions
 // Custom talon class - move all motors
 // Camera streams - Lifecam + Limelight

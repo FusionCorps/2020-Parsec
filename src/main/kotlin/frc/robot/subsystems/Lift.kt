@@ -71,6 +71,10 @@ object Lift: SubsystemBase() {
         talonSRXExtend.set(control_mode, value)
     }
 
+    fun extendOff() {
+        talonSRXExtend.stopMotor()
+    }
+
     fun setRetractVelocity(velocity: Double) {
         sparkMaxRetract.set(velocity)
     }

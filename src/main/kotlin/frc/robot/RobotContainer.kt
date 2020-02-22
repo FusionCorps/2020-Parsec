@@ -16,13 +16,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.robot.commands.chassis.ChassisJoystickDrive
 import frc.robot.commands.hopper.HopperSetMovementCharacteristics
 import frc.robot.commands.indexer.IndexerDump
+import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
-import frc.robot.subsystems.Chassis
-import frc.robot.subsystems.Hopper
-import frc.robot.subsystems.Indexer
-import frc.robot.subsystems.Intake
-import frc.robot.subsystems.Shooter
+import frc.robot.subsystems.*
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,6 +34,7 @@ class RobotContainer {
     private val mIntake = Intake
     private val mIndexer = Indexer
     private val mShooter = Shooter
+    private val mLift = Lift
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
     val mChassisJoystickDrive = ChassisJoystickDrive(mChassis)
@@ -70,6 +68,9 @@ class RobotContainer {
 
         JoystickButton(Controls.controller, XboxController.Button.kA.value)
             .whenPressed(IndexerDump(mIndexer))
+
+        JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
+                .whenPressed(LiftExtend(mLift))
     }
 
     fun getAutonomousCommand(): Command {
