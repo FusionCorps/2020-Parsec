@@ -7,6 +7,7 @@
 
 package frc.robot
 
+import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
@@ -86,6 +87,8 @@ class Robot : TimedRobot() {
     * This function is called periodically during operator control.
     */
     override fun teleopPeriodic() {
+        val ultrasonic = SerialPort(9600, SerialPort.Port.kOnboard)
+        println(ultrasonic.readString(10))
     }
 
     override fun testInit() {

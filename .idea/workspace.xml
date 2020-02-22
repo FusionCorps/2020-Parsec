@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="965709ac-666a-43dd-aff1-cc7a87059c6f" name="Default Changelist" comment="" />
+    <list default="true" id="965709ac-666a-43dd-aff1-cc7a87059c6f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/frc/robot/subsystems/Lift.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/frc/robot/subsystems/Lift.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,6 +94,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/kotlin/frc/robot/commands/lift" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Kotlin" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
@@ -100,7 +105,7 @@
       <recent name="C:\Users\qzoli\Desktop\Robotics\Fusion Gits\2020-Malevolent\src\main\kotlin\frc\robot\commands\lift" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Format">
+  <component name="RunManager" selected="Gradle.Gradle">
     <configuration name="Format" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -209,6 +214,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="361" y="71" key="#Project_Structure" timestamp="1582391950749">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1582391950749" />
     <state x="803" y="74" key="#Unnamed" timestamp="1582241918214">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -229,22 +238,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1582241984320" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1582391388826">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1582391954037">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582391388826" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1582391388826">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582391954037" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1582391954037">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582391388826" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1582391388824">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582391954037" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1582391954037">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582391388824" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1582391388826">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582391954037" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1582391954037">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582391388826" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582391954037" />
     <state width="1342" height="242" key="GridCell.Tab.1.bottom" timestamp="1582242227529">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
