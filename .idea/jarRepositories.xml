@@ -45,6 +45,8 @@
       <option name="id" value="WPI3f48eb8c-50fe-43a6-9cb7-44c86353c4cb_0Release" />
       <option name="name" value="WPI3f48eb8c-50fe-43a6-9cb7-44c86353c4cb_0Release" />
       <option name="url" value="http://www.revrobotics.com/content/sw/max/sdk/maven/" />
+      <option name="id" value="WPILocal" />
+      <option name="name" value="WPILocal" />
+      <option name="url" value="file:$USER_HOME$/wpilib/2020/maven/" />
     </remote-repository>
   </component>
-</project>
