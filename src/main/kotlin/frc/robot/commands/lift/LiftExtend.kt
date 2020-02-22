@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Lift
 
-class LiftExtend(lift: Lift) : CommandBase() { // Run the extension motor at 70%
+class LiftExtend(lift: Lift) : CommandBase() { // Run the extension motor at 10%
     private val mLift = lift
 
     init {
@@ -12,10 +12,13 @@ class LiftExtend(lift: Lift) : CommandBase() { // Run the extension motor at 70%
     }
 
     override fun initialize() {
-        mLift.setExtend(TalonSRXControlMode.PercentOutput, 0.7)
+        mLift.setExtend(TalonSRXControlMode.PercentOutput, 0.1)
     }
 
-    override fun execute() {}
+
+    override fun cancel() {
+        end(interrupted = true)
+    }
 
     override fun end(interrupted: Boolean) {
         mLift.extendOff()

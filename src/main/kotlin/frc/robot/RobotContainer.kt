@@ -17,6 +17,7 @@ import frc.robot.commands.chassis.ChassisJoystickDrive
 import frc.robot.commands.hopper.HopperSetMovementCharacteristics
 import frc.robot.commands.indexer.IndexerDump
 import frc.robot.commands.lift.LiftExtend
+import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
 import frc.robot.subsystems.Chassis
@@ -75,7 +76,10 @@ class RobotContainer {
             .whenPressed(IndexerDump(mIndexer))
 
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-                .whenPressed(LiftExtend(mLift))
+                .whileHeld(LiftExtend(mLift))
+
+        JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
+                .whileHeld(LiftRetract(mLift))
     }
 
     fun getAutonomousCommand(): Command {

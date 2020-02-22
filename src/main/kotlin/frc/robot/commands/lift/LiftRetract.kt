@@ -16,6 +16,10 @@ class LiftRetract(lift: Lift) : CommandBase() { // Retract the lift at whatever 
         mLift.setRetractVelocity(20000.0)
     }
 
+    override fun cancel() {
+        end(interrupted = true)
+    }
+
     override fun end(interrupted: Boolean) {
         mLift.setRetractVelocity(0.0)
     }
