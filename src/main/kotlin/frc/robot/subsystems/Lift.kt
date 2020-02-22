@@ -75,8 +75,10 @@ object Lift: SubsystemBase() {
         sparkMaxRetract.set(velocity)
     }
 
-    fun setRetractPIDPos(target_pos: Double) {
-        sparkMaxRetract.set(pidRetract.calculate(sparkMaxRetract.encoder.getPosition(), target_pos))
+    fun setRetractPIDPos(target_pos: Double, pid_tolerance: Double) {
+        pidRetract.setTolerance(pid_tolerance)
+        while (!pidRetract.atSetpoint()) {
+            sparkMaxRetract.set(pidRetract.calculate(sparkMaxRetract.encoder.getPosition(), target_pos)) }
     }
 
 }
