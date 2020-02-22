@@ -29,12 +29,10 @@ object Constants {
         const val ID_TALONFX_B_R = 13
     }
 
-    object Climb {
-        const val ID_HIGHSPEEDTALON = 40
-        const val ID_HIGHTORQUETALON = 41
-        const val ID_CLAW = 42
+    object Lift {
+        const val ID_TALONFX_EXTEND = 0
+        const val ID_TALONFX_RETRACT = 1
         const val TICKS_TO_FULL = 15096.0
-        const val CLAW_TICKS = 512.0
     }
 
     object Hopper {
@@ -67,10 +65,6 @@ object Constants {
         const val TARGET_PERCENT = 0.7
     }
 
-    object Lift {
-        const val ID_TALONFX_EXTEND = 0
-        const val ID_TALONFX_RETRACT = 1
-    }
 
     object Shooter {
         const val ID_TALONFX_TOP = 50
@@ -82,5 +76,9 @@ object Constants {
         const val kD = 0.0
 
         const val TARGET_VELOCITY = 17374.0
+    }
+
+    object Spinner {
+        const val ID_SPINNER = 60
     }
 }

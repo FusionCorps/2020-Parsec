@@ -10,5 +10,12 @@ class ClimbRun(climb: Climb) : CommandBase() {
         addRequirements(mclimb)
     }
 
-    override fun execute() {}
+    override fun execute() {
+//        Ideal code:
+//                Check if under bar and button is pressed
+//                then lift -> close claw -> hoist.
+//        Then let Malevolent down after button is pressed again
+//        fin
+    }
+
 }

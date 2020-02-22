@@ -18,7 +18,10 @@ object Climb : SubsystemBase() {
         // Remember to add feed forward looping later
     }
 
-    var currentHighSpeedMotorSpeed = 0.0
+    val highSpeedMotorVelocity: Int
+        get() {
+            return climbHighSpeedMotor.getSelectedSensorVelocity()
+        }
 
     private val climbHighTorqueMotor = WPI_TalonFX(Constants.Climb.ID_HIGHTORQUETALON).apply {
         config_kP(0, 0.5)
@@ -30,9 +33,17 @@ object Climb : SubsystemBase() {
         configMotionSCurveStrength(1)
     }
 
-    var currentHighTorqueMotorSpeed = 0.0
+    val highTorqueMotorVelocity: Int
+        get() {
+            return climbHighTorqueMotor.getSelectedSensorVelocity()
+        }
 
-    private val clawMotor = WPI_TalonFX(Constants.Climb.ID_CLAW)
+    val motorPosition: Int
+        get() {
+            return climbHighSpeedMotor.getSelectedSensorPosition()
+        }
+
+//    private val clawMotor = WPI_TalonFX(Constants.Climb.ID_CLAW)
 
     init {
         defaultCommand = ClimbRun(this)
@@ -54,19 +65,19 @@ object Climb : SubsystemBase() {
         climbHighTorqueMotor.stopMotor()
     }
 
-    fun getHighSpeedMotor(): Double {
-        return climbHighSpeedMotor.get()
-    }
+//    fun getHighSpeedMotor(): Double {
+//        return climbHighSpeedMotor.get()
+//    }
+//
+//    fun getHighTorqueMotor(): Double {
+//        return climbHighTorqueMotor.get()
+//    }
 
-    fun getHighTorqueMotor(): Double {
-        return climbHighTorqueMotor.get()
-    }
-
-    fun setClaw(control_mode: TalonFXControlMode, value: Double) {
-        clawMotor.set(control_mode, value)
-    }
-
-    fun getClaw(): Double {
-        return clawMotor.get()
-    }
+//    fun setClaw(control_mode: TalonFXControlMode, value: Double) {
+//        clawMotor.set(control_mode, value)
+//    }
+//
+//    fun getClaw(): Double {
+//        return clawMotor.get()
+//    }
 }
