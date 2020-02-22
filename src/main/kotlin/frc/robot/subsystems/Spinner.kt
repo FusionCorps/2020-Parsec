@@ -34,5 +34,4 @@ object Spinner : SubsystemBase() {
 //        SpinnerTalon.get() to SpinnerTalon.getSelectedSensorVelocity()
 //        return SpinnerTalon.get() to SpinnerTalon.getSelectedSensorVelocity()
 //    }
-    
 }

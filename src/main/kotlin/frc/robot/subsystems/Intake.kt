@@ -8,7 +8,7 @@ import frc.robot.Constants
 import frc.robot.commands.intake.IntakeJoystickRun
 import mu.KotlinLogging
 
-object Intake: SubsystemBase() {
+object Intake : SubsystemBase() {
     private val victorSPXIntake = WPI_VictorSPX(Constants.Intake.ID_VICTORSPX).apply {
         setInverted(InvertType.InvertMotorOutput)
 

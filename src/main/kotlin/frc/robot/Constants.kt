@@ -65,7 +65,6 @@ object Constants {
         const val TARGET_PERCENT = 0.7
     }
 
-
     object Shooter {
         const val ID_TALONFX_TOP = 50
         const val ID_TALONFX_BOTTOM = 51

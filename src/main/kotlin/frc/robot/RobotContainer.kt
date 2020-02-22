@@ -19,7 +19,12 @@ import frc.robot.commands.indexer.IndexerDump
 import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
-import frc.robot.subsystems.*
+import frc.robot.subsystems.Chassis
+import frc.robot.subsystems.Hopper
+import frc.robot.subsystems.Indexer
+import frc.robot.subsystems.Intake
+import frc.robot.subsystems.Lift
+import frc.robot.subsystems.Shooter
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
