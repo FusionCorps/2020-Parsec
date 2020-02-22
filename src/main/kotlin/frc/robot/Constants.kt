@@ -16,6 +16,8 @@ package frc.robot
  * constants are needed, to reduce verbosity.
  */
 object Constants {
+    const val SCHEDULER_RATE = 20 // ms
+
     object Inputs {
         const val ID_CONTROLLER = 0
     }

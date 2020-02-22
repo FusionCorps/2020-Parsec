@@ -104,32 +104,43 @@ object Indexer : SubsystemBase() {
     init {
         defaultCommand = IndexerManage(this)
 
-        // Update talonFXBelt FPID values
-        val iNetworkTables = NetworkTableInstance.getDefault()
-
-        val indexerTab = Shuffleboard.getTab("Indexer").getLayout("FPIDConfiguration").withPosition(0, 0).withSize(2, 4)
-
-        indexerTab.add("kF", beltFPID.kF)
-        indexerTab.add("kP", beltFPID.kP)
-        indexerTab.add("kI", beltFPID.kI)
-        indexerTab.add("kD", beltFPID.kD)
-
-        indexerTab.add("Velocity", beltVelocity)
-
-        val indexerTable = iNetworkTables.getTable("Shuffleboard").getSubTable("Indexer")
-
-        indexerTable.getEntry("FPIDConfiguration")
-            .addListener(
-                { event: EntryNotification ->
-                    beltFPID = FPIDCharacteristics(
-                        event.value.doubleArray[0],
-                        event.value.doubleArray[1],
-                        event.value.doubleArray[2],
-                        event.value.doubleArray[3]
-                    )
-                },
-                EntryListenerFlags.kNew or EntryListenerFlags.kUpdate
-            )
+//        // Update talonFXBelt FPID values
+//        val iNetworkTables = NetworkTableInstance.getDefault()
+//
+//        val indexerTab = Shuffleboard.getTab("Indexer")
+//
+//        indexerTab.add(talonFXBelt)
+//
+//        val indexerFPIDList = indexerTab
+//            .getLayout("Belt Motion", "List Layout")
+//            .withPosition(0, 0)
+//            .withSize(2, 3)
+//
+//        indexerFPIDList.add("kF", beltFPID.kF)
+//        indexerFPIDList.add("kP", beltFPID.kP)
+//        indexerFPIDList.add("kI", beltFPID.kI)
+//        indexerFPIDList.add("kD", beltFPID.kD)
+//        indexerFPIDList.add("Velocity", beltVelocity)
+//        indexerFPIDList.add("Acceleration", beltAcceleration)
+//
+//        val indexerTable = iNetworkTables.getTable("Shuffleboard").getSubTable("Indexer")
+//
+//        val listsToAdd = mapOf<String, (Double) -> Unit>("kF" to { x -> beltFPID = FPIDCharacteristics(x, beltFPID.kP, beltFPID.kI, beltFPID.kD)})
+//        indexerTable.getSubTable("Belt Motion")
+//            .addListener(
+//                { event: EntryNotification ->
+//                    this.logger.info { "Received event $event" }
+//                    when (event.entry.toString()) {
+//                        "kF" -> beltFPID = FPIDCharacteristics(event.value.double, beltFPID.kP, beltFPID.kI, beltFPID.kD)
+//                        "kP" -> beltFPID = FPIDCharacteristics(beltFPID.kF, event.value.double, beltFPID.kI, beltFPID.kD)
+//                        "kI" -> beltFPID = FPIDCharacteristics(beltFPID.kF, beltFPID.kP, event.value.double, beltFPID.kD)
+//                        "kD" -> beltFPID = FPIDCharacteristics(beltFPID.kF, beltFPID.kP, beltFPID.kI, event.value.double)
+//                        "Velocity" -> beltVelocity = event.value.double.toInt()
+//                        "Acceleration" -> beltAcceleration = event.value.double.toInt()
+//                    }
+//                },
+//                EntryListenerFlags.kNew or EntryListenerFlags.kUpdate
+//            )
     }
 
     // Methods
