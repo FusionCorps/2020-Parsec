@@ -1,5 +1,6 @@
 package frc.robot.commands.lift
 
+import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Lift
 
@@ -13,7 +14,7 @@ class LiftRetract(lift: Lift) : CommandBase() { // Retract the lift at whatever 
     }
 
     override fun execute() {
-        mLift.setRetractVelocity(20000.0)
+        mLift.setRetractPID(585.0, ControlType.kVelocity)
     }
 
     override fun cancel() {
@@ -21,6 +22,6 @@ class LiftRetract(lift: Lift) : CommandBase() { // Retract the lift at whatever 
     }
 
     override fun end(interrupted: Boolean) {
-        mLift.setRetractVelocity(0.0)
+        mLift.setRetractPID(0.0, ControlType.kVelocity)
     }
 }

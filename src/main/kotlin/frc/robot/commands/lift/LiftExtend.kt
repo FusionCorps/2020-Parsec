@@ -15,7 +15,6 @@ class LiftExtend(lift: Lift) : CommandBase() { // Run the extension motor at 10%
         mLift.setExtend(TalonSRXControlMode.PercentOutput, 0.1)
     }
 
-
     override fun cancel() {
         end(interrupted = true)
     }
