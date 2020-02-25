@@ -76,10 +76,10 @@ class RobotContainer {
             .whenPressed(IndexerDump(mIndexer))
 
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-                .whileHeld(LiftExtend(mLift))
+            .whileHeld(LiftExtend(mLift))
 
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-                .whileHeld(LiftRetract(mLift))
+            .whileHeld(LiftRetract(mLift))
     }
 
     fun getAutonomousCommand(): Command {
