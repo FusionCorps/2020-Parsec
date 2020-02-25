@@ -1,9 +1,9 @@
 package frc.robot.commands.climb
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.subsystems.Climb
+import frc.robot.subsystems.Lift
 
-class ClimbRun(climb: Climb) : CommandBase() {
+class ClimbRun(climb: Lift) : CommandBase() {
     private val mclimb = climb
 
     init {
@@ -17,5 +17,4 @@ class ClimbRun(climb: Climb) : CommandBase() {
 //        Then let Malevolent down after button is pressed again
 //        fin
     }
-
 }

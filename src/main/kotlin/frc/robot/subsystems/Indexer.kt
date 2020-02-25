@@ -6,12 +6,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
-import edu.wpi.first.networktables.EntryListenerFlags
-import edu.wpi.first.networktables.EntryNotification
-import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.DigitalOutput
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.indexer.IndexerManage
@@ -41,6 +37,8 @@ object Indexer : SubsystemBase() {
 
         configMotionCruiseVelocity(Constants.Indexer.VELOCITY)
         configMotionAcceleration(Constants.Indexer.ACCELERATION)
+
+        configAllowableClosedloopError(0, 15) // Tolerance to stop oscillations
 
         selectedSensorPosition = 0
     }

@@ -8,7 +8,9 @@ import frc.robot.commands.spinner.SpinnerMasterCommand
 import mu.KotlinLogging
 
 object Spinner : SubsystemBase() {
-    private val SpinnerTalon = WPI_TalonFX(Constants.Spinner.ID_SPINNER).apply {
+    private val spinnerTalon = WPI_TalonFX(Constants.Spinner.ID_SPINNER).apply {
+        selectProfileSlot(0, 0)
+
         config_kP(0, 0.5)
         config_kI(0, 0.0)
         config_kD(0, 0.0)
@@ -17,8 +19,19 @@ object Spinner : SubsystemBase() {
         configMotionAcceleration(10000)
         configMotionSCurveStrength(1)
 
+        configAllowableClosedloopError(0, 15)
+
         setSelectedSensorPosition(0)
     }
+
+    private var spinnerVelocity: Int
+        set(value) {
+            spinnerTalon.configMotionCruiseVelocity(value)
+        }
+
+        get() {
+            return spinnerTalon.selectedSensorVelocity
+        }
 
     private val logger = KotlinLogging.logger("Spinner")
 
@@ -27,12 +40,9 @@ object Spinner : SubsystemBase() {
     }
 
     fun set_spinner(control_mode: TalonFXControlMode, value: Double) {
-        SpinnerTalon.set(control_mode, value)
+        spinnerTalon.set(control_mode, value)
     }
 
-//    fun get_spinner(): Pair {
-//        SpinnerTalon.get() to SpinnerTalon.getSelectedSensorVelocity()
-//        return SpinnerTalon.get() to SpinnerTalon.getSelectedSensorVelocity()
-//    }
-    
 }
+
+

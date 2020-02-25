@@ -1,10 +1,10 @@
-//package frc.robot.fusion.motion
+// package frc.robot.fusion.motion
 //
-//import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
-//import frc.robot.Constants
+// import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
+// import frc.robot.Constants
 //
-//class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
+// class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
 //    private var frameInfo = mutableMapOf<StatusFrameEnhanced, FrameInfo>()
 //    private var timeSinceLastUpdate: Int = 0
 //
@@ -33,6 +33,6 @@
 //
 //        this.setStatusFramePeriod(frame, period)
 //    }
-//}
+// }
 //
-//data class FrameInfo(val period: Int, var timeSinceLastUpdate: Int = 0)
+// data class FrameInfo(val period: Int, var timeSinceLastUpdate: Int = 0)
