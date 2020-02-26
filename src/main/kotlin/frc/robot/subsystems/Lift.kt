@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 
 object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096 ticks per rev by default
-    private val talonSRXExtend = WPI_TalonSRX(Constants.Lift.ID_TALONFX_EXTEND).apply { // Higher speed motor
+    private val talonSRXExtend = WPI_TalonSRX(Constants.Lift.ID_TALONSRX_EXTEND).apply { // Higher speed motor
         setInverted(InvertType.InvertMotorOutput)
 
         config_kP(0, 0.5)
@@ -24,7 +24,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         selectedSensorPosition = 0
     }
 
-    private val sparkMaxRetract = CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val sparkMaxRetract = CANSparkMax(Constants.Lift.ID_SPARKMAX_RETRACT, CANSparkMaxLowLevel.MotorType.kBrushless)
 
     private val retractPID = CANPIDController(sparkMaxRetract).apply {
         // 1 RPM is 34.133 TalonEncoderTicks/second
