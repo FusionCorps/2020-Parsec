@@ -47,4 +47,8 @@ object Chassis : SubsystemBase() {
     fun joystickDrive(x: Double, z: Double) {
         drive.curvatureDrive(x * driveSpd, z * driveSpd, true)
     }
+
+    fun tankDrive(left: Double, right: Double) {
+        drive.tankDrive(left, right)
+    }
 }
