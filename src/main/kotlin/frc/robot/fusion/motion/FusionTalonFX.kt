@@ -1,38 +1,43 @@
-// package frc.robot.fusion.motion
-//
-// import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
-// import frc.robot.Constants
-//
-// class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
-//    private var frameInfo = mutableMapOf<StatusFrameEnhanced, FrameInfo>()
-//    private var timeSinceLastUpdate: Int = 0
-//
-//    var position: Int
-//        set(value) {
-//            this.selectedSensorPosition = value
-//        }
-//        get() {
-//            return this.selectedSensorPosition
-//        }
-//    var kF: Double = 0.0
-//        set(value) {
-//            this.config_kF(value)
-//            field = kF
-//        }
-//    get() {
-//        val frame = frameInfo[StatusFrameEnhanced.Status_13_Base_PIDF0]!!
-//
-//        if (frame.timeSinceLastUpdate > frame.period) {
-//            frameInfo
-//        }
-//    }
-//
-//    fun addStatusFrame(frame: StatusFrameEnhanced, period: Int = Constants.SCHEDULER_RATE / 2) {
-//        frameInfo[frame] = FrameInfo(period)
-//
-//        this.setStatusFramePeriod(frame, period)
-//    }
-// }
-//
-// data class FrameInfo(val period: Int, var timeSinceLastUpdate: Int = 0)
+package frc.robot.fusion.motion
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
+
+class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
+    var position: Int
+        set(value) {
+            this.selectedSensorPosition = value
+        }
+        get() {
+            return this.selectedSensorPosition
+        }
+    var kF: Double = 0.0
+        set(value) {
+            this.config_kF(0, value)
+            field = kF
+        }
+    var kP: Double = 0.0
+        set(value) {
+            this.config_kF(0, value)
+            field = kP
+        }
+    var kI: Double = 0.0
+        set(value) {
+            this.config_kF(0, value)
+            field = kI
+        }
+    var kD: Double = 0.0
+        set(value) {
+            this.config_kF(0, value)
+            field = kD
+        }
+    var targetVelocity: Int = 0
+        set(value) {
+            this.configMotionCruiseVelocity(value)
+            field = value
+        }
+    var targetAcceleration: Int = 0
+        set(value) {
+            this.configMotionAcceleration(value)
+            field = value
+        }
+}

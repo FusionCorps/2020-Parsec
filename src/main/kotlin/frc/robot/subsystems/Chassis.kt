@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.chassis.ChassisJoystickDrive
@@ -33,6 +34,11 @@ object Chassis : SubsystemBase() {
 
     init {
         defaultCommand = ChassisJoystickDrive(this)
+
+        Shuffleboard.getTab("Chassis").add(talonFXFrontRight)
+        Shuffleboard.getTab("Chassis").add(talonFXFrontLeft)
+        Shuffleboard.getTab("Chassis").add(talonFXBackRight)
+        Shuffleboard.getTab("Chassis").add(talonFXBackLeft)
     }
 
     override fun periodic() {
