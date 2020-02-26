@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMaxLowLevel
 import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.lift.LiftRun
 
 object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096 ticks per rev by default
     private val talonSRXExtend = WPI_TalonSRX(Constants.Lift.ID_TALONFX_EXTEND).apply { // Higher speed motor
@@ -24,20 +23,20 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
 
     private val sparkMaxRetract = CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless)
 
-//    private val retractPID = CANPIDController(sparkMaxRetract).apply {
-//        // 1 RPM is 34.133 TalonEncoderTicks/second
-//
-//        setSmartMotionMaxAccel(292.97, 0) // RPM per sec
-//        setSmartMotionAllowedClosedLoopError(15.0, 0)
-//        setSmartMotionMaxVelocity(585.943, 0) // RPM
-//
-//        p = 0.5
-//        i = 0.0
-//        d = 0.0
-//        ff = 0.0
-//
-//        setFeedbackDevice(CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
-//    }
+    private val retractPID = CANPIDController(sparkMaxRetract).apply {
+        // 1 RPM is 34.133 TalonEncoderTicks/second
+
+        setSmartMotionMaxAccel(292.97, 0) // RPM per sec
+        setSmartMotionAllowedClosedLoopError(15.0, 0)
+        setSmartMotionMaxVelocity(585.943, 0) // RPM
+
+        p = 0.5
+        i = 0.0
+        d = 0.0
+        ff = 0.0
+
+        setFeedbackDevice(CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
+    }
 
     val extendVelocity: Int
         get() {
