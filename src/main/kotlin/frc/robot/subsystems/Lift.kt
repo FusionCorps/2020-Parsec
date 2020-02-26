@@ -1,5 +1,6 @@
 package frc.robot.subsystems
 
+import com.ctre.phoenix.motorcontrol.InvertType
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.revrobotics.CANPIDController
@@ -11,6 +12,8 @@ import frc.robot.Constants
 
 object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096 ticks per rev by default
     private val talonSRXExtend = WPI_TalonSRX(Constants.Lift.ID_TALONFX_EXTEND).apply { // Higher speed motor
+        setInverted(InvertType.InvertMotorOutput)
+
         config_kP(0, 0.5)
         config_kI(0, 0.0)
         config_kD(0, 0.0)

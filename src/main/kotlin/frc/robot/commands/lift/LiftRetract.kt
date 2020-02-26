@@ -14,7 +14,7 @@ class LiftRetract(lift: Lift) : CommandBase() { // Retract the lift at whatever 
     }
 
     override fun execute() {
-        mLift.setRetractPID(585.0, ControlType.kVelocity)
+        mLift.setRetractPID(200.0, ControlType.kVelocity)
     }
 
     override fun cancel() {
