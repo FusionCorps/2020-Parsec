@@ -4,13 +4,13 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
-import com.ctre.phoenix.motorcontrol.can.TalonFX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.fusion.motion.FusionTalonFX
 import mu.KotlinLogging
 
 object Shooter : SubsystemBase() {
-    private val talonFXTop = TalonFX(Constants.Shooter.ID_TALONFX_TOP).apply {
+    private val talonFXTop = FusionTalonFX(Constants.Shooter.ID_TALONFX_TOP).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
         setInverted(TalonFXInvertType.Clockwise)
@@ -19,14 +19,15 @@ object Shooter : SubsystemBase() {
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
 
         selectProfileSlot(0, 0)
-        config_kF(0, Constants.Shooter.kF)
-        config_kP(0, Constants.Shooter.kP)
-        config_kI(0, Constants.Shooter.kI)
-        config_kD(0, Constants.Shooter.kD)
+
+        kF = Constants.Shooter.kF
+        kP = Constants.Shooter.kP
+        kI = Constants.Shooter.kI
+        kD = Constants.Shooter.kD
 
         selectedSensorPosition = 0
     }
-    private val talonFXBottom = TalonFX(Constants.Shooter.ID_TALONFX_BOTTOM).apply {
+    private val talonFXBottom = FusionTalonFX(Constants.Shooter.ID_TALONFX_BOTTOM).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
         selectedSensorPosition = 0
@@ -39,14 +40,14 @@ object Shooter : SubsystemBase() {
 
     val velocity: Int
         get() {
-            return talonFXTop.getSelectedSensorVelocity()
+            return talonFXTop.getSelectedSensorVelocity(0)
         }
 
     override fun periodic() {
     }
 
     fun setShooter(controlMode: TalonFXControlMode, value: Double) {
-//        talonFXTop.set(controlMode, value)
-        talonFXTop.set(TalonFXControlMode.PercentOutput, 0.7)
+        talonFXTop.set(controlMode, value)
+//        talonFXTop.set(TalonFXControlMode.PercentOutput, 0.7)
     }
 }

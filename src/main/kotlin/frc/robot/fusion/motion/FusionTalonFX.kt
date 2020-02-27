@@ -14,22 +14,22 @@ class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
     var kF: Double = 0.0
         set(value) {
             this.config_kF(0, value)
-            field = kF
+            field = value
         }
     var kP: Double = 0.0
         set(value) {
             this.config_kP(0, value)
-            field = kP
+            field = value
         }
     var kI: Double = 0.0
         set(value) {
             this.config_kI(0, value)
-            field = kI
+            field = value
         }
     var kD: Double = 0.0
         set(value) {
             this.config_kD(0, value)
-            field = kD
+            field = value
         }
     var targetVelocity: Int = 0
         set(value) {

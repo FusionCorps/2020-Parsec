@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
-import com.ctre.phoenix.motorcontrol.can.SlotConfiguration
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.DigitalOutput
 import edu.wpi.first.wpilibj2.command.SubsystemBase
@@ -31,11 +30,6 @@ object Indexer : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        kF = Constants.Indexer.kF_INITIAL
-        kP = Constants.Indexer.kP_INITIAL
-        kI = Constants.Indexer.kI_INITIAL
-        kD = Constants.Indexer.kD_INITIAL
-
         targetVelocity = Constants.Indexer.VELOCITY_INITIAL
         targetAcceleration = Constants.Indexer.ACCELERATION_INITIAL
 
@@ -49,33 +43,25 @@ object Indexer : SubsystemBase() {
         get() {
             return talonFXBelt.selectedSensorPosition
         }
-    var beltFPID: FPIDCharacteristics
+    var beltFPID: FPIDCharacteristics = FPIDCharacteristics(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL)
         set(value) {
             talonFXBelt.apply {
-                config_kF(0, value.kF)
-                config_kP(0, value.kP)
-                config_kI(0, value.kI)
-                config_kD(0, value.kD)
+                kF = value.kF
+                kP = value.kP
+                kI = value.kI
+                kD = value.kD
             }
-            logger.info { "FPID -> $value" }
+            field = value
         }
         get() {
-            val slotConfig = SlotConfiguration()
-            talonFXBelt.getSlotConfigs(slotConfig)
-
-            return FPIDCharacteristics(slotConfig.kF, slotConfig.kP, slotConfig.kI, slotConfig.kD)
+            return FPIDCharacteristics(field.kF, field.kP, field.kI, field.kD)
         }
     var beltVelocity: Int
         set(value) {
-            talonFXBelt.configMotionCruiseVelocity(value)
+            talonFXBelt.targetVelocity = value
         }
         get() {
             return talonFXBelt.getActiveTrajectoryVelocity(0)
-        }
-    var beltAcceleration: Int = Constants.Indexer.VELOCITY_INITIAL
-        set(value) {
-            talonFXBelt.configMotionCruiseVelocity(value)
-            field = value
         }
 
     // Ball IR Breakage Sensors
