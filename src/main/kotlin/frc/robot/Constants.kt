@@ -51,13 +51,13 @@ object Constants {
 
         const val SHIFT_TICKS = 50000.0
 
-        const val kF = 0.0
-        const val kP = 1.0
-        const val kI = 0.01
-        const val kD = 0.0
+        const val kF_INITIAL = 0.0
+        const val kP_INITIAL = 1.0
+        const val kI_INITIAL = 0.01
+        const val kD_INITIAL = 0.0
 
-        const val VELOCITY = 5000
-        const val ACCELERATION = 2000
+        const val VELOCITY_INITIAL = 5000
+        const val ACCELERATION_INITIAL = 2000
     }
 
     object Intake {

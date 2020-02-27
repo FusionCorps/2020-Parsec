@@ -43,29 +43,26 @@ class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
         }
 
     override fun initSendable(builder: SendableBuilder?) {
-        builder!!.setSmartDashboardType("List")
+        builder!!.setSmartDashboardType("RobotPreferences")
 
         builder.setSafeState(this::stopMotor)
 
-        builder.addDoubleArrayProperty(
-            "FPID",
-            {
-                DoubleArray(4).apply {
-                    set(0, kF)
-                    set(1, kP)
-                    set(2, kI)
-                    set(3, kD)
-                }
-            },
-            { x: DoubleArray ->
-                kF = x[0]
-                kP = x[1]
-                kI = x[2]
-                kD = x[3]
-            }
-        )
+        builder.addDoubleProperty("kF", { kF }, { x: Double -> kF = x })
+        builder.addDoubleProperty("kP", { kP }, { x: Double -> kP = x })
+        builder.addDoubleProperty("kI", { kI }, { x: Double -> kI = x })
+        builder.addDoubleProperty("kD", { kD }, { x: Double -> kD = x })
+
+        builder.getEntry("kF").setPersistent()
+        builder.getEntry("kP").setPersistent()
+        builder.getEntry("kI").setPersistent()
+        builder.getEntry("kD").setPersistent()
+
         builder.addDoubleProperty("Position", { position.toDouble() }, { x: Double -> position = x.toInt() })
         builder.addDoubleProperty("Velocity", { targetVelocity.toDouble() }, { x: Double -> targetVelocity = x.toInt() })
         builder.addDoubleProperty("Acceleration", { targetAcceleration.toDouble() }, { x: Double -> targetAcceleration = x.toInt() })
+
+        builder.getEntry("Position").setPersistent()
+        builder.getEntry("Velocity").setPersistent()
+        builder.getEntry("Acceleration").setPersistent()
     }
 }

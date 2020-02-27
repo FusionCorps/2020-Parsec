@@ -5,20 +5,20 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.ctre.phoenix.motorcontrol.can.SlotConfiguration
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.DigitalOutput
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.indexer.IndexerManage
 import frc.robot.fusion.motion.FPIDCharacteristics
+import frc.robot.fusion.motion.FusionTalonFX
 import mu.KotlinLogging
 
 object Indexer : SubsystemBase() {
     private val logger = KotlinLogging.logger("Indexer")
 
     // Motor controller
-    private val talonFXBelt = WPI_TalonFX(Constants.Indexer.ID_TALONFX).apply {
+    private val talonFXBelt = FusionTalonFX(Constants.Indexer.ID_TALONFX).apply {
         name = "TalonFX Belt"
         subsystem = "Indexer"
 
@@ -30,13 +30,14 @@ object Indexer : SubsystemBase() {
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
 
         selectProfileSlot(0, 0)
-        config_kF(0, Constants.Indexer.kF)
-        config_kP(0, Constants.Indexer.kP)
-        config_kI(0, Constants.Indexer.kI)
-        config_kD(0, Constants.Indexer.kD)
 
-        configMotionCruiseVelocity(Constants.Indexer.VELOCITY)
-        configMotionAcceleration(Constants.Indexer.ACCELERATION)
+        kF = Constants.Indexer.kF_INITIAL
+        kP = Constants.Indexer.kP_INITIAL
+        kI = Constants.Indexer.kI_INITIAL
+        kD = Constants.Indexer.kD_INITIAL
+
+        targetVelocity = Constants.Indexer.VELOCITY_INITIAL
+        targetAcceleration = Constants.Indexer.ACCELERATION_INITIAL
 
         selectedSensorPosition = 0
     }
@@ -71,7 +72,7 @@ object Indexer : SubsystemBase() {
         get() {
             return talonFXBelt.getActiveTrajectoryVelocity(0)
         }
-    var beltAcceleration: Int = Constants.Indexer.VELOCITY
+    var beltAcceleration: Int = Constants.Indexer.VELOCITY_INITIAL
         set(value) {
             talonFXBelt.configMotionCruiseVelocity(value)
             field = value
@@ -99,44 +100,6 @@ object Indexer : SubsystemBase() {
     // Instantiation
     init {
         defaultCommand = IndexerManage(this)
-
-//        // Update talonFXBelt FPID values
-//        val iNetworkTables = NetworkTableInstance.getDefault()
-//
-//        val indexerTab = Shuffleboard.getTab("Indexer")
-//
-//        indexerTab.add(talonFXBelt)
-//
-//        val indexerFPIDList = indexerTab
-//            .getLayout("Belt Motion", "List Layout")
-//            .withPosition(0, 0)
-//            .withSize(2, 3)
-//
-//        indexerFPIDList.add("kF", beltFPID.kF)
-//        indexerFPIDList.add("kP", beltFPID.kP)
-//        indexerFPIDList.add("kI", beltFPID.kI)
-//        indexerFPIDList.add("kD", beltFPID.kD)
-//        indexerFPIDList.add("Velocity", beltVelocity)
-//        indexerFPIDList.add("Acceleration", beltAcceleration)
-//
-//        val indexerTable = iNetworkTables.getTable("Shuffleboard").getSubTable("Indexer")
-//
-//        val listsToAdd = mapOf<String, (Double) -> Unit>("kF" to { x -> beltFPID = FPIDCharacteristics(x, beltFPID.kP, beltFPID.kI, beltFPID.kD)})
-//        indexerTable.getSubTable("Belt Motion")
-//            .addListener(
-//                { event: EntryNotification ->
-//                    this.logger.info { "Received event $event" }
-//                    when (event.entry.toString()) {
-//                        "kF" -> beltFPID = FPIDCharacteristics(event.value.double, beltFPID.kP, beltFPID.kI, beltFPID.kD)
-//                        "kP" -> beltFPID = FPIDCharacteristics(beltFPID.kF, event.value.double, beltFPID.kI, beltFPID.kD)
-//                        "kI" -> beltFPID = FPIDCharacteristics(beltFPID.kF, beltFPID.kP, event.value.double, beltFPID.kD)
-//                        "kD" -> beltFPID = FPIDCharacteristics(beltFPID.kF, beltFPID.kP, beltFPID.kI, event.value.double)
-//                        "Velocity" -> beltVelocity = event.value.double.toInt()
-//                        "Acceleration" -> beltAcceleration = event.value.double.toInt()
-//                    }
-//                },
-//                EntryListenerFlags.kNew or EntryListenerFlags.kUpdate
-//            )
     }
 
     // Methods
