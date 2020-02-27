@@ -38,7 +38,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         d = 0.0
         ff = 0.0
 
-        setFeedbackDevice(CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
+//        setFeedbackDevice(CANSparkMax(Constants.Lift.ID_SPARKMAX_RETRACT, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
     }
 
     val extendVelocity: Int

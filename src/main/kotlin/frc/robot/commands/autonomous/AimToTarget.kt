@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
 import kotlin.math.absoluteValue
 
-class AimToTarget(chassis: Chassis): CommandBase() {
+class AimToTarget(chassis: Chassis) : CommandBase() {
     private val mChassis = chassis
 
     private val acceptableError = 0.01

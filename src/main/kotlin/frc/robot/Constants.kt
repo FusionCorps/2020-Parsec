@@ -30,8 +30,8 @@ object Constants {
     }
 
     object Lift {
-        const val ID_TALONSRX_EXTEND = 0
-        const val ID_SPARKMAX_RETRACT = 1
+        const val ID_TALONSRX_EXTEND = 61
+        const val ID_SPARKMAX_RETRACT = 62
         const val TICKS_TO_FULL = 15096.0
     }
 
