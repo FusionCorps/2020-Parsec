@@ -17,17 +17,17 @@ class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
         }
     var fpidCharacteristics = FPIDCharacteristics(0.0, 0.0, 0.0, 0.0)
         set(value) {
-            if (field.kF != value.kF) {
-                this.config_kF(0, value.kF)
+            if (field.f != value.f) {
+                this.config_kF(0, value.f)
             }
-            if (field.kP != value.kP) {
-                this.config_kP(0, value.kP)
+            if (field.p != value.p) {
+                this.config_kP(0, value.p)
             }
-            if (field.kI != value.kI) {
-                this.config_kI(0, value.kI)
+            if (field.i != value.i) {
+                this.config_kI(0, value.i)
             }
-            if (field.kD != value.kD) {
-                this.config_kD(0, value.kD)
+            if (field.d != value.d) {
+                this.config_kD(0, value.d)
             }
 
             field = value
@@ -63,11 +63,15 @@ class FusionTalonFX(deviceNumber: Int) : WPI_TalonFX(deviceNumber) {
 
         builder.setSafeState(this::stopMotor)
 
-        builder.addDoubleArrayProperty("FPID",
-                { fpidCharacteristics.toDoubleArray() },
-                { x: DoubleArray -> fpidCharacteristics = FPIDCharacteristics(x[0], x[1], x[2], x[3]) }
-        )
-        builder.getEntry("FPID").setPersistent()
+        builder.addDoubleProperty("f", { fpidCharacteristics.f }, { x: Double -> fpidCharacteristics.f = x })
+        builder.addDoubleProperty("p", { fpidCharacteristics.p }, { x: Double -> fpidCharacteristics.p = x })
+        builder.addDoubleProperty("i", { fpidCharacteristics.i }, { x: Double -> fpidCharacteristics.i = x })
+        builder.addDoubleProperty("d", { fpidCharacteristics.d }, { x: Double -> fpidCharacteristics.d = x })
+
+        builder.getEntry("f").setPersistent()
+        builder.getEntry("p").setPersistent()
+        builder.getEntry("i").setPersistent()
+        builder.getEntry("d").setPersistent()
 
         builder.addDoubleProperty("Position", { sensorPosition.toDouble() }, { x: Double -> sensorPosition = x.toInt() })
         builder.addDoubleProperty("Velocity", { targetVelocity.toDouble() }, { x: Double -> targetVelocity = x.toInt() })

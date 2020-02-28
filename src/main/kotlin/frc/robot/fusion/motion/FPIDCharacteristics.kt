@@ -1,7 +1,7 @@
 package frc.robot.fusion.motion
 
-data class FPIDCharacteristics(val kF: Double = 0.0, val kP: Double = 0.0, val kI: Double = 0.0, val kD: Double = 0.0) {
+data class FPIDCharacteristics(var f: Double = 0.0, var p: Double = 0.0, var i: Double = 0.0, var d: Double = 0.0) {
     fun toDoubleArray(): DoubleArray {
-        return doubleArrayOf(kF, kP, kI, kD)
+        return doubleArrayOf(f, p, i, d)
     }
 }

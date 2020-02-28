@@ -71,11 +71,11 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
     }
 
     fun location_calculator(reading1: Double, reading2: Double, m_6672: Int, m_1: Int, m_2: Int, m_bar: Int, delta_sensor: Double): Double {
-        val alpha = atan(0.66/1.41)
-        val theta = atan((reading1-reading2)/delta_sensor)
+        val alpha = atan(0.66 / 1.41)
+        val theta = atan((reading1 - reading2) / delta_sensor)
 
-        val distance = (0.66*(reading1-reading2)*(m_1+m_2+m_bar)/(m_6672*delta_sensor))
-        val height = 2.83 - 1.56*sin(alpha+theta) + (1.41 + distance)* sin(theta)
+        val distance = (0.66 * (reading1 - reading2) * (m_1 + m_2 + m_bar) / (m_6672 * delta_sensor))
+        val height = 2.83 - 1.56 * sin(alpha + theta) + (1.41 + distance) * sin(theta)
         return height
     }
 }
