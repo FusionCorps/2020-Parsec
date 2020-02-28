@@ -6,8 +6,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.fusion.motion.FPIDCharacteristics
 import frc.robot.fusion.motion.FusionTalonFX
-import mu.KotlinLogging
 
 object Shooter : SubsystemBase() {
     private val talonFXTop = FusionTalonFX(Constants.Shooter.ID_TALONFX_TOP).apply {
@@ -20,10 +20,7 @@ object Shooter : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        kF = Constants.Shooter.kF
-        kP = Constants.Shooter.kP
-        kI = Constants.Shooter.kI
-        kD = Constants.Shooter.kD
+        fpidCharacteristics = FPIDCharacteristics(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD)
 
         selectedSensorPosition = 0
     }
@@ -35,8 +32,6 @@ object Shooter : SubsystemBase() {
         follow(talonFXTop)
         setInverted(TalonFXInvertType.OpposeMaster)
     }
-
-    private val logger = KotlinLogging.logger("Shooter")
 
     val velocity: Int
         get() {

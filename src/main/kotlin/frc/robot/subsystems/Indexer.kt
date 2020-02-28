@@ -43,25 +43,24 @@ object Indexer : SubsystemBase() {
         get() {
             return talonFXBelt.selectedSensorPosition
         }
-    var beltFPID: FPIDCharacteristics = FPIDCharacteristics(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL)
-        set(value) {
-            talonFXBelt.apply {
-                kF = value.kF
-                kP = value.kP
-                kI = value.kI
-                kD = value.kD
-            }
-            field = value
-        }
-        get() {
-            return FPIDCharacteristics(field.kF, field.kP, field.kI, field.kD)
-        }
-    var beltVelocity: Int
-        set(value) {
-            talonFXBelt.targetVelocity = value
-        }
+    val beltVelocity: Int
         get() {
             return talonFXBelt.getActiveTrajectoryVelocity(0)
+        }
+    var beltFPID: FPIDCharacteristics = FPIDCharacteristics(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL)
+        set(value) {
+            talonFXBelt.fpidCharacteristics = value
+            field = value
+        }
+    var beltTargetVelocity: Int = 0
+        set(value) {
+            talonFXBelt.targetVelocity = value
+            field = value
+        }
+    var beltTargetAcceleration: Int = 0
+        set(value) {
+            talonFXBelt.targetAcceleration = value
+            field = value
         }
 
     // Ball IR Breakage Sensors
