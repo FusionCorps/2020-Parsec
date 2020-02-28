@@ -7,6 +7,7 @@
 
 package frc.robot
 
+import edu.wpi.first.wpilibj.AnalogInput
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
@@ -86,6 +87,9 @@ class Robot : TimedRobot() {
      * This function is called periodically during operator control.
      */
     override fun teleopPeriodic() {
+        var multrasonic = AnalogInput(0)
+        val find_volt = multrasonic.voltage
+        println((find_volt * 4.883) * 10)
     }
 
     override fun testInit() {
