@@ -25,3 +25,7 @@ hs_err_pid*
 .gradle/
 build/
 bin/
+
+.idea/
+justfile
+imgui.ini

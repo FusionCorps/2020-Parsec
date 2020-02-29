@@ -1,13 +1,12 @@
 package frc.robot.commands.indexer
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants
+import frc.robot.fusion.motion.ControlMode
+import frc.robot.fusion.motion.PositionConfig
 import frc.robot.subsystems.Indexer
 
-class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: Int = 1) : CommandBase() {
-    private val mIndexer = indexer
-
+class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : CommandBase() {
     val mDirection = direction
     val mTimes = times
 
@@ -15,15 +14,15 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
     val errorThreshold: Double = 4096.0
 
     init {
-        addRequirements(mIndexer)
+        addRequirements(Indexer)
     }
 
     override fun initialize() {
-        if (mIndexer.isBallTop) {
+        if (Indexer.isBallTop) {
             end(true)
         }
 
-        mTargetIndexerPosition = mIndexer.beltPosition +
+        mTargetIndexerPosition = Indexer.beltPosition +
             (
                 mTimes * (
                     if (mDirection == IndexerMovementDirection.Forward) Constants.Indexer.SHIFT_TICKS
@@ -31,11 +30,11 @@ class IndexerMove(indexer: Indexer, direction: IndexerMovementDirection, times: 
                     )
                 )
 
-        mIndexer.setBelt(TalonFXControlMode.MotionMagic, mTargetIndexerPosition)
+        Indexer.control(ControlMode.AssistedMotion, PositionConfig(mTargetIndexerPosition.toInt()))
     }
 
     override fun isFinished(): Boolean {
-        val currentPosition = mIndexer.beltPosition
+        val currentPosition = Indexer.beltPosition
 
         return currentPosition > (mTargetIndexerPosition - errorThreshold)
     }

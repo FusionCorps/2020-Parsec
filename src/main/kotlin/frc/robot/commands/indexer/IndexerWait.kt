@@ -3,20 +3,18 @@ package frc.robot.commands.indexer
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Indexer
 
-class IndexerWait(indexer: Indexer) : CommandBase() {
-    private val mIndexer = indexer
-
+class IndexerWait : CommandBase() {
     init {
-        addRequirements(mIndexer)
+        addRequirements(Indexer)
     }
 
     override fun isFinished(): Boolean {
-        return (mIndexer.isBallFront) && !(mIndexer.isBallTop)
+        return (Indexer.isBallFront) && !(Indexer.isBallTop)
     }
 
     override fun end(interrupted: Boolean) {
-        if (mIndexer.isBallFront && !interrupted) {
-            IndexerMove(mIndexer, IndexerMovementDirection.Forward).schedule()
+        if (Indexer.isBallFront && !interrupted) {
+            IndexerMove(IndexerMovementDirection.Forward).schedule()
         }
     }
 }

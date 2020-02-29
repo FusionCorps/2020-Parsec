@@ -2,15 +2,21 @@ package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
-import com.ctre.phoenix.motorcontrol.can.TalonFX
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import mu.KotlinLogging
+import frc.robot.fusion.motion.ControlMode
+import frc.robot.fusion.motion.FPIDConfig
+import frc.robot.fusion.motion.FTalonFX
+import frc.robot.fusion.motion.FollowerConfig
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotionConfig
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 
 object Shooter : SubsystemBase() {
-    private val talonFXTop = TalonFX(Constants.Shooter.ID_TALONFX_TOP).apply {
+    private val talonFXTop = FTalonFX(MotorID(Constants.Shooter.ID_TALONFX_TOP, "ShooterTalonT", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
         setInverted(TalonFXInvertType.Clockwise)
@@ -19,34 +25,35 @@ object Shooter : SubsystemBase() {
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
 
         selectProfileSlot(0, 0)
-        config_kF(0, Constants.Shooter.kF)
-        config_kP(0, Constants.Shooter.kP)
-        config_kI(0, Constants.Shooter.kI)
-        config_kD(0, Constants.Shooter.kD)
+
+        control(FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD))
 
         selectedSensorPosition = 0
     }
-    private val talonFXBottom = TalonFX(Constants.Shooter.ID_TALONFX_BOTTOM).apply {
+    private val talonFXBottom = FTalonFX(MotorID(Constants.Shooter.ID_TALONFX_BOTTOM, "ShooterTalonB", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
         selectedSensorPosition = 0
 
-        follow(talonFXTop)
+        control(ControlMode.Follower, FollowerConfig(talonFXTop))
         setInverted(TalonFXInvertType.OpposeMaster)
     }
 
-    private val logger = KotlinLogging.logger("Shooter")
+    val motionCharacteristics: MotionCharacteristics
+        get() {
+            return talonFXTop.motionCharacteristics
+        }
 
     val velocity: Int
         get() {
-            return talonFXTop.getSelectedSensorVelocity()
+            return talonFXTop.getSelectedSensorVelocity(0)
         }
 
-    override fun periodic() {
+    fun control(vararg config: MotionConfig) {
+        talonFXTop.control(*config)
     }
 
-    fun setShooter(controlMode: TalonFXControlMode, value: Double) {
-//        talonFXTop.set(controlMode, value)
-        talonFXTop.set(TalonFXControlMode.PercentOutput, 0.7)
+    init {
+        Shuffleboard.getTab("Shooter").add(talonFXTop)
     }
 }

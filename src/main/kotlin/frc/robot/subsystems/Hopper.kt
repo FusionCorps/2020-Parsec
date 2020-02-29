@@ -1,28 +1,34 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.InvertType
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.hopper.HopperRun
+import frc.robot.commands.hopper.HopperStop
+import frc.robot.fusion.motion.DutyCycleConfig
+import frc.robot.fusion.motion.FPIDConfig
+import frc.robot.fusion.motion.FVictorSPX
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotionConfig
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 
 object Hopper : SubsystemBase() {
-    private val victorSPXBelt = WPI_VictorSPX(Constants.Hopper.ID_VICTORSPX).apply {
+    private val victorSPXBelt = FVictorSPX(MotorID(Constants.Hopper.ID_VICTORSPX, "VictorSPXBelt", MotorModel.VictorSPX)).apply {
         setInverted(InvertType.InvertMotorOutput)
 
-        config_kP(0, 0.5)
-        config_kI(0, 0.0)
-        config_kD(0, 0.0)
+        control(FPIDConfig(), DutyCycleConfig(0.5))
     }
 
-    var currentHopperVelocity = 0.0
+    val motionCharacteristics: MotionCharacteristics
+        get() {
+            return victorSPXBelt.motionCharacteristics
+        }
 
     init {
-        defaultCommand = HopperRun(this)
+        defaultCommand = HopperStop()
     }
 
-    fun setBelt(controlMode: VictorSPXControlMode = VictorSPXControlMode.Velocity, value: Double) {
-        victorSPXBelt.set(controlMode, value)
+    fun control(vararg config: MotionConfig) {
+        victorSPXBelt.control(*config)
     }
 }

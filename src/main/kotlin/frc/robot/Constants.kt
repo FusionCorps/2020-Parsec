@@ -24,14 +24,14 @@ object Constants {
 
     object Chassis {
         const val ID_TALONFX_F_L = 11
-        const val ID_TALONFX_B_L = 12
+        const val ID_TALONFX_B_L = 13
         const val ID_TALONFX_F_R = 10
-        const val ID_TALONFX_B_R = 13
+        const val ID_TALONFX_B_R = 12
     }
 
     object Lift {
-        const val ID_TALONFX_EXTEND = 0
-        const val ID_TALONFX_RETRACT = 1
+        const val ID_TALONSRX_EXTEND = 61
+        const val ID_SPARKMAX_RETRACT = 62
         const val TICKS_TO_FULL = 15096.0
     }
 
@@ -51,13 +51,13 @@ object Constants {
 
         const val SHIFT_TICKS = 50000.0
 
-        const val kF = 0.0
-        const val kP = 1.0
-        const val kI = 0.01
-        const val kD = 0.0
+        const val kF_INITIAL = 0.0
+        const val kP_INITIAL = 1.0
+        const val kI_INITIAL = 0.01
+        const val kD_INITIAL = 0.0
 
-        const val VELOCITY = 5000
-        const val ACCELERATION = 2000
+        const val VELOCITY_INITIAL = 5000
+        const val ACCELERATION_INITIAL = 2000
     }
 
     object Intake {
@@ -75,6 +75,7 @@ object Constants {
         const val kD = 0.0
 
         const val TARGET_VELOCITY = 17374.0
+        const val TARGET_ACCELERATION = 500.0
     }
 
     object Spinner {

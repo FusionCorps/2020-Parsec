@@ -1,35 +1,38 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.InvertType
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.intake.IntakeJoystickRun
+import frc.robot.commands.intake.IntakeRunJoystick
+import frc.robot.fusion.motion.FVictorSPX
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotionConfig
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 import mu.KotlinLogging
 
 object Intake : SubsystemBase() {
-    private val victorSPXIntake = WPI_VictorSPX(Constants.Intake.ID_VICTORSPX).apply {
+    private val logger = KotlinLogging.logger("Intake")
+
+    private val victorSPXIntake = FVictorSPX(MotorID(Constants.Intake.ID_VICTORSPX, "victorSPXIntake", MotorModel.VictorSPX)).apply {
+        configFactoryDefault()
+
         setInverted(InvertType.InvertMotorOutput)
-
-        config_kP(0, 0.5)
-        config_kI(0, 0.0)
-        config_kP(0, 0.0)
     }
-
-    private val logger = KotlinLogging.logger {}
 
     init {
-        defaultCommand = IntakeJoystickRun(this)
+        defaultCommand = IntakeRunJoystick()
+
+        Shuffleboard.getTab("Intake").add(victorSPXIntake)
     }
 
-    var currentIntakePercent: Double = 0.0
-        set(newTargetIntakeVelocity) {
-            logger.info { "New targetIntakeVelocity: $newTargetIntakeVelocity" }
-            field = newTargetIntakeVelocity
+    val motionCharacteristics: MotionCharacteristics
+        get() {
+            return victorSPXIntake.motionCharacteristics
         }
 
-    fun setBelt(controlMode: VictorSPXControlMode = VictorSPXControlMode.PercentOutput, value: Double) {
-        victorSPXIntake.set(controlMode, value)
+    fun control(vararg config: MotionConfig) {
+        victorSPXIntake.control(*config)
     }
 }
