@@ -1,7 +1,7 @@
 package frc.robot.fusion.motion
 
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController
 import com.ctre.phoenix.motorcontrol.ControlMode as CTREControlMode
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
@@ -15,13 +15,21 @@ enum class MotorModel(val model: String) {
     CANSparkMax("CAN Spark Max")
 }
 
-interface FCTREMotor : Sendable {
+interface FMotorController<T> {
     val motorID: MotorID
-    var motionCharacteristics: MotionCharacteristics
+    val motionCharacteristics: MotionCharacteristics
 
     fun control(vararg config: MotionConfig)
+    fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig)
+}
 
-    fun control(motionCharacteristics: MotionCharacteristics, motor: BaseMotorController, vararg config: MotionConfig) {
+interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
+    override val motorID: MotorID
+    override var motionCharacteristics: MotionCharacteristics
+
+    override fun control(vararg config: MotionConfig)
+
+    override fun control(motionCharacteristics: MotionCharacteristics, motor: BaseMotorController, vararg config: MotionConfig) {
         motionCharacteristics.update(*config)
 
         when (motionCharacteristics.controlMode) {
@@ -68,20 +76,20 @@ interface FCTREMotor : Sendable {
         builder!!.setSmartDashboardType("RobotPreferences")
 
         builder.addDoubleProperty(
-                "f", { motionCharacteristics.fpidConfig?.f ?: 0.0 },
-                { x: Double -> motionCharacteristics.fpidConfig?.f = x }
+            "f", { motionCharacteristics.fpidConfig?.f ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.f = x }
         )
         builder.addDoubleProperty(
-                "p", { motionCharacteristics.fpidConfig?.p ?: 0.0 },
-                { x: Double -> motionCharacteristics.fpidConfig?.p = x }
+            "p", { motionCharacteristics.fpidConfig?.p ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.p = x }
         )
         builder.addDoubleProperty(
-                "i", { motionCharacteristics.fpidConfig?.i ?: 0.0 },
-                { x: Double -> motionCharacteristics.fpidConfig?.i = x }
+            "i", { motionCharacteristics.fpidConfig?.i ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.i = x }
         )
         builder.addDoubleProperty(
-                "d", { motionCharacteristics.fpidConfig?.d ?: 0.0 },
-                { x: Double -> motionCharacteristics.fpidConfig?.d = x }
+            "d", { motionCharacteristics.fpidConfig?.d ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.d = x }
         )
 
         builder.getEntry("f").setPersistent()
@@ -90,19 +98,19 @@ interface FCTREMotor : Sendable {
         builder.getEntry("d").setPersistent()
 
         builder.addDoubleProperty(
-                "Velocity",
-                { motionCharacteristics.assistedMotionConfig?.velocity?.toDouble() ?: 0.0 },
-                { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            "Velocity",
+            { motionCharacteristics.assistedMotionConfig?.velocity?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
         )
         builder.addDoubleProperty(
-                "Position",
-                { motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: 0.0 },
-                { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            "Position",
+            { motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
         )
         builder.addDoubleProperty(
-                "Acceleration",
-                { motionCharacteristics.assistedMotionConfig?.acceleration?.toDouble() ?: 0.0 },
-                { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            "Acceleration",
+            { motionCharacteristics.assistedMotionConfig?.acceleration?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
         )
 
         builder.getEntry("Velocity").setPersistent()
