@@ -2,23 +2,25 @@ package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.DigitalOutput
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.indexer.IndexerManage
-import frc.robot.fusion.motion.FPIDCharacteristics
-import frc.robot.fusion.motion.FusionTalonFX
+import frc.robot.fusion.motion.AssistedMotionConfig
+import frc.robot.fusion.motion.FTalonFX
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotionConfig
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 import mu.KotlinLogging
 
 object Indexer : SubsystemBase() {
-    private val logger = KotlinLogging.logger("Indexer")
+    private val logger = KotlinLogging.logger(this.name)
 
     // Motor controller
-    private val talonFXBelt = FusionTalonFX(Constants.Indexer.ID_TALONFX).apply {
-        name = "TalonFX Belt"
+    private val talonFXBelt = FTalonFX(MotorID(Constants.Indexer.ID_TALONFX, "talonFXBelt", MotorModel.TalonFX)).apply {
         subsystem = "Indexer"
 
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
@@ -30,37 +32,22 @@ object Indexer : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        targetVelocity = Constants.Indexer.VELOCITY_INITIAL
-        targetAcceleration = Constants.Indexer.ACCELERATION_INITIAL
+        control(AssistedMotionConfig(Constants.Indexer.VELOCITY_INITIAL, Constants.Indexer.ACCELERATION_INITIAL))
 
         selectedSensorPosition = 0
     }
 
-    var beltPosition: Int
-        set(value) {
-            talonFXBelt.selectedSensorPosition = value
+    val motionCharacteristics: MotionCharacteristics
+        get() {
+            return talonFXBelt.motionCharacteristics
         }
+    val beltPosition: Int
         get() {
             return talonFXBelt.selectedSensorPosition
         }
     val beltVelocity: Int
         get() {
             return talonFXBelt.getActiveTrajectoryVelocity(0)
-        }
-    var beltFPID: FPIDCharacteristics = FPIDCharacteristics(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL)
-        set(value) {
-            talonFXBelt.fpidCharacteristics = value
-            field = value
-        }
-    var beltTargetVelocity: Int = 0
-        set(value) {
-            talonFXBelt.targetVelocity = value
-            field = value
-        }
-    var beltTargetAcceleration: Int = 0
-        set(value) {
-            talonFXBelt.targetAcceleration = value
-            field = value
         }
 
     // Ball IR Breakage Sensors
@@ -84,11 +71,10 @@ object Indexer : SubsystemBase() {
 
     // Instantiation
     init {
-        defaultCommand = IndexerManage(this)
+        defaultCommand = IndexerManage()
     }
 
-    // Methods
-    fun setBelt(controlMode: TalonFXControlMode, value: Double) {
-        talonFXBelt.set(controlMode, value)
+    fun control(vararg config: MotionConfig) {
+        talonFXBelt.control(*config)
     }
 }

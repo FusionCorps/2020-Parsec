@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
-import frc.robot.commands.chassis.ChassisJoystickDrive
-import frc.robot.commands.hopper.HopperSetMovementCharacteristics
+import frc.robot.commands.chassis.ChassisRunJoystick
+import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerDump
 import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.lift.LiftRetract
@@ -43,7 +43,7 @@ class RobotContainer {
     private val mLift = Lift
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
-    val mChassisJoystickDrive = ChassisJoystickDrive(mChassis)
+    val mChassisJoystickDrive = ChassisRunJoystick()
 
     val iNetworkTables = NetworkTableInstance.getDefault()
 
@@ -65,21 +65,20 @@ class RobotContainer {
      */
     fun configureButtonBindings() {
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
-            .whenPressed(HopperSetMovementCharacteristics(mHopper, Constants.Hopper.TARGET_VELOCITY))
-            .whenReleased(HopperSetMovementCharacteristics(mHopper, 0.0))
+            .whileHeld(HopperRunAt(value = Constants.Hopper.TARGET_VELOCITY))
 
         JoystickButton(Controls.controller, XboxController.Button.kY.value)
-            .whenPressed(ShooterRunToVelocity(mShooter))
-            .whenReleased(ShooterCoastDown(mShooter))
+            .whenPressed(ShooterRunToVelocity())
+            .whenReleased(ShooterCoastDown())
 
         JoystickButton(Controls.controller, XboxController.Button.kA.value)
-            .whenPressed(IndexerDump(mIndexer))
+            .whenPressed(IndexerDump())
 
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whileActiveContinuous(LiftExtend(mLift))
+            .whileActiveContinuous(LiftExtend())
 
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-            .whileHeld(LiftRetract(mLift))
+            .whileHeld(LiftRetract())
     }
 
     fun getAutonomousCommand(): Command {

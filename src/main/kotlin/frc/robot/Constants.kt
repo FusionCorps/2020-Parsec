@@ -24,9 +24,9 @@ object Constants {
 
     object Chassis {
         const val ID_TALONFX_F_L = 11
-        const val ID_TALONFX_B_L = 12
+        const val ID_TALONFX_B_L = 13
         const val ID_TALONFX_F_R = 10
-        const val ID_TALONFX_B_R = 13
+        const val ID_TALONFX_B_R = 12
     }
 
     object Lift {
@@ -75,6 +75,7 @@ object Constants {
         const val kD = 0.0
 
         const val TARGET_VELOCITY = 17374.0
+        const val TARGET_ACCELERATION = 500.0
     }
 
     object Spinner {

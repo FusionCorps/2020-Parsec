@@ -5,32 +5,38 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.chassis.ChassisJoystickDrive
-import frc.robot.fusion.motion.FusionTalonFX
+import frc.robot.commands.chassis.ChassisRunJoystick
+import frc.robot.fusion.motion.ControlMode
+import frc.robot.fusion.motion.DutyCycleConfig
+import frc.robot.fusion.motion.FTalonFX
+import frc.robot.fusion.motion.FollowerConfig
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 
 object Chassis : SubsystemBase() {
     // Motor Controllers
-    private val talonFXFrontLeft = FusionTalonFX(Constants.Chassis.ID_TALONFX_F_L).apply {
+    private val talonFXFrontLeft = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_F_L, "talonFXFrontLeft", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.Clockwise)
     }
-    private val talonFXBackLeft = FusionTalonFX(Constants.Chassis.ID_TALONFX_B_L).apply {
+    private val talonFXBackLeft = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_B_L, "talonFXBackLeft", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.FollowMaster)
-        follow(talonFXFrontLeft)
+        control(ControlMode.Follower, FollowerConfig(talonFXFrontLeft))
     }
-    private val talonFXFrontRight = FusionTalonFX(Constants.Chassis.ID_TALONFX_F_R).apply {
+    private val talonFXFrontRight = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_F_R, "talonFXFrontRight", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.CounterClockwise)
     }
-    private val talonFXBackRight = FusionTalonFX(Constants.Chassis.ID_TALONFX_B_R).apply {
+    private val talonFXBackRight = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_B_R, "talonFXBackRight", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.FollowMaster)
-        follow(talonFXFrontRight)
+        control(ControlMode.Follower, FollowerConfig(talonFXFrontRight))
     }
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
 
-    var driveSpd: Double = 0.5
+    var motionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
 
     init {
-        defaultCommand = ChassisJoystickDrive(this)
+        defaultCommand = ChassisRunJoystick()
 
         Shuffleboard.getTab("Chassis").add(talonFXFrontRight)
         Shuffleboard.getTab("Chassis").add(talonFXFrontLeft)
@@ -39,7 +45,10 @@ object Chassis : SubsystemBase() {
     }
 
     fun joystickDrive(x: Double, z: Double) {
-        drive.curvatureDrive(x * driveSpd, z * driveSpd, true)
+        drive.curvatureDrive(
+            x * motionCharacteristics.dutyCycleConfig!!.dutyCycle,
+            z * motionCharacteristics.dutyCycleConfig!!.dutyCycle, true
+        )
     }
 
     fun tankDrive(left: Double, right: Double) {

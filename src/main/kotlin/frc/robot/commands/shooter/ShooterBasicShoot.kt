@@ -8,7 +8,7 @@ class ShooterBasicShoot(shooter: Shooter) : SequentialCommandGroup() {
 
     init {
         addCommands(
-            ShooterRun(mShooter)
+            ShooterRunAt()
         )
     }
 }

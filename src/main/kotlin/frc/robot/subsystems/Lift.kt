@@ -2,26 +2,26 @@ package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.InvertType
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.revrobotics.CANPIDController
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
 import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.fusion.motion.AssistedMotionConfig
+import frc.robot.fusion.motion.FPIDConfig
+import frc.robot.fusion.motion.FTalonSRX
+import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotorID
+import frc.robot.fusion.motion.MotorModel
 import java.lang.Math.atan
 import java.lang.Math.sin
 
 object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096 ticks per rev by default
-    private val talonSRXExtend = WPI_TalonSRX(Constants.Lift.ID_TALONSRX_EXTEND).apply { // Higher speed motor
+    private val talonSRXExtend = FTalonSRX(MotorID(Constants.Lift.ID_TALONSRX_EXTEND, "talonSRXExtend", MotorModel.TalonSRX)).apply { // Higher speed motor
         setInverted(InvertType.InvertMotorOutput)
 
-        config_kP(0, 0.5)
-        config_kI(0, 0.0)
-        config_kD(0, 0.0)
-
-        configMotionCruiseVelocity(20000)
-        configMotionAcceleration(10000)
+        control(FPIDConfig(), AssistedMotionConfig(20000, 1000))
 
         selectedSensorPosition = 0
     }
@@ -30,7 +30,6 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
 
     private val retractPID = CANPIDController(sparkMaxRetract).apply {
         // 1 RPM is 34.133 TalonEncoderTicks/second
-
         setSmartMotionMaxAccel(292.97, 0) // RPM per sec
         setSmartMotionAllowedClosedLoopError(15.0, 0)
         setSmartMotionMaxVelocity(585.943, 0) // RPM
@@ -43,19 +42,14 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
 //        setFeedbackDevice(CANSparkMax(Constants.Lift.ID_SPARKMAX_RETRACT, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
     }
 
-    val extendVelocity: Int
+    val extendMotionCharacteristics: MotionCharacteristics
         get() {
-            return talonSRXExtend.selectedSensorVelocity
+            return talonSRXExtend.motionCharacteristics
         }
 
     val retractVelocity: Double
         get() {
             return sparkMaxRetract.get()
-        }
-
-    val motorPosition: Int
-        get() {
-            return talonSRXExtend.selectedSensorPosition
         }
 
     fun setExtend(control_mode: TalonSRXControlMode = TalonSRXControlMode.Velocity, value: Double) {
