@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.ControlMode
@@ -50,5 +51,9 @@ object Shooter : SubsystemBase() {
 
     fun control(vararg config: MotionConfig) {
         talonFXTop.control(*config)
+    }
+
+    init {
+        Shuffleboard.getTab("Shooter").add(talonFXTop)
     }
 }

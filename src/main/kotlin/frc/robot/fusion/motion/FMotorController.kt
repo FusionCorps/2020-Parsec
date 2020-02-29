@@ -28,7 +28,6 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
     override var motionCharacteristics: MotionCharacteristics
 
     override fun control(vararg config: MotionConfig)
-
     override fun control(motionCharacteristics: MotionCharacteristics, motor: BaseMotorController, vararg config: MotionConfig) {
         motionCharacteristics.update(*config)
 
@@ -105,12 +104,12 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
         builder.addDoubleProperty(
             "Position",
             { motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            { x: Double -> motionCharacteristics.positionConfig?.targetPosition = x.toInt() }
         )
         builder.addDoubleProperty(
             "Acceleration",
             { motionCharacteristics.assistedMotionConfig?.acceleration?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            { x: Double -> motionCharacteristics.assistedMotionConfig?.acceleration = x.toInt() }
         )
 
         builder.getEntry("Velocity").setPersistent()

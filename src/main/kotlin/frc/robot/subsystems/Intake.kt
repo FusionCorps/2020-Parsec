@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.InvertType
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.intake.IntakeRunJoystick
@@ -22,6 +23,8 @@ object Intake : SubsystemBase() {
 
     init {
         defaultCommand = IntakeRunJoystick()
+
+        Shuffleboard.getTab("Intake").add(victorSPXIntake)
     }
 
     val motionCharacteristics: MotionCharacteristics
