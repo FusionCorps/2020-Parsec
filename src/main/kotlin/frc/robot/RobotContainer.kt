@@ -45,8 +45,6 @@ class RobotContainer {
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
     val mChassisJoystickDrive = ChassisRunJoystick()
 
-    val iNetworkTables = NetworkTableInstance.getDefault()
-
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
