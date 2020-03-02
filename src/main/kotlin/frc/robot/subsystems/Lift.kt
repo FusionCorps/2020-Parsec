@@ -10,6 +10,7 @@ import frc.robot.fusion.motion.FCANSparkMax
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonSRX
 import frc.robot.fusion.motion.MotionCharacteristics
+import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
 import frc.robot.fusion.motion.VelocityConfig
@@ -39,6 +40,10 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         get() {
             return talonSRXExtend.motionCharacteristics
         }
+
+    fun extendControl(vararg config: MotionConfig) {
+        talonSRXExtend.control(*config)
+    }
 
     val retractVelocity: Double
         get() {

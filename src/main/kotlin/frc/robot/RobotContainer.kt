@@ -7,6 +7,8 @@
 
 package frc.robot
 
+import edu.wpi.cscore.UsbCamera
+import edu.wpi.first.cameraserver.CameraServer
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -44,6 +46,9 @@ class RobotContainer {
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
     val mChassisJoystickDrive = ChassisRunJoystick()
 
+    val intakeCamera: UsbCamera = UsbCamera("intakeCamera", 0)
+    val rearCamera: UsbCamera = UsbCamera("rearCamera", 1)
+
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
      */
@@ -52,6 +57,13 @@ class RobotContainer {
         configureButtonBindings()
         mAutoCommandChooser.setDefaultOption("Default Auto", mChassisJoystickDrive)
         SmartDashboard.putData("Auto mode", mAutoCommandChooser)
+
+        // TODO: This is a stopgap measure until proper configuration can be set up
+        CameraServer.getInstance().run {
+            addCamera(intakeCamera)
+            addCamera(rearCamera)
+            addAxisCamera("http://limelight.local:5800")
+        }
     }
 
     /**
@@ -63,17 +75,13 @@ class RobotContainer {
     fun configureButtonBindings() {
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(HopperRunAt(value = Constants.Hopper.TARGET_VELOCITY))
-
         JoystickButton(Controls.controller, XboxController.Button.kY.value)
             .whenPressed(ShooterRunToVelocity())
             .whenReleased(ShooterCoastDown())
-
         JoystickButton(Controls.controller, XboxController.Button.kA.value)
             .whenPressed(IndexerDump())
-
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whileActiveContinuous(LiftExtend())
-
+            .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whileHeld(LiftRetract())
     }
