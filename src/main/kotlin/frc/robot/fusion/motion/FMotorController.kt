@@ -106,6 +106,8 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
                 motionCharacteristics.velocityConfig?.let {
                     motor.pidController.run {
                         setSmartMotionMaxVelocity(motionCharacteristics.velocityConfig!!.velocity.toDouble(), 0)
+
+                        setReference(motionCharacteristics.positionConfig!!.targetPosition.toDouble(), ControlType.kSmartMotion, 0)
                     }
                 } ?: throw IllegalStateException("Tried to configure AssistedMotion with null velocityConfig!")
             }

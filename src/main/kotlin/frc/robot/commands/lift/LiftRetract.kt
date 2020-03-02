@@ -12,11 +12,9 @@ class LiftRetract : CommandBase() { // Retract the lift at whatever velocity is 
 
     override fun execute() {
         Lift.retractControl(ControlMode.AssistedMotion, PositionConfig(200))
-//        Lift.setRetractPID(200.0, ControlType.kVelocity)
     }
 
     override fun end(interrupted: Boolean) {
         Lift.retractControl(ControlMode.Disabled)
-//        Lift.setRetractPID(0.0, ControlType.kVelocity)
     }
 }

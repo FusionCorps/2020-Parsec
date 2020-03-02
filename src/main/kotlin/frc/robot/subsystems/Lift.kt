@@ -3,6 +3,8 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.InvertType
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode
 import com.revrobotics.CANSparkMaxLowLevel
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.AssistedMotionConfig
@@ -36,6 +38,11 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15))
     }
 
+    init {
+        Shuffleboard.getTab("Lift").add(talonSRXExtend)
+        Shuffleboard.getTab("Lift").add(sparkMaxRetract)
+    }
+
     val extendMotionCharacteristics: MotionCharacteristics
         get() {
             return talonSRXExtend.motionCharacteristics
@@ -57,14 +64,6 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
 
     fun retractControl(vararg config: MotionConfig) {
         sparkMaxRetract.control(*config)
-    }
-
-    fun setExtend(control_mode: TalonSRXControlMode = TalonSRXControlMode.Velocity, value: Double) {
-        talonSRXExtend.set(control_mode, value)
-    }
-
-    fun extendStop() {
-        talonSRXExtend.stopMotor()
     }
 
     fun locationCalculator(reading1: Double, reading2: Double, m_6672: Int, m_1: Int, m_2: Int, m_bar: Int, delta_sensor: Double): Double {

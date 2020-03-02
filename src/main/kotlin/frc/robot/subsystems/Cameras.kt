@@ -4,6 +4,7 @@ import edu.wpi.cscore.AxisCamera
 import edu.wpi.cscore.UsbCamera
 import edu.wpi.cscore.VideoSource
 import edu.wpi.first.cameraserver.CameraServer
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 enum class CameraOptions constructor(val cameraName: String, val camera: VideoSource) {
@@ -14,6 +15,7 @@ enum class CameraOptions constructor(val cameraName: String, val camera: VideoSo
 
 object Cameras : SubsystemBase() {
     private val switchedCamera = CameraServer.getInstance().addSwitchedCamera(CameraOptions.Limelight.cameraName)
+    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
     var source: CameraOptions = CameraOptions.Intake
         set(value) {
@@ -23,4 +25,11 @@ object Cameras : SubsystemBase() {
         get() {
             return CameraOptions.valueOf(switchedCamera.source.name)
         }
+
+    fun targetPresent(camera: CameraOptions): Boolean {
+        when (camera) {
+            CameraOptions.Limelight -> if (limelightTable.getEntry("tv").getBoolean(false)) { return true }
+        }
+        return false
+    }
 }
