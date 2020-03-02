@@ -23,6 +23,52 @@ interface FMotorController<T> {
 
     fun control(vararg config: MotionConfig)
     fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig)
+
+    fun initSendable(builder: SendableBuilder?) {
+        builder!!.setSmartDashboardType("RobotPreferences")
+
+        builder.addDoubleProperty(
+            "f", { motionCharacteristics.fpidConfig?.f ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.f = x }
+        )
+        builder.addDoubleProperty(
+            "p", { motionCharacteristics.fpidConfig?.p ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.p = x }
+        )
+        builder.addDoubleProperty(
+            "i", { motionCharacteristics.fpidConfig?.i ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.i = x }
+        )
+        builder.addDoubleProperty(
+            "d", { motionCharacteristics.fpidConfig?.d ?: 0.0 },
+            { x: Double -> motionCharacteristics.fpidConfig?.d = x }
+        )
+
+        builder.getEntry("f").setPersistent()
+        builder.getEntry("p").setPersistent()
+        builder.getEntry("i").setPersistent()
+        builder.getEntry("d").setPersistent()
+
+        builder.addDoubleProperty(
+            "Velocity",
+            { motionCharacteristics.velocityConfig?.velocity?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.velocityConfig?.velocity = x.toInt() }
+        )
+        builder.addDoubleProperty(
+            "Position",
+            { motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.positionConfig?.targetPosition = x.toInt() }
+        )
+        builder.addDoubleProperty(
+            "Acceleration",
+            { motionCharacteristics.assistedMotionConfig?.acceleration?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.assistedMotionConfig?.acceleration = x.toInt() }
+        )
+
+        builder.getEntry("Velocity").setPersistent()
+        builder.getEntry("Acceleration").setPersistent()
+        builder.getEntry("Position").setPersistent()
+    }
 }
 
 interface REVMotor : Sendable, FMotorController<CANSparkMax> {
@@ -38,6 +84,10 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
                         p = it.p
                         i = it.i
                         d = it.d
+
+                        it.allowedError?.let {
+                            setSmartMotionAllowedClosedLoopError(it.toDouble(), 0)
+                        }
 
                         if (motionCharacteristics.controlMode == ControlMode.Position) {
                             setReference(motionCharacteristics.positionConfig!!.targetPosition.toDouble(), ControlType.kPosition)
@@ -76,6 +126,10 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
                 }
             }
         }
+    }
+
+    override fun initSendable(builder: SendableBuilder?) {
+        super.initSendable(builder)
     }
 }
 
@@ -124,49 +178,7 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
     }
 
     override fun initSendable(builder: SendableBuilder?) {
-        builder!!.setSmartDashboardType("RobotPreferences")
-
-        builder.addDoubleProperty(
-            "f", { motionCharacteristics.fpidConfig?.f ?: 0.0 },
-            { x: Double -> motionCharacteristics.fpidConfig?.f = x }
-        )
-        builder.addDoubleProperty(
-            "p", { motionCharacteristics.fpidConfig?.p ?: 0.0 },
-            { x: Double -> motionCharacteristics.fpidConfig?.p = x }
-        )
-        builder.addDoubleProperty(
-            "i", { motionCharacteristics.fpidConfig?.i ?: 0.0 },
-            { x: Double -> motionCharacteristics.fpidConfig?.i = x }
-        )
-        builder.addDoubleProperty(
-            "d", { motionCharacteristics.fpidConfig?.d ?: 0.0 },
-            { x: Double -> motionCharacteristics.fpidConfig?.d = x }
-        )
-
-        builder.getEntry("f").setPersistent()
-        builder.getEntry("p").setPersistent()
-        builder.getEntry("i").setPersistent()
-        builder.getEntry("d").setPersistent()
-
-        builder.addDoubleProperty(
-            "Velocity",
-            { motionCharacteristics.velocityConfig?.velocity?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.velocityConfig?.velocity = x.toInt() }
-        )
-        builder.addDoubleProperty(
-            "Position",
-            { motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.positionConfig?.targetPosition = x.toInt() }
-        )
-        builder.addDoubleProperty(
-            "Acceleration",
-            { motionCharacteristics.assistedMotionConfig?.acceleration?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.assistedMotionConfig?.acceleration = x.toInt() }
-        )
-
-        builder.getEntry("Velocity").setPersistent()
-        builder.getEntry("Acceleration").setPersistent()
-        builder.getEntry("Position").setPersistent()
+        super.initSendable(builder)
     }
 }
 
@@ -234,5 +246,18 @@ class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor {
     init {
         configFactoryDefault()
         name = id.name
+    }
+}
+
+class FCANSparkMax(id: MotorID, type: MotorType) : CANSparkMax(id.id, type), REVMotor {
+    override val motorID = id
+    override var motionCharacteristics = MotionCharacteristics()
+
+    override fun control(vararg config: MotionConfig) {
+        control(motionCharacteristics, this, *config)
+    }
+
+    init {
+        restoreFactoryDefaults()
     }
 }

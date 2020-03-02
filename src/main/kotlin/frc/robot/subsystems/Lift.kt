@@ -2,18 +2,17 @@ package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.InvertType
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode
-import com.revrobotics.CANPIDController
-import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
-import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.AssistedMotionConfig
+import frc.robot.fusion.motion.FCANSparkMax
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonSRX
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
+import frc.robot.fusion.motion.VelocityConfig
 import java.lang.Math.atan
 import java.lang.Math.sin
 
@@ -26,20 +25,14 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         selectedSensorPosition = 0
     }
 
-    private val sparkMaxRetract = CANSparkMax(Constants.Lift.ID_SPARKMAX_RETRACT, CANSparkMaxLowLevel.MotorType.kBrushless)
-
-    private val retractPID = CANPIDController(sparkMaxRetract).apply {
-        // 1 RPM is 34.133 TalonEncoderTicks/second
-        setSmartMotionMaxAccel(292.97, 0) // RPM per sec
-        setSmartMotionAllowedClosedLoopError(15.0, 0)
-        setSmartMotionMaxVelocity(585.943, 0) // RPM
-
-        p = 0.5
-        i = 0.0
-        d = 0.0
-        ff = 0.0
-
-//        setFeedbackDevice(CANSparkMax(Constants.Lift.ID_SPARKMAX_RETRACT, CANSparkMaxLowLevel.MotorType.kBrushless).getEncoder())
+    private val sparkMaxRetract = FCANSparkMax(
+        MotorID(
+            Constants.Lift.ID_SPARKMAX_RETRACT,
+            "sparkMaxRetract", MotorModel.CANSparkMax
+        ),
+        CANSparkMaxLowLevel.MotorType.kBrushless
+    ).apply {
+        control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15))
     }
 
     val extendMotionCharacteristics: MotionCharacteristics
@@ -58,10 +51,6 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
 
     fun extendStop() {
         talonSRXExtend.stopMotor()
-    }
-
-    fun setRetractPID(target: Double, control_type: ControlType = ControlType.kVelocity) {
-        retractPID.setReference(target, control_type)
     }
 
     fun locationCalculator(reading1: Double, reading2: Double, m_6672: Int, m_1: Int, m_2: Int, m_bar: Int, delta_sensor: Double): Double {

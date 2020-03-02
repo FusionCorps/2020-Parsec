@@ -42,7 +42,4 @@ object Spinner : SubsystemBase() {
     fun set_spinner(control_mode: TalonFXControlMode, value: Double) {
         spinnerTalon.set(control_mode, value)
     }
-
 }
-
-

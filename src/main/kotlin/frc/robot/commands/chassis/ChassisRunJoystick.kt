@@ -13,7 +13,9 @@ class ChassisRunJoystick : CommandBase() {
     }
 
     override fun execute() {
-        Chassis.joystickDrive(-rateLimiter.calculate(Controls.controller.getRawAxis(4)),
-                rateLimiter.calculate(Controls.controller.getRawAxis(1)))
+        Chassis.joystickDrive(
+            -rateLimiter.calculate(Controls.controller.getRawAxis(4)),
+            rateLimiter.calculate(Controls.controller.getRawAxis(1))
+        )
     }
 }

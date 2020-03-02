@@ -19,9 +19,13 @@ class IntakeRunJoystick : CommandBase() {
     override fun execute() {
         Intake.control(
             DutyCycleConfig(
-                slewRateLimiter.calculate((Controls.controller.getTriggerAxis(GenericHID.Hand.kLeft) -
-                        Controls.controller.getTriggerAxis(GenericHID.Hand.kRight)) *
-                    Constants.Intake.TARGET_PERCENT)
+                slewRateLimiter.calculate(
+                    (
+                        Controls.controller.getTriggerAxis(GenericHID.Hand.kLeft) -
+                            Controls.controller.getTriggerAxis(GenericHID.Hand.kRight)
+                        ) *
+                        Constants.Intake.TARGET_PERCENT
+                )
             )
         )
     }
