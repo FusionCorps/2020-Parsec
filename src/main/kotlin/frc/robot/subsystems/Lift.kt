@@ -45,10 +45,19 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         talonSRXExtend.control(*config)
     }
 
+    val extendVelocity: Double
+        get() {
+            return talonSRXExtend.selectedSensorVelocity.toDouble()
+        }
+
     val retractVelocity: Double
         get() {
             return sparkMaxRetract.get()
         }
+
+    fun retractControl(vararg config: MotionConfig) {
+        sparkMaxRetract.control(*config)
+    }
 
     fun setExtend(control_mode: TalonSRXControlMode = TalonSRXControlMode.Velocity, value: Double) {
         talonSRXExtend.set(control_mode, value)

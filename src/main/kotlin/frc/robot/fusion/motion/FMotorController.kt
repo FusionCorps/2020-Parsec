@@ -205,6 +205,8 @@ class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor {
 
     override fun initSendable(builder: SendableBuilder?) {
         super<FCTREMotor>.initSendable(builder)
+
+        builder!!.addDoubleProperty("SensorVelocity", { this.selectedSensorVelocity.toDouble() }, { })
     }
 
     init {

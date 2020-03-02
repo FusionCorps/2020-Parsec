@@ -33,7 +33,10 @@ object Chassis : SubsystemBase() {
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
 
-    var motionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
+    var generalMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
+
+    var leftMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
+    var rightMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
 
     init {
         defaultCommand = ChassisRunJoystick()
@@ -46,9 +49,11 @@ object Chassis : SubsystemBase() {
 
     fun joystickDrive(x: Double, z: Double) {
         drive.curvatureDrive(
-            x * motionCharacteristics.dutyCycleConfig!!.dutyCycle,
-            z * motionCharacteristics.dutyCycleConfig!!.dutyCycle, true
+            x * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle,
+            z * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle, true
         )
+        leftMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontLeft.get()
+        rightMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontRight.get()
     }
 
     fun tankDrive(left: Double, right: Double) {

@@ -38,6 +38,12 @@ class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : Command
 
         return currentPosition > (mTargetIndexerPosition - errorThreshold)
     }
+
+    override fun end(interrupted: Boolean) {
+        if (interrupted) {
+            Indexer.control(ControlMode.Disabled)
+        }
+    }
 }
 
 enum class IndexerMovementDirection {

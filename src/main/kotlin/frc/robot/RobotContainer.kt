@@ -9,11 +9,13 @@ package frc.robot
 
 import edu.wpi.cscore.UsbCamera
 import edu.wpi.first.cameraserver.CameraServer
+import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
+import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerDump
@@ -21,6 +23,7 @@ import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
+import frc.robot.subsystems.Cameras
 import frc.robot.subsystems.Chassis
 import frc.robot.subsystems.Hopper
 import frc.robot.subsystems.Indexer
@@ -43,11 +46,10 @@ class RobotContainer {
     private val mShooter = Shooter
     private val mLift = Lift
 
+    private lateinit var mCameras: Cameras
+
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
     val mChassisJoystickDrive = ChassisRunJoystick()
-
-    val intakeCamera: UsbCamera = UsbCamera("intakeCamera", 0)
-    val rearCamera: UsbCamera = UsbCamera("rearCamera", 1)
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -58,11 +60,8 @@ class RobotContainer {
         mAutoCommandChooser.setDefaultOption("Default Auto", mChassisJoystickDrive)
         SmartDashboard.putData("Auto mode", mAutoCommandChooser)
 
-        // TODO: This is a stopgap measure until proper configuration can be set up
-        CameraServer.getInstance().run {
-            addCamera(intakeCamera)
-            addCamera(rearCamera)
-            addAxisCamera("http://limelight.local:5800")
+        if (RobotBase.isReal()) {
+            mCameras = Cameras
         }
     }
 
@@ -84,6 +83,8 @@ class RobotContainer {
             .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whileHeld(LiftRetract())
+        JoystickButton(Controls.controller, XboxController.Button.kB.value)
+            .whenPressed(CamerasSwitch())
     }
 
     fun getAutonomousCommand(): Command {
