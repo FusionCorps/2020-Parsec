@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
+import com.revrobotics.CANSparkMax
+import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 
@@ -23,11 +25,61 @@ interface FMotorController<T> {
     fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig)
 }
 
-interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
-    override val motorID: MotorID
-    override var motionCharacteristics: MotionCharacteristics
+interface REVMotor : Sendable, FMotorController<CANSparkMax> {
+    override fun control(motionCharacteristics: MotionCharacteristics, motor: CANSparkMax, vararg config: MotionConfig) {
+        motionCharacteristics.update(*config)
 
-    override fun control(vararg config: MotionConfig)
+        when (motionCharacteristics.controlMode) {
+            ControlMode.Disabled -> motor.stopMotor()
+            ControlMode.Position, ControlMode.Velocity -> {
+                motionCharacteristics.fpidConfig?.let {
+                    motor.pidController.run {
+                        ff = it.f
+                        p = it.p
+                        i = it.i
+                        d = it.d
+
+                        if (motionCharacteristics.controlMode == ControlMode.Position) {
+                            setReference(motionCharacteristics.positionConfig!!.targetPosition.toDouble(), ControlType.kPosition)
+                        } else {
+                            setReference(motionCharacteristics.velocityConfig!!.velocity.toDouble(), ControlType.kVelocity)
+                        }
+                    }
+                } ?: throw IllegalStateException("Tried to configure Position with null configuration!")
+            }
+            ControlMode.AssistedMotion -> {
+                motionCharacteristics.assistedMotionConfig?.let {
+                    motor.pidController.run {
+                        setSmartMotionMaxAccel(motionCharacteristics.assistedMotionConfig!!.acceleration.toDouble(), 0)
+                    }
+                } ?: throw IllegalStateException("Tried to configure AssistedMotion with null assistedMotionConfig!")
+                motionCharacteristics.velocityConfig?.let {
+                    motor.pidController.run {
+                        setSmartMotionMaxVelocity(motionCharacteristics.velocityConfig!!.velocity.toDouble(), 0)
+                    }
+                } ?: throw IllegalStateException("Tried to configure AssistedMotion with null velocityConfig!")
+            }
+            ControlMode.DutyCycle -> {
+                motionCharacteristics.dutyCycleConfig?.let {
+                    motor.set(motionCharacteristics.dutyCycleConfig!!.dutyCycle)
+                }
+            }
+            ControlMode.Follower -> {
+                motionCharacteristics.followerConfig?.let {
+                    if (motionCharacteristics.followerConfig!!.ctreMaster != null && motionCharacteristics.followerConfig!!.revMaster != null) {
+                        throw IllegalArgumentException("Tried to use FollowerConfig with both CTRE and Rev configuration!")
+                    } else if (motionCharacteristics.followerConfig!!.ctreMaster != null) {
+                        motor.follow(CANSparkMax.ExternalFollower.kFollowerPhoenix, motionCharacteristics.followerConfig!!.ctreMaster!!.deviceID)
+                    } else {
+                        motor.follow(motionCharacteristics.followerConfig!!.revMaster!!)
+                    }
+                }
+            }
+        }
+    }
+}
+
+interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
     override fun control(motionCharacteristics: MotionCharacteristics, motor: BaseMotorController, vararg config: MotionConfig) {
         motionCharacteristics.update(*config)
 
@@ -48,14 +100,14 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
                 if (motionCharacteristics.controlMode == ControlMode.Position) {
                     motor.set(CTREControlMode.Position, motionCharacteristics.positionConfig!!.targetPosition.toDouble())
                 } else {
-                    motor.set(CTREControlMode.Velocity, motionCharacteristics.assistedMotionConfig!!.velocity.toDouble())
+                    motor.set(CTREControlMode.Velocity, motionCharacteristics.velocityConfig!!.velocity.toDouble())
                 }
             }
             ControlMode.AssistedMotion -> {
                 motionCharacteristics.assistedMotionConfig?.let {
                     motor.run {
                         configMotionAcceleration(it.acceleration)
-                        configMotionCruiseVelocity(it.velocity)
+                        configMotionCruiseVelocity(motionCharacteristics.velocityConfig?.velocity ?: throw IllegalStateException("Tried to configure AssistedMotion with null Velocity configuration!"))
                         configMotionSCurveStrength(it.curveStrength)
                     }
                 } ?: throw IllegalStateException("Tried to configure AssistedMotion with null configuration!")
@@ -66,7 +118,7 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
             ControlMode.Follower -> {
                 motionCharacteristics.followerConfig?.let {
                     motor.follow(it.ctreMaster ?: throw IllegalStateException("Tried to configure Follower with null configuration!"))
-                } ?: throw IllegalStateException()
+                } ?: throw IllegalStateException("Tried to configure Follower with null configuration!")
             }
         }
     }
@@ -98,8 +150,8 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
 
         builder.addDoubleProperty(
             "Velocity",
-            { motionCharacteristics.assistedMotionConfig?.velocity?.toDouble() ?: 0.0 },
-            { x: Double -> motionCharacteristics.assistedMotionConfig?.velocity = x.toInt() }
+            { motionCharacteristics.velocityConfig?.velocity?.toDouble() ?: 0.0 },
+            { x: Double -> motionCharacteristics.velocityConfig?.velocity = x.toInt() }
         )
         builder.addDoubleProperty(
             "Position",
@@ -125,7 +177,7 @@ data class MotorID(val id: Int, val name: String, val model: MotorModel) {
 
     init {
         if (motorIDs[id] != null) {
-            throw IllegalArgumentException()
+            throw IllegalArgumentException("A MotorController with that ID exists already!")
         }
         motorIDs[id] = this
     }

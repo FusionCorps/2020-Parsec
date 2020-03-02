@@ -64,7 +64,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         retractPID.setReference(target, control_type)
     }
 
-    fun location_calculator(reading1: Double, reading2: Double, m_6672: Int, m_1: Int, m_2: Int, m_bar: Int, delta_sensor: Double): Double {
+    fun locationCalculator(reading1: Double, reading2: Double, m_6672: Int, m_1: Int, m_2: Int, m_bar: Int, delta_sensor: Double): Double {
         val alpha = atan(0.66 / 1.41)
         val theta = atan((reading1 - reading2) / delta_sensor)
 

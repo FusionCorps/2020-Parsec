@@ -24,6 +24,6 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
     }
 
     override fun isFinished(): Boolean {
-        return Shooter.velocity >= Shooter.motionCharacteristics.assistedMotionConfig!!.velocity
+        return Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity
     }
 }

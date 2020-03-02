@@ -3,7 +3,7 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.InvertType
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.hopper.HopperStop
+import frc.robot.commands.hopper.HopperManage
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FVictorSPX
@@ -25,7 +25,7 @@ object Hopper : SubsystemBase() {
         }
 
     init {
-        defaultCommand = HopperStop()
+        defaultCommand = HopperManage()
     }
 
     fun control(vararg config: MotionConfig) {

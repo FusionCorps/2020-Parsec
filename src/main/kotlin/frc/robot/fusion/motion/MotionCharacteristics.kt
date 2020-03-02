@@ -1,6 +1,7 @@
 package frc.robot.fusion.motion
 
 import com.ctre.phoenix.motorcontrol.IMotorController
+import com.revrobotics.CANSparkMax
 
 interface MotionConfig
 
@@ -9,10 +10,11 @@ data class MotionCharacteristics(
     var fpidConfig: FPIDConfig? = null,
     var dutyCycleConfig: DutyCycleConfig? = null,
     var positionConfig: PositionConfig? = null,
+    var velocityConfig: VelocityConfig? = null,
     var assistedMotionConfig: AssistedMotionConfig? = null,
     var followerConfig: FollowerConfig? = null
 ) {
-    fun update(vararg configuration: Any) {
+    fun update(vararg configuration: MotionConfig) {
         configuration.forEach {
             when (it) {
                 is ControlMode -> controlMode = it
@@ -28,6 +30,7 @@ data class MotionCharacteristics(
                     it.targetPosition,
                     it.sensorPosition ?: positionConfig?.sensorPosition
                 )
+                is VelocityConfig -> velocityConfig = it
                 is AssistedMotionConfig -> assistedMotionConfig = it
                 is FollowerConfig -> followerConfig = it
                 else -> throw IllegalArgumentException()
@@ -58,6 +61,7 @@ data class FPIDConfig(
 ) : MotionConfig
 // Add ClosedloopConfig for position or velocity targets?
 data class DutyCycleConfig(var dutyCycle: Double) : MotionConfig
+data class VelocityConfig(var velocity: Int) : MotionConfig
 data class PositionConfig(var targetPosition: Int, var sensorPosition: Int? = null) : MotionConfig
-data class AssistedMotionConfig(var velocity: Int, var acceleration: Int, var curveStrength: Int = 0) : MotionConfig
-data class FollowerConfig(val ctreMaster: IMotorController? = null, val revMaster: Any? = null) : MotionConfig
+data class AssistedMotionConfig(var acceleration: Int, var curveStrength: Int = 0) : MotionConfig
+data class FollowerConfig(val ctreMaster: IMotorController? = null, val revMaster: CANSparkMax? = null) : MotionConfig

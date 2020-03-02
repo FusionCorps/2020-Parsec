@@ -7,7 +7,6 @@
 
 package frc.robot
 
-import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
