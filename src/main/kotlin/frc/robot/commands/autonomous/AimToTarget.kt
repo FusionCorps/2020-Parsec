@@ -3,6 +3,7 @@ package frc.robot.commands.autonomous
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 class AimToTarget(chassis: Chassis) : CommandBase() {
@@ -11,41 +12,40 @@ class AimToTarget(chassis: Chassis) : CommandBase() {
     private val acceptableError = 0.01
 
     private val kAim = -0.1
-    private val kDistance = -0.1
+
     private val minDistance = 0.05
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
     private var tx: Double = 0.0
-    private var tz: Double = 0.0
+
+    private var dReq: Double = 0.0
+
+    private val chassisWidth = 1.0 // meters
+
+    private val wheelDiameter = 0.1 // meters
 
     init {
         addRequirements(mChassis)
     }
 
-    override fun execute() {
+    override fun initialize() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
-        tz = limelightTable.getEntry("tz").getDouble(0.0)
-
-        var steeringAdjust = 0.0
-        val headingError = -tx
-        val distanceError = -tz
-
-        if (tx > 1.0) {
-            steeringAdjust = kAim * headingError - minDistance
-        } else if (tx < 1.0) {
-            steeringAdjust = kAim * headingError + minDistance
-        }
-
-        val distanceAdjust = kDistance * distanceError
-
-        val left = steeringAdjust + distanceAdjust
-        val right = -steeringAdjust + distanceAdjust
-
-        mChassis.tankDrive(left, right)
+        if (tx > 0.0) {mChassis.tankDrive(0.5, -0.5)}
+        else {mChassis.tankDrive(-0.5, 0.5)}
     }
 
+    override fun execute() {
+        tx = limelightTable.getEntry("tx").getDouble(0.0)
+    }
     override fun isFinished(): Boolean {
-        return tx.absoluteValue < acceptableError && tz.absoluteValue < acceptableError
+        if (abs(tx) < acceptableError) {
+            return true
+        }
+        return false
+    }
+
+    override fun end(interrupted: Boolean) {
+        mChassis.tankDrive(0.0 ,0.0)
     }
 }
