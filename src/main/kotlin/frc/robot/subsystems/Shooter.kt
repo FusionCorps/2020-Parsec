@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.ControlMode
@@ -14,6 +15,7 @@ import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
+import frc.robot.fusion.motion.VelocityConfig
 
 object Shooter : SubsystemBase() {
     private val talonFXTop = FTalonFX(MotorID(Constants.Shooter.ID_TALONFX_TOP, "ShooterTalonT", MotorModel.TalonFX)).apply {
@@ -26,7 +28,7 @@ object Shooter : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        control(FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD))
+        control(FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD), VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt()))
 
         selectedSensorPosition = 0
     }
@@ -56,5 +58,8 @@ object Shooter : SubsystemBase() {
     init {
         Shuffleboard.getTab("Shooter").add(talonFXTop)
         Shuffleboard.getTab("Shooter").add(this)
+        Shuffleboard.getTab("Shooter").add("SensorVelocity",
+                { builder: SendableBuilder -> builder.addDoubleProperty("Velocity", { this.velocity.toDouble() }, {  }) }
+        )
     }
 }

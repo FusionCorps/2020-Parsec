@@ -16,6 +16,7 @@ import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
+import frc.robot.fusion.motion.VelocityConfig
 import mu.KotlinLogging
 
 object Indexer : SubsystemBase() {
@@ -34,10 +35,9 @@ object Indexer : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        control(AssistedMotionConfig(Constants.Indexer.VELOCITY_INITIAL, Constants.Indexer.ACCELERATION_INITIAL), FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL))
+        control(AssistedMotionConfig(Constants.Indexer.ACCELERATION_INITIAL), FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL), VelocityConfig(Constants.Indexer.VELOCITY_INITIAL))
 
-        configAllowableClosedloopError(0, 15) // Tolerance to stop oscillations
-
+        configAllowableClosedloopError(0, 15) // Tolerance to stop oscillation
         selectedSensorPosition = 0
     }
 
