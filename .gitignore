@@ -29,3 +29,8 @@ bin/
 .idea/
 justfile
 imgui.ini
+
+.wpilib/
+.settings/
+.classpath
+.project
