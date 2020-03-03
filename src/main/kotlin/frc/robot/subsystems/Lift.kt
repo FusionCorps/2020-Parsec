@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.AssistedMotionConfig
+import frc.robot.fusion.motion.ControlMode
+import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FCANSparkMax
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonSRX
@@ -21,7 +23,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
     private val talonSRXExtend = FTalonSRX(MotorID(Constants.Lift.ID_TALONSRX_EXTEND, "talonSRXExtend", MotorModel.TalonSRX)).apply { // Higher speed motor
         setInverted(InvertType.InvertMotorOutput)
 
-        control(FPIDConfig(), AssistedMotionConfig(20000, 1000))
+        control(ControlMode.Disabled, FPIDConfig(), DutyCycleConfig(0.7))
 
         selectedSensorPosition = 0
     }
@@ -33,11 +35,13 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         ),
         CANSparkMaxLowLevel.MotorType.kBrushless
     ).apply {
-        control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15))
+        control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15), DutyCycleConfig(0.7))
+        inverted = true
     }
 
     init {
         Shuffleboard.getTab("Lift").add(talonSRXExtend)
+        Shuffleboard.getTab("Lift").add(this)
         Shuffleboard.getTab("Lift").add(sparkMaxRetract)
     }
 

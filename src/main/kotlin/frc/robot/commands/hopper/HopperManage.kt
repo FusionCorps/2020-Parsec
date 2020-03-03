@@ -6,12 +6,8 @@ import frc.robot.subsystems.Hopper
 import frc.robot.subsystems.Indexer
 
 class HopperManage : SequentialCommandGroup() {
-    private val hopperIntake = HopperRunAt(value = 0.4).apply {
-        withTimeout(0.5)
-    }
-    private val hopperReverse = HopperRunAt(value = -0.4).apply {
-        withTimeout(0.25)
-    }
+    private val hopperIntake = HopperRunAt(value = 0.4).withTimeout(0.5)
+    private val hopperReverse = HopperRunAt(value = -0.4).withTimeout(0.25)
 
     private class HopperWait : CommandBase() {
         init {

@@ -43,11 +43,11 @@ object Constants {
     object Indexer {
         const val ID_TALONFX = 40
 
-        const val ID_FRONT_SENSOR_TX = 9
-        const val ID_FRONT_SENSOR_RX = 1
+        const val ID_FRONT_SENSOR_TX = 0
+        const val ID_FRONT_SENSOR_RX = 4
 
-        const val ID_TOP_SENSOR_TX = 7
-        const val ID_TOP_SENSOR_RX = 8
+        const val ID_TOP_SENSOR_TX = 2
+        const val ID_TOP_SENSOR_RX = 3
 
         const val SHIFT_TICKS = 50000.0
 

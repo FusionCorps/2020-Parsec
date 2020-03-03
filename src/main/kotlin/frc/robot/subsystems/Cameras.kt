@@ -1,35 +1,46 @@
 package frc.robot.subsystems
 
-import edu.wpi.cscore.AxisCamera
-import edu.wpi.cscore.UsbCamera
-import edu.wpi.cscore.VideoSource
 import edu.wpi.first.cameraserver.CameraServer
-import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
-enum class CameraOptions constructor(val cameraName: String, val camera: VideoSource) {
-    Intake("intakeCamera", UsbCamera(Intake.cameraName, 0)),
-    Rear("rearCamera", UsbCamera(Rear.cameraName, 0)),
-    Limelight("limelight", AxisCamera(Limelight.cameraName, "http://limelight.local:5800"))
-}
-
 object Cameras : SubsystemBase() {
-    private val switchedCamera = CameraServer.getInstance().addSwitchedCamera(CameraOptions.Limelight.cameraName)
-    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
+//    private val intakeCamera = CameraServer.getInstance().startAutomaticCapture(UsbCamera("intakeCamera", 0)).apply {
+//        setResolution(320, 240)
+//        setFPS(30)
+//    }
+//    private val sink1 = CameraServer.getInstance().getVideo(intakeCamera)
+//    private val rearCamera = CameraServer.getInstance().startAutomaticCapture(UsbCamera("rearCamera", 1)).apply {
+//        setResolution(320, 240)
+//        setFPS(30)
+//    }
+//    private val sink2 = CameraServer.getInstance().getVideo(rearCamera)
+//
+//    private val outputStream = CameraServer.getInstance().putVideo("Switcher", 320, 240)
 
-    var source: CameraOptions = CameraOptions.Intake
-        set(value) {
-            switchedCamera.source = value.camera
-            field = value
-        }
-        get() {
-            return CameraOptions.valueOf(switchedCamera.source.name)
-        }
+//    private val switchedCamera = CameraServer.getInstance().addSwitchedCamera(CameraOptions.Limelight.cameraName)
+//    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
-    fun targetPresent(camera: CameraOptions): Boolean {
-        when (camera) {
-            CameraOptions.Limelight -> if (limelightTable.getEntry("tv").getBoolean(false)) { return true }
-        }
-        return false
+//    var source: CameraOptions = CameraOptions.Intake
+//        set(value) {
+//            switchedCamera.source = value.camera
+//            field = value
+//        }
+//        get() {
+//            return CameraOptions.valueOf(switchedCamera.source.name)
+//        }
+//
+//    fun targetPresent(camera: CameraOptions): Boolean {
+//        when (camera) {
+//            CameraOptions.Limelight -> if (limelightTable.getEntry("tv").getBoolean(false)) { return true }
+//        }
+//        return false
+//    }
+//
+//    init {
+//        CameraServer.getInstance().startAutomaticCapture(switchedCamera)
+//    }
+
+    init {
+        CameraServer.getInstance().startAutomaticCapture()
     }
 }

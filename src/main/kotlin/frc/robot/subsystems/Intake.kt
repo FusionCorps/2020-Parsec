@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.intake.IntakeRunJoystick
+import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FVictorSPX
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
@@ -19,12 +20,15 @@ object Intake : SubsystemBase() {
         configFactoryDefault()
 
         setInverted(InvertType.InvertMotorOutput)
+
+        control(DutyCycleConfig(Constants.Intake.TARGET_PERCENT))
     }
 
     init {
         defaultCommand = IntakeRunJoystick()
 
         Shuffleboard.getTab("Intake").add(victorSPXIntake)
+        Shuffleboard.getTab("Intake").add(this)
     }
 
     val motionCharacteristics: MotionCharacteristics

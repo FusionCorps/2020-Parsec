@@ -45,6 +45,8 @@ object Chassis : SubsystemBase() {
         Shuffleboard.getTab("Chassis").add(talonFXFrontLeft)
         Shuffleboard.getTab("Chassis").add(talonFXBackRight)
         Shuffleboard.getTab("Chassis").add(talonFXBackLeft)
+
+        Shuffleboard.getTab("Chassis").add(this)
     }
 
     fun joystickDrive(x: Double, z: Double) {

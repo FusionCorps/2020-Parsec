@@ -55,5 +55,6 @@ object Shooter : SubsystemBase() {
 
     init {
         Shuffleboard.getTab("Shooter").add(talonFXTop)
+        Shuffleboard.getTab("Shooter").add(this)
     }
 }

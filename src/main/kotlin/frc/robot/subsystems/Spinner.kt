@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.spinner.SpinnerMasterCommand
+// import frc.robot.commands.spinner.SpinnerMasterCommand
 import mu.KotlinLogging
 
 object Spinner : SubsystemBase() {
@@ -36,7 +36,7 @@ object Spinner : SubsystemBase() {
     private val logger = KotlinLogging.logger("Spinner")
 
     init {
-        defaultCommand = SpinnerMasterCommand(this)
+//        defaultCommand = SpinnerMasterCommand(this)
     }
 
     fun set_spinner(control_mode: TalonFXControlMode, value: Double) {

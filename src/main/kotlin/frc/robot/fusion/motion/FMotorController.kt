@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax
 import com.revrobotics.ControlType
 import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry
 
 enum class MotorModel(val model: String) {
     TalonFX("Talon FX"),
@@ -17,14 +18,14 @@ enum class MotorModel(val model: String) {
     CANSparkMax("CAN Spark Max")
 }
 
-interface FMotorController<T> {
+interface FMotorController<T> : Sendable {
     val motorID: MotorID
     val motionCharacteristics: MotionCharacteristics
 
     fun control(vararg config: MotionConfig)
     fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig)
 
-    fun initSendable(builder: SendableBuilder?) {
+    override fun initSendable(builder: SendableBuilder?) {
         builder!!.setSmartDashboardType("RobotPreferences")
 
         builder.addDoubleProperty(
@@ -68,6 +69,14 @@ interface FMotorController<T> {
         builder.getEntry("Velocity").setPersistent()
         builder.getEntry("Acceleration").setPersistent()
         builder.getEntry("Position").setPersistent()
+
+        builder.addDoubleProperty(
+            "DutyCycle",
+            { motionCharacteristics.dutyCycleConfig?.dutyCycle ?: 0.0 },
+            { x: Double -> motionCharacteristics.dutyCycleConfig?.dutyCycle = x }
+        )
+
+        builder.getEntry("DutyCycle").setPersistent()
     }
 }
 
@@ -168,7 +177,7 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
                     }
                 } ?: throw IllegalStateException("Tried to configure AssistedMotion with null configuration!")
 
-                motor.set(CTREControlMode.MotionMagic, motionCharacteristics.positionConfig!!.targetPosition.toDouble())
+                motor.set(CTREControlMode.MotionMagic, motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: throw IllegalStateException("Tried to configure AssistedMotion with null Position configuration!"))
             }
             ControlMode.DutyCycle -> motionCharacteristics.dutyCycleConfig?.let { motor.set(CTREControlMode.PercentOutput, it.dutyCycle) } ?: throw IllegalStateException("Tried to configure DutyCycle with null configuration!")
             ControlMode.Follower -> {
@@ -213,7 +222,7 @@ class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor {
 
     init {
         configFactoryDefault()
-        name = id.name
+//        name = id.name
     }
 }
 
@@ -231,7 +240,7 @@ class FTalonSRX(id: MotorID) : WPI_TalonSRX(id.id), FCTREMotor {
 
     init {
         configFactoryDefault()
-        name = id.name
+//        name = id.name
     }
 }
 
@@ -249,7 +258,7 @@ class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor {
 
     init {
         configFactoryDefault()
-        name = id.name
+//        name = id.name
     }
 }
 
@@ -263,5 +272,6 @@ class FCANSparkMax(id: MotorID, type: MotorType) : CANSparkMax(id.id, type), REV
 
     init {
         restoreFactoryDefaults()
+        SendableRegistry.add(this, motorID.name)
     }
 }

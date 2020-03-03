@@ -62,7 +62,10 @@ object Indexer : SubsystemBase() {
         }
 
     private val topSensorRX = DigitalInput(Constants.Indexer.ID_TOP_SENSOR_RX)
-    private val topSensorTX = DigitalOutput(Constants.Indexer.ID_TOP_SENSOR_TX).apply { set(true) }
+    private val topSensorTX = DigitalOutput(Constants.Indexer.ID_TOP_SENSOR_TX)
+        .apply {
+            set(true)
+        }
 
     val isBallFront: Boolean
         get() {
@@ -78,6 +81,7 @@ object Indexer : SubsystemBase() {
         defaultCommand = IndexerManage()
 
         Shuffleboard.getTab("Indexer").add(talonFXBelt)
+        Shuffleboard.getTab("Indexer").add(this)
     }
 
     fun control(vararg config: MotionConfig) {

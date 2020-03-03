@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
-import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerDump
@@ -81,8 +80,8 @@ class RobotContainer {
             .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whileHeld(LiftRetract())
-        JoystickButton(Controls.controller, XboxController.Button.kB.value)
-            .whenPressed(CamerasSwitch())
+//        JoystickButton(Controls.controller, XboxController.Button.kB.value)
+//            .whenPressed(CamerasSwitch())
     }
 
     fun getAutonomousCommand(): Command {
