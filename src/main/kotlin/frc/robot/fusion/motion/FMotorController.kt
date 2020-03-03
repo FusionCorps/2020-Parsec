@@ -2,7 +2,6 @@ package frc.robot.fusion.motion
 
 import com.ctre.phoenix.motorcontrol.ControlMode as CTREControlMode
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController
-import com.ctre.phoenix.motorcontrol.can.BaseTalon
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX
@@ -219,12 +218,11 @@ class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor {
         super<FCTREMotor>.initSendable(builder)
 
         builder!!.addDoubleProperty("SensorVelocity", { this.selectedSensorVelocity.toDouble() }, { })
-        builder!!.addDoubleProperty("SensorVelocity", { this.selectedSensorPosition.toDouble() }, { })
+        builder.addDoubleProperty("SensorVelocity", { this.selectedSensorPosition.toDouble() }, { })
     }
 
     init {
         configFactoryDefault()
-//        name = id.name
     }
 }
 
@@ -242,7 +240,6 @@ class FTalonSRX(id: MotorID) : WPI_TalonSRX(id.id), FCTREMotor {
 
     init {
         configFactoryDefault()
-//        name = id.name
     }
 }
 
@@ -260,7 +257,6 @@ class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor {
 
     init {
         configFactoryDefault()
-//        name = id.name
     }
 }
 

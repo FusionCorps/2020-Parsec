@@ -58,8 +58,9 @@ object Shooter : SubsystemBase() {
     init {
         Shuffleboard.getTab("Shooter").add(talonFXTop)
         Shuffleboard.getTab("Shooter").add(this)
-        Shuffleboard.getTab("Shooter").add("SensorVelocity",
-                { builder: SendableBuilder -> builder.addDoubleProperty("Velocity", { this.velocity.toDouble() }, {  }) }
+        Shuffleboard.getTab("Shooter").add(
+            "SensorVelocity",
+            { builder: SendableBuilder -> builder.addDoubleProperty("Velocity", { this.velocity.toDouble() }, { }) }
         )
     }
 }
