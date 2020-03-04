@@ -16,6 +16,9 @@ import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
 import frc.robot.fusion.motion.VelocityConfig
+import kotlin.math.cos
+import kotlin.math.sqrt
+import kotlin.math.tan
 
 object Shooter : SubsystemBase() {
     private val talonFXTop = FTalonFX(MotorID(Constants.Shooter.ID_TALONFX_TOP, "ShooterTalonT", MotorModel.TalonFX)).apply {
@@ -53,6 +56,12 @@ object Shooter : SubsystemBase() {
 
     fun control(vararg config: MotionConfig) {
         talonFXTop.control(*config)
+    }
+
+    fun ang_velocity_calculator(distance: Double, height: Double, theta: Double, wheelRadius: Double): Double { // All units SI
+        val reqVelocity = sqrt(9.8/(2*(distance*tan(theta)-height)))*distance/cos(theta)
+        val angVelocity = reqVelocity*2/wheelRadius
+        return angVelocity
     }
 
     init {
