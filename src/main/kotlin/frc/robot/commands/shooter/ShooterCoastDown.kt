@@ -2,7 +2,6 @@ package frc.robot.commands.shooter
 
 import edu.wpi.first.wpilibj2.command.InstantCommand
 import frc.robot.fusion.motion.ControlMode
-import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Shooter
 
 class ShooterCoastDown : InstantCommand() {

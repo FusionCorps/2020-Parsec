@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.indexer.IndexerAutomate
 import frc.robot.fusion.motion.AssistedMotionConfig
+import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonFX
 import frc.robot.fusion.motion.MotionCharacteristics
@@ -37,7 +38,12 @@ object Indexer : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
-        control(AssistedMotionConfig(Constants.Indexer.ACCELERATION_INITIAL), FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL), VelocityConfig(Constants.Indexer.VELOCITY_INITIAL))
+        control(
+            AssistedMotionConfig(Constants.Indexer.ACCELERATION_INITIAL),
+            FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL),
+            VelocityConfig(Constants.Indexer.VELOCITY_INITIAL),
+            DutyCycleConfig(0.4)
+        )
 
         setNeutralMode(NeutralMode.Brake)
 

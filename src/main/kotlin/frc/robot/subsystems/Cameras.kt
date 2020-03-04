@@ -4,6 +4,8 @@ import edu.wpi.first.cameraserver.CameraServer
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 object Cameras : SubsystemBase() {
+    private val cameraOne = CameraServer.getInstance().startAutomaticCapture(0)
+    private val cameraTwo = CameraServer.getInstance().startAutomaticCapture(1)
 //    private val intakeCamera = CameraServer.getInstance().startAutomaticCapture(UsbCamera("intakeCamera", 0)).apply {
 //        setResolution(320, 240)
 //        setFPS(30)
@@ -40,7 +42,7 @@ object Cameras : SubsystemBase() {
 //        CameraServer.getInstance().startAutomaticCapture(switchedCamera)
 //    }
 
-    init {
-        CameraServer.getInstance().startAutomaticCapture()
-    }
+//    init {
+//        CameraServer.getInstance().startAutomaticCapture()
+//    }
 }

@@ -27,6 +27,18 @@ object Constants {
         const val ID_TALONFX_B_L = 13
         const val ID_TALONFX_F_R = 10
         const val ID_TALONFX_B_R = 12
+
+        const val VOLTS = 10.0
+        const val VOLT_SEC_PER_METER = 10.0
+        const val VOLT_SEC_SQUARED_PER_METER = 10.0
+
+        const val DRIVE_KINEMATICS = 10
+
+        const val MAX_SPEED_METERS_PER_SEC = 10
+        const val MAX_ACCEL_METERS_PER_SEC_SQUARED = 10
+
+        const val RAMSETE_B = 10
+        const val RAMSETE_ZETA = 10
     }
 
     object Lift {

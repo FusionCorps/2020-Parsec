@@ -1,9 +1,7 @@
 package frc.robot.commands.indexer
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants
 import frc.robot.fusion.motion.ControlMode
-import frc.robot.fusion.motion.PositionConfig
 import frc.robot.subsystems.Indexer
 
 class IndexerAutomate : CommandBase() {
@@ -16,6 +14,10 @@ class IndexerAutomate : CommandBase() {
     override fun execute() {
         if (Indexer.isBallTop) {
             Indexer.control(ControlMode.Disabled)
+        } else if (Indexer.motionCharacteristics.controlMode == ControlMode.DutyCycle) {
+            if (!Indexer.isBallFront) {
+                Indexer.control(ControlMode.Disabled)
+            }
         } else if (Indexer.isBallFront) {
 //            Indexer.beltPosition = 0
 //

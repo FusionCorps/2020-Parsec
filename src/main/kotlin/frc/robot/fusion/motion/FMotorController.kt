@@ -79,7 +79,14 @@ interface FMotorController<T> : Sendable {
         builder.getEntry("DutyCycle").setPersistent()
 
         // Executes the necessary configuration methods to implement the motionCharacteristics
-        builder.addBooleanProperty("Update", { false }, { control(motionCharacteristics.controlMode) })
+        builder.addBooleanProperty(
+            "Update", { false },
+            {
+                control(ControlMode.Disabled)
+                control(motionCharacteristics.controlMode)
+            }
+        )
+//        builder.addBooleanProperty("Disabled", { motionCharacteristics.controlMode == ControlMode.Disabled }, { x: Boolean -> if (x) control(ControlMode.Disabled) })
     }
 }
 

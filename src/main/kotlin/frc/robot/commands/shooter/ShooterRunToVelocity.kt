@@ -1,11 +1,8 @@
 package frc.robot.commands.shooter
 
-import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants
-import frc.robot.fusion.motion.AssistedMotionConfig
 import frc.robot.fusion.motion.ControlMode
-import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.VelocityConfig
 import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Shooter
@@ -24,7 +21,7 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 
         Shooter.control(
             ControlMode.Velocity,
-                VelocityConfig(mVelocity.toInt())
+            VelocityConfig(mVelocity.toInt())
 //            AssistedMotionConfig(
 //                mVelocity.toInt()
 //                Shooter.motionCharacteristics.assistedMotionConfig?.acceleration ?: Constants.Shooter.TARGET_ACCELERATION.toInt()
