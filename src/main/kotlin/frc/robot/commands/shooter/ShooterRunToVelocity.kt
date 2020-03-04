@@ -12,15 +12,15 @@ import frc.robot.subsystems.Shooter
 
 class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY) : CommandBase() {
     val mVelocity = velocity
-    val timer = Timer()
+//    val timer = Timer()
 
     init {
         addRequirements(Shooter, Indexer)
     }
 
     override fun initialize() {
-        timer.reset()
-        timer.start()
+//        timer.reset()
+//        timer.start()
 
         Shooter.control(
             ControlMode.Velocity,
@@ -33,15 +33,15 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
     }
 
     override fun execute() {
-        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity || timer.hasPeriodPassed(1.0)) {
-            timer.stop()
+        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity) {
+//            timer.stop()
             Indexer.control(ControlMode.DutyCycle)
         }
     }
 
-    override fun isFinished(): Boolean {
-        return Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity
-    }
+//    override fun isFinished(): Boolean {
+//        return Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity
+//    }
 
     override fun end(interrupted: Boolean) {
         Indexer.control(ControlMode.Disabled)

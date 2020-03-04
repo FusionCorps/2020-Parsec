@@ -17,11 +17,16 @@ class IndexerAutomate : CommandBase() {
         if (Indexer.isBallTop) {
             Indexer.control(ControlMode.Disabled)
         } else if (Indexer.isBallFront) {
-            Indexer.beltPosition = 0
-
-            mTargetIndexerPosition = Indexer.beltPosition + Constants.Indexer.SHIFT_TICKS
-
-            Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
+//            Indexer.beltPosition = 0
+//
+//            mTargetIndexerPosition = Indexer.beltPosition + Constants.Indexer.SHIFT_TICKS
+//
+//            Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
+            Indexer.control(ControlMode.DutyCycle)
         }
+    }
+
+    override fun end(interrupted: Boolean) {
+        Indexer.control(ControlMode.Disabled)
     }
 }

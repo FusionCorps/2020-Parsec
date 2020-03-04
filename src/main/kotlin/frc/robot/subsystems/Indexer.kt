@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DigitalOutput
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.commands.indexer.IndexerAutomate
 import frc.robot.fusion.motion.AssistedMotionConfig
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonFX
@@ -84,7 +85,7 @@ object Indexer : SubsystemBase() {
 
     // Instantiation
     init {
-//        defaultCommand = IndexerAutomate()
+        defaultCommand = IndexerAutomate()
 
         Shuffleboard.getTab("Indexer").add(talonFXBelt)
         Shuffleboard.getTab("Indexer").add(this)
