@@ -7,6 +7,7 @@
 
 package frc.robot
 
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
@@ -31,6 +32,9 @@ class Robot : TimedRobot() {
         mRobotContainer = RobotContainer()
         // Automatically grab auto command to ensure m_autonomousCommand is defined before teleopInit is run
         mAutonomousCommand = mRobotContainer.getAutonomousCommand()
+
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1)
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1)
     }
 
     /**
