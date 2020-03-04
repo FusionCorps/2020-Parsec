@@ -5,14 +5,16 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Indexer
 
-class IndexerManual : CommandBase() {
+class IndexerRunAtDutyCycle(dutyCycleConfig: DutyCycleConfig = DutyCycleConfig(0.4)) : CommandBase() {
+    val mDutyCycleConfig = dutyCycleConfig
+
     init {
         addRequirements(Indexer)
     }
 
     override fun initialize() {
         if (!Indexer.isBallTop) {
-            Indexer.control(ControlMode.DutyCycle, DutyCycleConfig(0.4))
+            Indexer.control(ControlMode.DutyCycle, mDutyCycleConfig)
         } else {
             end(true)
         }

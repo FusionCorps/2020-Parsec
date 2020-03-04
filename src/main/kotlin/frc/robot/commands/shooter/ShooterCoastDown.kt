@@ -11,6 +11,7 @@ class ShooterCoastDown : InstantCommand() {
     }
 
     override fun initialize() {
-        Shooter.control(ControlMode.DutyCycle, DutyCycleConfig(0.0))
+//        Shooter.control(ControlMode.DutyCycle, DutyCycleConfig(0.0))
+        Shooter.control(ControlMode.Disabled)
     }
 }

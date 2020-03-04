@@ -6,6 +6,7 @@ import frc.robot.Constants
 import frc.robot.fusion.motion.AssistedMotionConfig
 import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
+import frc.robot.fusion.motion.VelocityConfig
 import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Shooter
 
@@ -23,17 +24,18 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 
         Shooter.control(
             ControlMode.Velocity,
-            AssistedMotionConfig(
-                mVelocity.toInt(),
-                Shooter.motionCharacteristics.assistedMotionConfig?.acceleration ?: Constants.Shooter.TARGET_ACCELERATION.toInt()
-            )
+                VelocityConfig(mVelocity.toInt())
+//            AssistedMotionConfig(
+//                mVelocity.toInt()
+//                Shooter.motionCharacteristics.assistedMotionConfig?.acceleration ?: Constants.Shooter.TARGET_ACCELERATION.toInt()
+//            )
         )
     }
 
     override fun execute() {
-        if (timer.hasPeriodPassed(1.0)) {
-            Indexer.control(ControlMode.DutyCycle, DutyCycleConfig(0.4))
+        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity || timer.hasPeriodPassed(1.0)) {
             timer.stop()
+            Indexer.control(ControlMode.DutyCycle)
         }
     }
 

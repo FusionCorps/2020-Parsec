@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.commands.hopper.HopperRunAt
-import frc.robot.commands.indexer.IndexerManual
+import frc.robot.commands.indexer.IndexerRunAtDutyCycle
 import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
@@ -77,7 +77,7 @@ class RobotContainer {
 //        JoystickButton(Controls.controller, XboxController.Button.kA.value)
 //            .whenPressed(IndexerDump())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
-            .whileHeld(IndexerManual())
+            .whileHeld(IndexerRunAtDutyCycle())
 //        JoystickButton(Controls.controller, XboxController.Button.kA.value)
 //            .whileHeld(IndexerVelocity(DutyCycleConfig(0.4)))
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)

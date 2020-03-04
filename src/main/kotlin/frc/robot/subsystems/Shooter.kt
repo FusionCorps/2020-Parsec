@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
+import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -31,6 +32,8 @@ object Shooter : SubsystemBase() {
 
         selectProfileSlot(0, 0)
 
+        setNeutralMode(NeutralMode.Coast)
+
         control(FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD), VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt()))
 
         selectedSensorPosition = 0
@@ -48,7 +51,6 @@ object Shooter : SubsystemBase() {
         get() {
             return talonFXTop.motionCharacteristics
         }
-
     val velocity: Int
         get() {
             return talonFXTop.getSelectedSensorVelocity(0)
@@ -58,10 +60,10 @@ object Shooter : SubsystemBase() {
         talonFXTop.control(*config)
     }
 
-    fun ang_velocity_calculator(distance: Double, height: Double, theta: Double, wheelRadius: Double): Double { // All units SI
+    fun angularVelocity(distance: Double, height: Double, theta: Double, wheelRadius: Double): Double { // All units SI
         val reqVelocity = sqrt(9.8 / (2 * (distance * tan(theta) - height))) * distance / cos(theta)
-        val angVelocity = reqVelocity * 2 / wheelRadius
-        return angVelocity
+        val angularVelocity = reqVelocity * 2 / wheelRadius
+        return angularVelocity
     }
 
     init {
