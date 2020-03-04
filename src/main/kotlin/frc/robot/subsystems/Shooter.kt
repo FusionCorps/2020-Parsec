@@ -59,8 +59,8 @@ object Shooter : SubsystemBase() {
     }
 
     fun ang_velocity_calculator(distance: Double, height: Double, theta: Double, wheelRadius: Double): Double { // All units SI
-        val reqVelocity = sqrt(9.8/(2*(distance*tan(theta)-height)))*distance/cos(theta)
-        val angVelocity = reqVelocity*2/wheelRadius
+        val reqVelocity = sqrt(9.8 / (2 * (distance * tan(theta) - height))) * distance / cos(theta)
+        val angVelocity = reqVelocity * 2 / wheelRadius
         return angVelocity
     }
 

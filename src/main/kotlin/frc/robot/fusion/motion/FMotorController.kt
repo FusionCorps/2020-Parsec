@@ -77,6 +77,8 @@ interface FMotorController<T> : Sendable {
         )
 
         builder.getEntry("DutyCycle").setPersistent()
+
+        builder.addBooleanProperty("Update", { false }, { control(motionCharacteristics.controlMode) })
     }
 }
 
