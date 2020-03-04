@@ -1,14 +1,14 @@
 package frc.robot.subsystems
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice
+import com.ctre.phoenix.motorcontrol.NeutralMode
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.DigitalOutput
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.commands.indexer.IndexerManage
 import frc.robot.fusion.motion.AssistedMotionConfig
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonFX
@@ -24,11 +24,12 @@ object Indexer : SubsystemBase() {
 
     // Motor controller
     private val talonFXBelt = FTalonFX(MotorID(Constants.Indexer.ID_TALONFX, "talonFXBelt", MotorModel.TalonFX)).apply {
-        subsystem = "Indexer"
-
-        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
+        configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20)
 
         setInverted(TalonFXInvertType.Clockwise)
+
+        setSensorPhase(false)
+        inverted = false
 
         setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10)
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
@@ -37,7 +38,9 @@ object Indexer : SubsystemBase() {
 
         control(AssistedMotionConfig(Constants.Indexer.ACCELERATION_INITIAL), FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL), VelocityConfig(Constants.Indexer.VELOCITY_INITIAL))
 
-        configAllowableClosedloopError(0, 15) // Tolerance to stop oscillation
+        setNeutralMode(NeutralMode.Brake)
+
+//        configAllowableClosedloopError(0, 15) // Tolerance to stop oscillation
         selectedSensorPosition = 0
     }
 
@@ -45,7 +48,10 @@ object Indexer : SubsystemBase() {
         get() {
             return talonFXBelt.motionCharacteristics
         }
-    val beltPosition: Int
+    var beltPosition: Int
+        set(value) {
+            talonFXBelt.setSelectedSensorPosition(value)
+        }
         get() {
             return talonFXBelt.selectedSensorPosition
         }
@@ -78,7 +84,7 @@ object Indexer : SubsystemBase() {
 
     // Instantiation
     init {
-        defaultCommand = IndexerManage()
+//        defaultCommand = IndexerAutomate()
 
         Shuffleboard.getTab("Indexer").add(talonFXBelt)
         Shuffleboard.getTab("Indexer").add(this)

@@ -35,7 +35,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         ),
         CANSparkMaxLowLevel.MotorType.kBrushless
     ).apply {
-        control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15), DutyCycleConfig(0.7))
+        control(AssistedMotionConfig(293), VelocityConfig(586), FPIDConfig(0.5, allowedError = 15), DutyCycleConfig(0.8))
         inverted = true
     }
 

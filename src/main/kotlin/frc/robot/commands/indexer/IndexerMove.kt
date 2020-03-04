@@ -30,7 +30,7 @@ class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : Command
                     )
                 )
 
-        Indexer.control(ControlMode.AssistedMotion, PositionConfig(mTargetIndexerPosition.toInt()))
+        Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
     }
 
     override fun isFinished(): Boolean {

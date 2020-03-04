@@ -15,7 +15,7 @@ class HopperManage : SequentialCommandGroup() {
         }
 
         override fun isFinished(): Boolean {
-            return Indexer.isBallFront
+            return Indexer.isBallFront && !Indexer.isBallTop
         }
     }
 
