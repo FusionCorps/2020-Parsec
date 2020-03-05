@@ -1,6 +1,7 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.SPI
@@ -20,6 +21,8 @@ import frc.robot.fusion.motion.FollowerConfig
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
+import kotlin.math.IEEErem
+import kotlin.math.PI
 
 object Chassis : SubsystemBase() {
     // Motor Controllers
@@ -48,15 +51,18 @@ object Chassis : SubsystemBase() {
 
     val leftPosition: Double
         get() {
-            return talonFXFrontLeft.selectedSensorPosition / 4096 * Constants.Chassis.WHEEL_RADIUS_METERS
+            return talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
         }
     val rightPosition: Double
         get() {
-            return talonFXFrontRight.selectedSensorPosition / 4096 * Constants.Chassis.WHEEL_RADIUS_METERS
+            return talonFXFrontRight.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
         }
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() {
-            return DifferentialDriveWheelSpeeds(talonFXFrontLeft.selectedSensorVelocity.toDouble(), talonFXFrontRight.selectedSensorVelocity.toDouble())
+            return DifferentialDriveWheelSpeeds(
+                    talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
+                    talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
+            )
         }
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
@@ -70,7 +76,25 @@ object Chassis : SubsystemBase() {
     var leftMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
     var rightMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
 
-    private val odometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(ahrs.angle))
+    val odometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(heading))
+
+    fun resetOdometry(pose: Pose2d) {
+        odometry.resetPosition(pose, Rotation2d.fromDegrees(heading))
+    }
+
+    val heading: Double
+        get() {
+            return ahrs.angle.IEEErem(360.0)
+        }
+
+    fun resetHeading() {
+        ahrs.reset()
+    }
+
+    val turnRate: Double
+        get() {
+            return ahrs.rate
+        }
 
     val pose: Pose2d
         get() {
@@ -86,6 +110,10 @@ object Chassis : SubsystemBase() {
         Shuffleboard.getTab("Chassis").add(talonFXBackLeft)
 
         Shuffleboard.getTab("Chassis").add(this)
+    }
+
+    override fun periodic() {
+        odometry.update(Rotation2d(heading), leftPosition, rightPosition)
     }
 
     fun joystickDrive(x: Double, z: Double) {

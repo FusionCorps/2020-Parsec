@@ -7,6 +7,8 @@
 
 package frc.robot
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -32,15 +34,18 @@ object Constants {
         const val VOLT_SEC_PER_METER = 10.0
         const val VOLT_SEC_SQUARED_PER_METER = 10.0
 
-        const val DRIVE_KINEMATICS = 10
+        private const val TRACK_WIDTH_METERS = 0.5842
+        const val WHEEL_RADIUS_METERS = 2.3622
 
-        const val MAX_SPEED_METERS_PER_SEC = 10
-        const val MAX_ACCEL_METERS_PER_SEC_SQUARED = 10
+        val DRIVE_KINEMATICS = DifferentialDriveKinematics(TRACK_WIDTH_METERS)
 
-        const val RAMSETE_B = 10
-        const val RAMSETE_ZETA = 10
+        const val MAX_SPEED_METERS_PER_SEC = 10.0
+        const val MAX_ACCEL_METERS_PER_SEC_SQUARED = 10.0
 
-        const val WHEEL_RADIUS_METERS = 0.1
+        const val RAMSETE_B = 10.0
+        const val RAMSETE_ZETA = 10.0
+
+        const val P_DRIVE_VEL = 10.0
     }
 
     object Lift {

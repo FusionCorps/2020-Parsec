@@ -9,9 +9,20 @@ package frc.robot
 
 import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.XboxController
+import edu.wpi.first.wpilibj.controller.PIDController
+import edu.wpi.first.wpilibj.controller.RamseteController
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward
+import edu.wpi.first.wpilibj.geometry.Pose2d
+import edu.wpi.first.wpilibj.geometry.Rotation2d
+import edu.wpi.first.wpilibj.geometry.Transform2d
+import edu.wpi.first.wpilibj.geometry.Translation2d
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint
 import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.commands.hopper.HopperRunAt
@@ -90,6 +101,39 @@ class RobotContainer {
 
     fun getAutonomousCommand(): Command {
         // Return the selected command
-        return mAutoCommandChooser.selected
+
+        var autoVoltageConstraint = DifferentialDriveVoltageConstraint(
+                SimpleMotorFeedforward(Constants.Chassis.VOLTS,
+                        Constants.Chassis.VOLT_SEC_PER_METER,
+                        Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
+                Constants.Chassis.DRIVE_KINEMATICS,
+                10.0
+        )
+        val config = TrajectoryConfig(Constants.Chassis.MAX_SPEED_METERS_PER_SEC,
+                Constants.Chassis.MAX_ACCEL_METERS_PER_SEC_SQUARED)
+                .setKinematics(Constants.Chassis.DRIVE_KINEMATICS)
+                .addConstraint(autoVoltageConstraint)
+        val trajectory = TrajectoryGenerator.generateTrajectory(
+                Pose2d(0.0, 0.0, Rotation2d(0.0)),
+                listOf(
+                        Translation2d(1.0, 1.0),
+                        Translation2d(2.0, -1.0)
+                ),
+                Pose2d(3.0, 0.0, Rotation2d(0.0)),
+                config
+        )
+
+        return RamseteCommand(
+                trajectory,
+                { Chassis.pose },
+                RamseteController(Constants.Chassis.RAMSETE_B, Constants.Chassis.RAMSETE_ZETA),
+                SimpleMotorFeedforward(Constants.Chassis.VOLTS, Constants.Chassis.VOLT_SEC_PER_METER, Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
+                Constants.Chassis.DRIVE_KINEMATICS,
+                { Chassis.wheelSpeeds },
+                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+                Chassis::tankDrive,
+                arrayOf(Chassis)
+        ).andThen( Runnable { Chassis.tankDrive(0.0, 0.0) })
     }
 }
