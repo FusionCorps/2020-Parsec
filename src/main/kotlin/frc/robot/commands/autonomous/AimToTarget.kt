@@ -8,8 +8,8 @@ import kotlin.math.abs
 class AimToTarget(chassis: Chassis) : CommandBase() {
     private val mChassis = chassis
 
-    private val acceptableErrorX = 0.05
-    private val acceptableErrorY = 0.05
+    private val acceptableErrorX = 1.0
+    private val acceptableErrorY = 1.0
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
@@ -24,8 +24,8 @@ class AimToTarget(chassis: Chassis) : CommandBase() {
     private var steeringAdjust = 0.0
     private var driveAdjust = 0.0
     private val minimumCommand = 0.03
-    private val kAimX = 0.02
-    private val kAimY = 0.02
+    private val kAimX = 0.002
+    private val kAimY = 0.002
 
     init {
         addRequirements(mChassis)

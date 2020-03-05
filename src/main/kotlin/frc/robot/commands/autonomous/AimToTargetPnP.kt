@@ -17,11 +17,7 @@ class AimToTargetPnP(chassis: Chassis): CommandBase() {
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
     private var tx: Double = 0.0
-    private var ty: Double = 0.0
-    private var x: Double = 0.0
-    private var y: Double = 0.0
-    private var z: Double = 0.0
-    private var yaw: Double = 0.0
+    private var camtran: Array<Double> = arrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
 
     private var distance = 0.0
 
@@ -36,10 +32,12 @@ class AimToTargetPnP(chassis: Chassis): CommandBase() {
 
     override fun execute() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
-        x = limelightTable.getEntry("x").getDouble(0.0)
-        y = limelightTable.getEntry("y").getDouble(0.0)
-        z = limelightTable.getEntry("z").getDouble(0.0)
-        yaw = limelightTable.getEntry("yaw").getDouble(0.0)
+        camtran = limelightTable.getEntry("camtran").getDoubleArray(arrayOf(0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+
+        val x = camtran[0]
+        val y = camtran[1]
+        val z = camtran[2]
+        val yaw = camtran[5]
 
         distance = sqrt(x.pow(2) + y.pow(2))
 
