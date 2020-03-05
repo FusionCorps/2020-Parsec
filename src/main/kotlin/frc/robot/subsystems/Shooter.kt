@@ -34,7 +34,10 @@ object Shooter : SubsystemBase() {
 
         setNeutralMode(NeutralMode.Coast)
 
-        control(FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD), VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt()))
+        control(
+            FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD),
+            VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt())
+        )
 
         selectedSensorPosition = 0
     }

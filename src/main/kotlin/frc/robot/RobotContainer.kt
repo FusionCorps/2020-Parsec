@@ -71,7 +71,7 @@ class RobotContainer {
     fun configureButtonBindings() {
         JoystickButton(Controls.controller, XboxController.Button.kB.value)
             .whileHeld(HopperRunAt(value = Constants.Hopper.TARGET_VELOCITY))
-        JoystickButton(Controls.controller, XboxController.Button.kY.value)
+        JoystickButton(Controls.controller, XboxController.Button.kA.value)
             .whenPressed(ShooterRunToVelocity())
             .whenReleased(ShooterCoastDown())
 //        JoystickButton(Controls.controller, XboxController.Button.kA.value)

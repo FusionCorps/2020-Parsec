@@ -10,7 +10,7 @@ import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Intake
 
 class IntakeRunJoystick : CommandBase() {
-    private val slewRateLimiter = SlewRateLimiter(0.5)
+    private val slewRateLimiter = SlewRateLimiter(5.0)
 
     init {
         addRequirements(Intake)
@@ -22,8 +22,8 @@ class IntakeRunJoystick : CommandBase() {
             DutyCycleConfig(
                 slewRateLimiter.calculate(
                     (
-                        Controls.controller.getTriggerAxis(GenericHID.Hand.kLeft) -
-                            Controls.controller.getTriggerAxis(GenericHID.Hand.kRight)
+                        Controls.controller.getTriggerAxis(GenericHID.Hand.kRight) -
+                            Controls.controller.getTriggerAxis(GenericHID.Hand.kLeft)
                         ) *
                         Constants.Intake.TARGET_PERCENT
                 )

@@ -39,6 +39,8 @@ object Constants {
 
         const val RAMSETE_B = 10
         const val RAMSETE_ZETA = 10
+
+        const val WHEEL_RADIUS_METERS = 0.1
     }
 
     object Lift {
@@ -86,7 +88,7 @@ object Constants {
         const val kI = 0.0
         const val kD = 0.0
 
-        const val TARGET_VELOCITY = 17374.0
+        const val TARGET_VELOCITY = 16000.0
         const val TARGET_ACCELERATION = 500.0
     }
 

@@ -278,6 +278,10 @@ class FCANSparkMax(id: MotorID, type: MotorType) : CANSparkMax(id.id, type), REV
         control(motionCharacteristics, this, *config)
     }
 
+    override fun initSendable(builder: SendableBuilder?) {
+        super.initSendable(builder)
+    }
+
     init {
         restoreFactoryDefaults()
         SendableRegistry.add(this, motorID.name)

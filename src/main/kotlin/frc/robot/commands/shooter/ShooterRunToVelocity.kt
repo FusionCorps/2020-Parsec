@@ -3,7 +3,6 @@ package frc.robot.commands.shooter
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants
 import frc.robot.fusion.motion.ControlMode
-import frc.robot.fusion.motion.VelocityConfig
 import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Shooter
 
@@ -20,8 +19,7 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 //        timer.start()
 
         Shooter.control(
-            ControlMode.Velocity,
-            VelocityConfig(mVelocity.toInt())
+            ControlMode.Velocity
 //            AssistedMotionConfig(
 //                mVelocity.toInt()
 //                Shooter.motionCharacteristics.assistedMotionConfig?.acceleration ?: Constants.Shooter.TARGET_ACCELERATION.toInt()
@@ -30,7 +28,9 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
     }
 
     override fun execute() {
-        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity) {
+        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity - 150 &&
+            Shooter.velocity <= Shooter.motionCharacteristics.velocityConfig!!.velocity + 150
+        ) {
 //            timer.stop()
             Indexer.control(ControlMode.DutyCycle)
         }
