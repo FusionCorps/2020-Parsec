@@ -8,7 +8,8 @@ import kotlin.math.abs
 class AimToTarget(chassis: Chassis) : CommandBase() {
     private val mChassis = chassis
 
-    private val acceptableError = 0.01
+    private val acceptableErrorX = 0.05
+    private val acceptableErrorY = 0.05
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
@@ -21,8 +22,10 @@ class AimToTarget(chassis: Chassis) : CommandBase() {
     private val distanceConstant = -0.01
 
     private var steeringAdjust = 0.0
+    private var driveAdjust = 0.0
     private val minimumCommand = 0.03
-    private val kAim = 0.02
+    private val kAimX = 0.02
+    private val kAimY = 0.02
 
     init {
         addRequirements(mChassis)
@@ -37,17 +40,19 @@ class AimToTarget(chassis: Chassis) : CommandBase() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
         ty = limelightTable.getEntry("ty").getDouble(0.0)
         if (abs(tx) > 1.0) {
-            steeringAdjust = kAim * tx
+            steeringAdjust = kAimX * tx
         }
         else {
-            steeringAdjust = kAim * tx  + minimumCommand
+            steeringAdjust = kAimX * tx  + minimumCommand
         }
 
-        mChassis.tankDrive(-steeringAdjust, steeringAdjust)
+        driveAdjust = -ty*kAimY
+
+        mChassis.tankDrive(-steeringAdjust + driveAdjust, steeringAdjust + driveAdjust)
 
     }
     override fun isFinished(): Boolean {
-        return (abs(tx) < acceptableError)
+        return (abs(tx) < acceptableErrorX && abs(ty) < acceptableErrorY)
     }
 
     override fun end(interrupted: Boolean) {
