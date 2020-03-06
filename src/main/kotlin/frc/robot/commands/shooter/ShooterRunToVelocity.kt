@@ -31,8 +31,9 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
         if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity - 150 &&
             Shooter.velocity <= Shooter.motionCharacteristics.velocityConfig!!.velocity + 150
         ) {
-//            timer.stop()
-            Indexer.control(ControlMode.DutyCycle)
+            if (Indexer.motionCharacteristics.controlMode != ControlMode.DutyCycle) {
+                Indexer.control(ControlMode.DutyCycle)
+            }
         }
     }
 

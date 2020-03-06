@@ -1,7 +1,6 @@
 package frc.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.SPI
@@ -60,8 +59,8 @@ object Chassis : SubsystemBase() {
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() {
             return DifferentialDriveWheelSpeeds(
-                    talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
-                    talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
+                talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
+                talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
             )
         }
 
@@ -121,8 +120,8 @@ object Chassis : SubsystemBase() {
             x * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle,
             z * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle, true
         )
-        leftMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontLeft.get()
-        rightMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontRight.get()
+//        leftMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontLeft.get()
+//        rightMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontRight.get()
     }
 
     fun tankDrive(left: Double, right: Double) {
