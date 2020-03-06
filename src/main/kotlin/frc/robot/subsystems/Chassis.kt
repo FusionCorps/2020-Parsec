@@ -72,9 +72,6 @@ object Chassis : SubsystemBase() {
 
     var generalMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
 
-    var leftMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
-    var rightMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
-
     val odometry = DifferentialDriveOdometry(Rotation2d.fromDegrees(heading))
 
     fun resetOdometry(pose: Pose2d) {
@@ -120,8 +117,6 @@ object Chassis : SubsystemBase() {
             x * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle,
             z * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle, true
         )
-//        leftMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontLeft.get()
-//        rightMotionCharacteristics.dutyCycleConfig!!.dutyCycle = talonFXFrontRight.get()
     }
 
     fun tankDrive(left: Double, right: Double) {
