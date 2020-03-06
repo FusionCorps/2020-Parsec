@@ -42,7 +42,7 @@ object Indexer : SubsystemBase() {
             AssistedMotionConfig(Constants.Indexer.ACCELERATION_INITIAL),
             FPIDConfig(Constants.Indexer.kF_INITIAL, Constants.Indexer.kP_INITIAL, Constants.Indexer.kI_INITIAL, Constants.Indexer.kD_INITIAL),
             VelocityConfig(Constants.Indexer.VELOCITY_INITIAL),
-            DutyCycleConfig(0.4)
+            DutyCycleConfig(1.0)
         )
 
         setNeutralMode(NeutralMode.Brake)

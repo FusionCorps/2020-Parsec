@@ -4,21 +4,20 @@ import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
 import kotlin.math.abs
+import mu.KotlinLogging
 
-class AimToTarget(chassis: Chassis) : CommandBase() {
-    private val mChassis = chassis
-
-    private val acceptableErrorX = 1.0
-    private val acceptableErrorY = 1.0
+class AimToTarget : CommandBase() {
+    private val acceptableErrorX = 5.0
+    private val acceptableErrorY = 5.0
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
-    private var tx: Double = 0.0
+    private var tx: Double = 100.0
     private val aimConstant = -0.01
 
     private val greenZone = 15.5 // Zone where we can shoot
 
-    private var ty: Double = 0.0 // Assumes centered cross hairs
+    private var ty: Double = 100.0 // Assumes centered cross hairs
     private val distanceConstant = -0.01
 
     private var steeringAdjust = 0.0
@@ -28,34 +27,38 @@ class AimToTarget(chassis: Chassis) : CommandBase() {
     private val kAimY = 0.002
 
     init {
-        addRequirements(mChassis)
+        addRequirements(Chassis)
     }
 
     override fun initialize() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
         ty = limelightTable.getEntry("ty").getDouble(0.0)
+
+        KotlinLogging.logger("Aim").info { "$tx" }
     }
 
     override fun execute() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
         ty = limelightTable.getEntry("ty").getDouble(0.0)
+
         if (abs(tx) > 1.0) {
             steeringAdjust = kAimX * tx
+        } else {
+            steeringAdjust = kAimX * tx + minimumCommand
         }
-        else {
-            steeringAdjust = kAimX * tx  + minimumCommand
-        }
 
-        driveAdjust = -ty*kAimY
+        driveAdjust = -ty * kAimY
 
-        mChassis.tankDrive(-steeringAdjust + driveAdjust, steeringAdjust + driveAdjust)
-
+        Chassis.tankDrive(-steeringAdjust + driveAdjust, steeringAdjust + driveAdjust)
     }
+
     override fun isFinished(): Boolean {
+        KotlinLogging.logger("AimToTarget").info { "AimToTarget ended" }
+
         return (abs(tx) < acceptableErrorX && abs(ty) < acceptableErrorY)
     }
 
     override fun end(interrupted: Boolean) {
-        mChassis.tankDrive(0.0, 0.0)
+        Chassis.tankDrive(0.0, 0.0)
     }
 }

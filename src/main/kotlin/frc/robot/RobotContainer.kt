@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
+import frc.robot.commands.autonomous.AimToTarget
 import frc.robot.commands.autonomous.AutonomousSad
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.commands.hopper.HopperRunAt
@@ -79,8 +80,8 @@ class RobotContainer {
 //            .whenPressed(IndexerDump())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(IndexerRunAtDutyCycle())
-//        JoystickButton(Controls.controller, XboxController.Button.kA.value)
-//            .whileHeld(IndexerVelocity(DutyCycleConfig(0.4)))
+        JoystickButton(Controls.controller, XboxController.Button.kY.value)
+            .whileHeld(AimToTarget())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
             .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)

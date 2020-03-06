@@ -7,7 +7,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-class AimToTargetPnP(chassis: Chassis): CommandBase() {
+class AimToTargetPnP(chassis: Chassis) : CommandBase() {
 
     private val mChassis = chassis
 
@@ -41,8 +41,8 @@ class AimToTargetPnP(chassis: Chassis): CommandBase() {
 
         distance = sqrt(x.pow(2) + y.pow(2))
 
-        val distanceAdjust = (distance - targetDistance)*kDistance
-        val steeringAdjust = tx*kRotation
+        val distanceAdjust = (distance - targetDistance) * kDistance
+        val steeringAdjust = tx * kRotation
 
         mChassis.tankDrive(distanceAdjust - steeringAdjust, distanceAdjust + steeringAdjust)
     }
@@ -50,5 +50,4 @@ class AimToTargetPnP(chassis: Chassis): CommandBase() {
     override fun isFinished(): Boolean {
         return (abs(tx) < angleTolerance) && (abs(distance - targetDistance) < distanceTolerance)
     }
-
 }
