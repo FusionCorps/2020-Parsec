@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
-import frc.robot.commands.autonomous.AimToTarget
+import frc.robot.commands.autonomous.AimToTargetPure
 import frc.robot.commands.autonomous.AutonomousSad
-import frc.robot.commands.chassis.ChassisRunJoystick
+import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
 import frc.robot.commands.lift.LiftExtend
@@ -90,51 +90,53 @@ class RobotContainer {
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(IndexerRunAtDutyCycle())
         JoystickButton(Controls.controller, XboxController.Button.kY.value)
-            .whileHeld(AimToTarget())
+            .whileHeld(AimToTargetPure())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
             .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whileHeld(LiftRetract())
+        JoystickButton(Controls.controller, XboxController.Button.kStart.value)
+            .whenPressed(CamerasSwitch())
     }
 
     fun generateRamsete(): Command {
         var autoVoltageConstraint = DifferentialDriveVoltageConstraint(
-                SimpleMotorFeedforward(
-                        Constants.Chassis.VOLTS,
-                        Constants.Chassis.VOLT_SEC_PER_METER,
-                        Constants.Chassis.VOLT_SEC_SQUARED_PER_METER
-                ),
-                Constants.Chassis.DRIVE_KINEMATICS,
-                10.0
+            SimpleMotorFeedforward(
+                Constants.Chassis.VOLTS,
+                Constants.Chassis.VOLT_SEC_PER_METER,
+                Constants.Chassis.VOLT_SEC_SQUARED_PER_METER
+            ),
+            Constants.Chassis.DRIVE_KINEMATICS,
+            10.0
         )
         val config = TrajectoryConfig(
-                Constants.Chassis.MAX_SPEED_METERS_PER_SEC,
-                Constants.Chassis.MAX_ACCEL_METERS_PER_SEC_SQUARED
+            Constants.Chassis.MAX_SPEED_METERS_PER_SEC,
+            Constants.Chassis.MAX_ACCEL_METERS_PER_SEC_SQUARED
         )
-                .setKinematics(Constants.Chassis.DRIVE_KINEMATICS)
-                .addConstraint(autoVoltageConstraint)
+            .setKinematics(Constants.Chassis.DRIVE_KINEMATICS)
+            .addConstraint(autoVoltageConstraint)
 
         val trajectory = TrajectoryGenerator.generateTrajectory(
-                Pose2d(0.0, 0.0, Rotation2d(0.0)),
-                listOf(
-                        Translation2d(0.5, 0.5),
-                        Translation2d(-1.0, 0.5)
-                ),
-                Pose2d(1.5, 0.0, Rotation2d(0.0)),
-                config
+            Pose2d(0.0, 0.0, Rotation2d(0.0)),
+            listOf(
+                Translation2d(0.5, 0.5),
+                Translation2d(-1.0, 0.5)
+            ),
+            Pose2d(1.5, 0.0, Rotation2d(0.0)),
+            config
         )
 
         return RamseteCommand(
-                trajectory,
-                { Chassis.pose },
-                RamseteController(Constants.Chassis.RAMSETE_B, Constants.Chassis.RAMSETE_ZETA),
-                SimpleMotorFeedforward(Constants.Chassis.VOLTS, Constants.Chassis.VOLT_SEC_PER_METER, Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
-                Constants.Chassis.DRIVE_KINEMATICS,
-                { Chassis.wheelSpeeds },
-                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
-                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
-                Chassis::tankDrive,
-                arrayOf(Chassis)
+            trajectory,
+            { Chassis.pose },
+            RamseteController(Constants.Chassis.RAMSETE_B, Constants.Chassis.RAMSETE_ZETA),
+            SimpleMotorFeedforward(Constants.Chassis.VOLTS, Constants.Chassis.VOLT_SEC_PER_METER, Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
+            Constants.Chassis.DRIVE_KINEMATICS,
+            { Chassis.wheelSpeeds },
+            PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+            PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+            Chassis::tankDrive,
+            arrayOf(Chassis)
         ).andThen(Runnable { Chassis.tankDrive(0.0, 0.0) })
     }
 

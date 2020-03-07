@@ -1,15 +1,30 @@
 package frc.robot.subsystems
 
 import edu.wpi.cscore.HttpCamera
+import edu.wpi.cscore.MjpegServer
+import edu.wpi.cscore.VideoSource
 import edu.wpi.first.cameraserver.CameraServer
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 object Cameras : SubsystemBase() {
-    private val cameraOne = CameraServer.getInstance().startAutomaticCapture(0)
-//    private val cameraTwo = CameraServer.getInstance().startAutomaticCapture(1)
-    private val limelight = CameraServer.getInstance().startAutomaticCapture(HttpCamera("limelight", "http://10.66.72.11:5800/video/stream.mjpg"))
+    val liftCamera = CameraServer.getInstance().startAutomaticCapture("liftCamera", 0)
+    val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intakeCamera", 1)
+    val limelight = CameraServer.getInstance().startAutomaticCapture(HttpCamera("limelight", "http://10.66.72.11:5800/video/stream.mjpg"))
+
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
+
+    lateinit var switcher: MjpegServer
+
+    init {
+        switcher = CameraServer.getInstance().addSwitchedCamera("Switcher")
+        switcher.source = intakeCamera
+    }
+
+    fun setSwitcherSource(source: VideoSource) {
+        switcher.source = source
+    }
+
 //    private val intakeCamera = CameraServer.getInstance().startAutomaticCapture(UsbCamera("intakeCamera", 0)).apply {
 //        setResolution(320, 240)
 //        setFPS(30)
