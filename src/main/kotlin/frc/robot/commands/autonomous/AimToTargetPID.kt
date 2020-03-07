@@ -1,19 +1,14 @@
 package frc.robot.commands.autonomous
 
 import edu.wpi.first.networktables.NetworkTableInstance
+import edu.wpi.first.wpilibj.controller.PIDController
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
-import kotlin.math.absoluteValue
 import mu.KotlinLogging
 
-class AimToTargetPure : CommandBase() {
-    private val acceptableError = 1.0
-
-    private val kAim = -0.1
-    private val kDistance = -0.1
-    private val minAim = 0.05
-
-    private var steeringAdjust = 0.0
+class AimToTargetPID : CommandBase() {
+    private val aimPIDController = PIDController(0.1, 0.01, 0.0)
+    private val distancePIDController = PIDController(0.1, 0.01, 0.0)
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
@@ -38,25 +33,16 @@ class AimToTargetPure : CommandBase() {
         addRequirements(Chassis)
     }
 
-    override fun execute() {
-        if (tx > 1.0) {
-            steeringAdjust = kAim * headingError - minAim
-        } else if (tx < 1.0) {
-            steeringAdjust = kAim * headingError + minAim
-        }
-
-        val distanceAdjust = kDistance * distanceError
-
-        Chassis.tankDrive(steeringAdjust + distanceAdjust, -steeringAdjust + distanceAdjust)
+    override fun initialize() {
+        KotlinLogging.logger("AimToTargetPID").info { "AimToTargetPID started" }
     }
 
-    override fun isFinished(): Boolean {
-        KotlinLogging.logger("AimToTargetPure").info { "AimToTargetPure ended" }
-
-        return (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError)
+    override fun execute() {
+        Chassis.tankDrive(aimPIDController.calculate(tx), -aimPIDController.calculate(tx))
     }
 
     override fun end(interrupted: Boolean) {
+        KotlinLogging.logger("AimToTargetPID").info { "AimToTargetPID ended" }
         Chassis.tankDrive(0.0, 0.0)
     }
 }

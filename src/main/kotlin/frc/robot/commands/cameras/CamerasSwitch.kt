@@ -9,7 +9,7 @@ class CamerasSwitch : InstantCommand() {
     }
 
     override fun initialize() {
-        if (Cameras.switcher.source.name == "intakeCamera") {
+        if (Cameras.switcher.source.name == "intake") {
             Cameras.setSwitcherSource(Cameras.liftCamera)
         } else {
             Cameras.setSwitcherSource(Cameras.intakeCamera)

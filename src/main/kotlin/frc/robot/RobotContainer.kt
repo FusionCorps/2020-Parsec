@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
-import frc.robot.commands.autonomous.AimToTargetPure
 import frc.robot.commands.autonomous.AutonomousSad
 import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.hopper.HopperRunAt
@@ -89,8 +88,8 @@ class RobotContainer {
             .whenReleased(ShooterCoastDown())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(IndexerRunAtDutyCycle())
-        JoystickButton(Controls.controller, XboxController.Button.kY.value)
-            .whileHeld(AimToTargetPure())
+//        JoystickButton(Controls.controller, XboxController.Button.kY.value)
+//            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
             .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
