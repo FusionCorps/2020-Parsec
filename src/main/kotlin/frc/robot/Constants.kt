@@ -31,8 +31,8 @@ object Constants {
         const val ID_TALONFX_B_R = 12
 
         const val VOLTS = 10.0
-        const val VOLT_SEC_PER_METER = 10.0
-        const val VOLT_SEC_SQUARED_PER_METER = 10.0
+        const val VOLT_SEC_PER_METER = 5.0
+        const val VOLT_SEC_SQUARED_PER_METER = 2.0
 
         private const val TRACK_WIDTH_METERS = 2.3622
         const val WHEEL_RADIUS_METERS = 0.5842
@@ -40,7 +40,7 @@ object Constants {
         val DRIVE_KINEMATICS = DifferentialDriveKinematics(TRACK_WIDTH_METERS)
 
         const val MAX_SPEED_METERS_PER_SEC = 10.0
-        const val MAX_ACCEL_METERS_PER_SEC_SQUARED = 10.0
+        const val MAX_ACCEL_METERS_PER_SEC_SQUARED = 2.0
 
         const val RAMSETE_B = 10.0
         const val RAMSETE_ZETA = 10.0

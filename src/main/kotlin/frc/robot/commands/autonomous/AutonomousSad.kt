@@ -6,6 +6,6 @@ import frc.robot.commands.shooter.ShooterRunToVelocity
 
 class AutonomousSad : SequentialCommandGroup() {
     init {
-        addCommands(ChassisDriveAmt(-0.4, 3.0), ShooterRunToVelocity().withTimeout(10.0))
+        addCommands(ChassisDriveAmt(-0.4, 0.0, 3.0), ShooterRunToVelocity().withTimeout(10.0))
     }
 }

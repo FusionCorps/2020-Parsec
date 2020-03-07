@@ -2,11 +2,14 @@ package frc.robot.subsystems
 
 import edu.wpi.cscore.HttpCamera
 import edu.wpi.first.cameraserver.CameraServer
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
 object Cameras : SubsystemBase() {
     private val cameraOne = CameraServer.getInstance().startAutomaticCapture(0)
+//    private val cameraTwo = CameraServer.getInstance().startAutomaticCapture(1)
     private val limelight = CameraServer.getInstance().startAutomaticCapture(HttpCamera("limelight", "http://10.66.72.11:5800/video/stream.mjpg"))
+    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 //    private val intakeCamera = CameraServer.getInstance().startAutomaticCapture(UsbCamera("intakeCamera", 0)).apply {
 //        setResolution(320, 240)
 //        setFPS(30)
@@ -46,4 +49,13 @@ object Cameras : SubsystemBase() {
 //    init {
 //        CameraServer.getInstance().startAutomaticCapture()
 //    }
+
+    override fun periodic() {
+        if (limelightTable.getEntry("camMode").getDouble(0.0) != 1.0) {
+            limelightTable.getEntry("camMode").setDouble(1.0)
+        }
+        if (limelightTable.getEntry("ledMode").getDouble(0.0) != 1.0) {
+            limelightTable.getEntry("ledMode").setDouble(1.0)
+        }
+    }
 }

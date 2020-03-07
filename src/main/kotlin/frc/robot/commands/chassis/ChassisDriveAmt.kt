@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
 
-class ChassisDriveAmt(driveSpd: Double, timeout: Double) : CommandBase() {
-    val mDriveSpd = driveSpd
+class ChassisDriveAmt(xSpd: Double, zSpd: Double, timeout: Double) : CommandBase() {
+    val mXSpd = xSpd
+    val mZSpd = zSpd
+
     val mTimeout = timeout
     val timer = Timer()
 
@@ -19,7 +21,8 @@ class ChassisDriveAmt(driveSpd: Double, timeout: Double) : CommandBase() {
     }
 
     override fun execute() {
-        Chassis.tankDrive(mDriveSpd, -mDriveSpd)
+        Chassis.joystickDrive(mXSpd, mZSpd)
+//        Chassis.tankDrive(mXSpd, -mXSpd)
     }
 
     override fun isFinished(): Boolean {

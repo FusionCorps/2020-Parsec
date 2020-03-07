@@ -33,13 +33,14 @@ class AimToTarget : CommandBase() {
     override fun initialize() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
         ty = limelightTable.getEntry("ty").getDouble(0.0)
-
-        KotlinLogging.logger("Aim").info { "$tx" }
     }
 
     override fun execute() {
         tx = limelightTable.getEntry("tx").getDouble(0.0)
         ty = limelightTable.getEntry("ty").getDouble(0.0)
+
+        KotlinLogging.logger("AimToTarget").info { "tx -> $tx" }
+        KotlinLogging.logger("AimToTarget").info { "ty -> $ty" }
 
         if (abs(tx) > 1.0) {
             steeringAdjust = kAimX * tx
@@ -53,12 +54,12 @@ class AimToTarget : CommandBase() {
     }
 
     override fun isFinished(): Boolean {
-        KotlinLogging.logger("AimToTarget").info { "AimToTarget ended" }
-
         return (abs(tx) < acceptableErrorX && abs(ty) < acceptableErrorY)
     }
 
     override fun end(interrupted: Boolean) {
         Chassis.tankDrive(0.0, 0.0)
+
+        KotlinLogging.logger("AimToTarget").info { "AimToTarget ended" }
     }
 }
