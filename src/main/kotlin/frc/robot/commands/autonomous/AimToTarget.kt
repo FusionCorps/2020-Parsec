@@ -65,7 +65,7 @@ class AimToTarget : CommandBase() {
     override fun isFinished(): Boolean {
         KotlinLogging.logger("AimToTargetPure").info { "AimToTargetPure ended" }
 
-        return ( timer.hasPeriodPassed(2.0) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
+        return (timer.hasPeriodPassed(2.0) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
     }
 
     override fun end(interrupted: Boolean) {

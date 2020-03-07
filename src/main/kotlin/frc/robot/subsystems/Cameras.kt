@@ -13,8 +13,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 object Cameras : SubsystemBase(), Sendable {
     val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0)
     val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intake", 1)
-    val limelight = CameraServer.getInstance().startAutomaticCapture(HttpCamera("limelight",
-            "http://10.66.72.11:5800/video/stream.mjpg"))
+    val limelight = CameraServer.getInstance().startAutomaticCapture(
+        HttpCamera(
+            "limelight",
+            "http://10.66.72.11:5800/video/stream.mjpg"
+        )
+    )
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 

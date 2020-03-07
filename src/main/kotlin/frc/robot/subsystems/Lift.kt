@@ -23,7 +23,7 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
     private val talonSRXExtend = FTalonSRX(MotorID(Constants.Lift.ID_TALONSRX_EXTEND, "talonSRXExtend", MotorModel.TalonSRX)).apply { // Higher speed motor
         setInverted(InvertType.InvertMotorOutput)
 
-        control(ControlMode.Disabled, FPIDConfig(), DutyCycleConfig(0.7))
+        control(ControlMode.Disabled, FPIDConfig(), DutyCycleConfig(0.8))
 
         selectedSensorPosition = 0
     }

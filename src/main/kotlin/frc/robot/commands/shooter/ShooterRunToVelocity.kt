@@ -8,22 +8,14 @@ import frc.robot.subsystems.Shooter
 
 class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY) : CommandBase() {
     val mVelocity = velocity
-//    val timer = Timer()
 
     init {
         addRequirements(Shooter, Indexer)
     }
 
     override fun initialize() {
-//        timer.reset()
-//        timer.start()
-
         Shooter.control(
             ControlMode.Velocity
-//            AssistedMotionConfig(
-//                mVelocity.toInt()
-//                Shooter.motionCharacteristics.assistedMotionConfig?.acceleration ?: Constants.Shooter.TARGET_ACCELERATION.toInt()
-//            )
         )
     }
 
@@ -42,6 +34,7 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 //    }
 
     override fun end(interrupted: Boolean) {
+        Shooter.control(ControlMode.Disabled)
         Indexer.control(ControlMode.Disabled)
     }
 }
