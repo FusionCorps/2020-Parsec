@@ -21,8 +21,8 @@ class ChassisDriveAmt(xSpd: Double, zSpd: Double, timeout: Double) : CommandBase
     }
 
     override fun execute() {
-        Chassis.joystickDrive(mXSpd, mZSpd)
-//        Chassis.tankDrive(mXSpd, -mXSpd)
+//        Chassis.joystickDrive(mXSpd, mZSpd)
+        Chassis.tankDrive(mXSpd, -mXSpd)
     }
 
     override fun isFinished(): Boolean {

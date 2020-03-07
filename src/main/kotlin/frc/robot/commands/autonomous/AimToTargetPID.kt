@@ -5,10 +5,19 @@ import edu.wpi.first.wpilibj.controller.PIDController
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
 import mu.KotlinLogging
+import kotlin.math.max
 
 class AimToTargetPID : CommandBase() {
-    private val aimPIDController = PIDController(0.1, 0.01, 0.0)
-    private val distancePIDController = PIDController(0.1, 0.01, 0.0)
+    private val maxRotationSpd = 0.2
+
+    private fun convertPIDtoOutput(angle: Double): Double {
+        return angle / 27.0 * maxRotationSpd
+    }
+
+    private val aimPIDController = PIDController(0.2, 0.0, 0.0).also {
+        it.setpoint = 0.0
+    }
+//    private val distancePIDController = PIDController(0.01, 0.01, 0.0)
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
@@ -38,7 +47,8 @@ class AimToTargetPID : CommandBase() {
     }
 
     override fun execute() {
-        Chassis.tankDrive(aimPIDController.calculate(tx), -aimPIDController.calculate(tx))
+        Chassis.tankDrive(convertPIDtoOutput(aimPIDController.calculate(tx)),
+                convertPIDtoOutput(-aimPIDController.calculate(tx)))
     }
 
     override fun end(interrupted: Boolean) {

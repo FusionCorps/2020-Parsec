@@ -15,7 +15,7 @@ object Cameras : SubsystemBase() {
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
-    private var driverMode = false
+    private var driverMode = true
 
     lateinit var switcher: MjpegServer
 

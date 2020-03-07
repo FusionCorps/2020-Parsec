@@ -66,7 +66,7 @@ class RobotContainer {
     init {
         // Configure the button bindings
         configureButtonBindings()
-        mAutoCommandChooser.setDefaultOption("Default Auto", mAutonomousSad)
+        mAutoCommandChooser.setDefaultOption("Autonomous Sad", mAutonomousSad)
         SmartDashboard.putData("Auto mode", mAutoCommandChooser)
 
         if (RobotBase.isReal()) {
