@@ -22,7 +22,7 @@ class AimToTarget : CommandBase() {
 
     private var steeringAdjust = 0.0
     private var driveAdjust = 0.0
-    private val minimumCommand = 0.03
+    private val minimumCommand = 0.02
     private val kAimX = 0.002
     private val kAimY = 0.002
 
