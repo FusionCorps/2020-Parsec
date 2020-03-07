@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous
 
 import edu.wpi.first.networktables.NetworkTableInstance
+import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
 import kotlin.math.absoluteValue
@@ -8,6 +9,8 @@ import mu.KotlinLogging
 
 class AimToTarget : CommandBase() {
     private val acceptableError = 1.0
+
+    private val timer = Timer()
 
     private val kAim = -0.05
     private val kDistance = -0.1
@@ -40,6 +43,9 @@ class AimToTarget : CommandBase() {
 
     override fun initialize() {
         KotlinLogging.logger("AimToTarget").info { "AimToTarget started" }
+
+        timer.reset()
+        timer.start()
     }
 
     override fun execute() {
@@ -59,7 +65,7 @@ class AimToTarget : CommandBase() {
     override fun isFinished(): Boolean {
         KotlinLogging.logger("AimToTargetPure").info { "AimToTargetPure ended" }
 
-        return (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError)
+        return ( timer.hasPeriodPassed(2.0) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
     }
 
     override fun end(interrupted: Boolean) {
