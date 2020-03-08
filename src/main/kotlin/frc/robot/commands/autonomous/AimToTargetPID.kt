@@ -18,7 +18,7 @@ class AimToTargetPID : CommandBase() {
         return angle / 27.0
     }
 
-    private val aimPIDController = PIDController(0.2, 0.0, 0.0).also {
+    private val aimPIDController = PIDController(0.02, 0.0, 0.0).also {
         it.setpoint = 0.0
         it.setTolerance(acceptableError)
     }
@@ -54,9 +54,11 @@ class AimToTargetPID : CommandBase() {
 
     override fun execute() {
         // Please note tankDrive is inverted on the right side. To drive straight invert the right output.
+        val aimAmt = pidToOutput(aimPIDController.calculate(tx)) * maxRotationSpd
+
         Chassis.tankDrive(
-            pidToOutput(aimPIDController.calculate(tx)) * maxRotationSpd,
-            pidToOutput(aimPIDController.calculate(tx) * maxRotationSpd)
+            aimAmt,
+            aimAmt
         )
     }
 

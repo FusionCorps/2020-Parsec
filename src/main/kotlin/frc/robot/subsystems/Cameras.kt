@@ -32,6 +32,14 @@ object Cameras : SubsystemBase(), Sendable {
         switcher.source = intakeCamera
     }
 
+    var limelightPipeline: Int
+        get() {
+            return limelightTable.getEntry("getpipe").getNumber(1).toInt()
+        }
+        set(value) {
+            limelightTable.getEntry("pipeline").setNumber(value)
+        }
+
     var switcherSource: VideoSource
         get() {
             return switcher.source
@@ -62,5 +70,6 @@ object Cameras : SubsystemBase(), Sendable {
         builder!!.setSmartDashboardType("RobotPreferences")
 
         builder.addBooleanProperty("Driver Mode", { driverMode }, { x: Boolean -> driverMode = x })
+        builder.addDoubleProperty("Limelight Pipeline", { limelightPipeline.toDouble() }, { x: Double -> limelightPipeline = x.toInt() })
     }
 }
