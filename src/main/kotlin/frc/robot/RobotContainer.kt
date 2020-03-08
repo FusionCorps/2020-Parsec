@@ -30,6 +30,7 @@ import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
 import frc.robot.commands.lift.LiftExtend
+import frc.robot.commands.lift.LiftExtendRetract
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterRunAndShoot
 import frc.robot.commands.shooter.ShooterRunAndShootAssisted

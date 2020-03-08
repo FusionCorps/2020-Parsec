@@ -11,7 +11,6 @@ import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FCANSparkMax
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonFX
-import frc.robot.fusion.motion.FTalonSRX
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
@@ -46,24 +45,14 @@ object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096
         Shuffleboard.getTab("Lift").add(sparkMaxRetract)
     }
 
-    val extendMotionCharacteristics: MotionCharacteristics
-        get() {
-            return talonSRXExtend.motionCharacteristics
-        }
+    val extendMotionCharacteristics: MotionCharacteristics get() = talonSRXExtend.motionCharacteristics
 
     fun extendControl(vararg config: MotionConfig) {
         talonSRXExtend.control(*config)
     }
 
-    val extendVelocity: Double
-        get() {
-            return talonSRXExtend.selectedSensorVelocity.toDouble()
-        }
-
-    val retractVelocity: Double
-        get() {
-            return sparkMaxRetract.get()
-        }
+    val extendVelocity: Double get() = talonSRXExtend.selectedSensorVelocity.toDouble()
+    val retractVelocity: Double get() = sparkMaxRetract.get()
 
     fun retractControl(vararg config: MotionConfig) {
         sparkMaxRetract.control(*config)

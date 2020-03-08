@@ -31,10 +31,7 @@ object Intake : SubsystemBase() {
         Shuffleboard.getTab("Intake").add(this)
     }
 
-    val motionCharacteristics: MotionCharacteristics
-        get() {
-            return victorSPXIntake.motionCharacteristics
-        }
+    val motionCharacteristics: MotionCharacteristics get() = victorSPXIntake.motionCharacteristics
 
     fun control(vararg config: MotionConfig) {
         victorSPXIntake.control(*config)

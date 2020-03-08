@@ -48,21 +48,13 @@ object Chassis : SubsystemBase() {
         configNeutralDeadband(0.05)
     }
 
-    val leftPosition: Double
-        get() {
-            return talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
-        }
-    val rightPosition: Double
-        get() {
-            return talonFXFrontRight.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
-        }
+    val leftPosition: Double get() = talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
+    val rightPosition: Double get() = talonFXFrontRight.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
     val wheelSpeeds: DifferentialDriveWheelSpeeds
-        get() {
-            return DifferentialDriveWheelSpeeds(
-                talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
-                talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
-            )
-        }
+        get() = DifferentialDriveWheelSpeeds(
+            talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
+            talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
+        )
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
 
@@ -78,24 +70,15 @@ object Chassis : SubsystemBase() {
         odometry.resetPosition(pose, Rotation2d.fromDegrees(heading))
     }
 
-    val heading: Double
-        get() {
-            return ahrs.angle.IEEErem(360.0)
-        }
+    val heading: Double get() = ahrs.angle.IEEErem(360.0)
 
     fun resetHeading() {
         ahrs.reset()
     }
 
-    val turnRate: Double
-        get() {
-            return ahrs.rate
-        }
+    val turnRate: Double get() = ahrs.rate
 
-    val pose: Pose2d
-        get() {
-            return odometry.poseMeters
-        }
+    val pose: Pose2d get() = odometry.poseMeters
 
     init {
         defaultCommand = ChassisRunJoystick()
