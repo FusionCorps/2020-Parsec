@@ -20,10 +20,7 @@ object Hopper : SubsystemBase() {
         control(FPIDConfig(), DutyCycleConfig(0.5))
     }
 
-    val motionCharacteristics: MotionCharacteristics
-        get() {
-            return victorSPXBelt.motionCharacteristics
-        }
+    val motionCharacteristics: MotionCharacteristics get() = victorSPXBelt.motionCharacteristics
 
     init {
         defaultCommand = HopperManage()

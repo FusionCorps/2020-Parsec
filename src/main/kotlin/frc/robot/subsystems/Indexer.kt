@@ -51,21 +51,14 @@ object Indexer : SubsystemBase() {
         selectedSensorPosition = 0
     }
 
-    val motionCharacteristics: MotionCharacteristics
-        get() {
-            return talonFXBelt.motionCharacteristics
-        }
+    val motionCharacteristics: MotionCharacteristics get() = talonFXBelt.motionCharacteristics
+
     var beltPosition: Int
         set(value) {
             talonFXBelt.setSelectedSensorPosition(value)
         }
-        get() {
-            return talonFXBelt.selectedSensorPosition
-        }
-    val beltVelocity: Int
-        get() {
-            return talonFXBelt.getActiveTrajectoryVelocity(0)
-        }
+        get() = talonFXBelt.selectedSensorPosition
+    val beltVelocity: Int get() = talonFXBelt.getActiveTrajectoryVelocity(0)
 
     // Ball IR Breakage Sensors
     private val frontSensorRX = DigitalInput(Constants.Indexer.ID_FRONT_SENSOR_RX)
@@ -80,14 +73,8 @@ object Indexer : SubsystemBase() {
             set(true)
         }
 
-    val isBallFront: Boolean
-        get() {
-            return !frontSensorRX.get()
-        }
-    val isBallTop: Boolean
-        get() {
-            return !topSensorRX.get()
-        }
+    val isBallFront: Boolean get() = !frontSensorRX.get()
+    val isBallTop: Boolean get() = !topSensorRX.get()
 
     // Instantiation
     init {

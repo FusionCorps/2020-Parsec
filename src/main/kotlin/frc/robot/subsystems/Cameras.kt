@@ -33,9 +33,7 @@ object Cameras : SubsystemBase(), Sendable {
     }
 
     var switcherSource: VideoSource
-        get() {
-            return switcher.source
-        }
+        get() = switcher.source
         set(value) {
             switcher.source = value
         }

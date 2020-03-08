@@ -50,14 +50,9 @@ object Shooter : SubsystemBase() {
         setInverted(TalonFXInvertType.OpposeMaster)
     }
 
-    val motionCharacteristics: MotionCharacteristics
-        get() {
-            return talonFXTop.motionCharacteristics
-        }
-    val velocity: Int
-        get() {
-            return talonFXTop.getSelectedSensorVelocity(0)
-        }
+    val motionCharacteristics: MotionCharacteristics get() = talonFXTop.motionCharacteristics
+
+    val velocity: Int get() = talonFXTop.getSelectedSensorVelocity(0)
 
     fun control(vararg config: MotionConfig) {
         talonFXTop.control(*config)
