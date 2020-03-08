@@ -28,6 +28,7 @@ import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
 import frc.robot.commands.lift.LiftExtend
+import frc.robot.commands.lift.LiftExtendRetract
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
@@ -88,6 +89,8 @@ class RobotContainer {
             .whenReleased(ShooterCoastDown())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(IndexerRunAtDutyCycle())
+        JoystickButton(Controls.controller, XboxController.Button.kY.value)
+            .whileHeld(LiftExtendRetract())
 //        JoystickButton(Controls.controller, XboxController.Button.kY.value)
 //            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)

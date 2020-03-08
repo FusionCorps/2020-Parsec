@@ -5,14 +5,13 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Lift
 
-class LiftExtend : CommandBase() { // Run the extension motor at 10%
+class LiftExtendRetract : CommandBase() {
     init {
         addRequirements(Lift)
     }
 
     override fun initialize() {
-        Lift.extendControl(ControlMode.DutyCycle, DutyCycleConfig(0.4))
-//        Lift.extendControl(ControlMode.AssistedMotion)
+        Lift.extendControl(ControlMode.DutyCycle, DutyCycleConfig(-0.4))
     }
 
     override fun end(interrupted: Boolean) {
