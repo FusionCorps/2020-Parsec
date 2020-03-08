@@ -36,7 +36,7 @@ object Shooter : SubsystemBase() {
 
         control(
             FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD),
-            VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt())
+            VelocityConfig(Constants.Shooter.INITIAL_TARGET_VELOCITY.toInt())
         )
 
         selectedSensorPosition = 0

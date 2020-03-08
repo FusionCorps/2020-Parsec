@@ -10,6 +10,7 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FCANSparkMax
 import frc.robot.fusion.motion.FPIDConfig
+import frc.robot.fusion.motion.FTalonFX
 import frc.robot.fusion.motion.FTalonSRX
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
@@ -20,10 +21,10 @@ import java.lang.Math.atan
 import java.lang.Math.sin
 
 object Lift : SubsystemBase() { // Important note: Spark Max Encoders count 4096 ticks per rev by default
-    private val talonSRXExtend = FTalonSRX(MotorID(Constants.Lift.ID_TALONSRX_EXTEND, "talonSRXExtend", MotorModel.TalonSRX)).apply { // Higher speed motor
+    private val talonSRXExtend = FTalonFX(MotorID(Constants.Lift.ID_TALONSRX_EXTEND, "talonSRXExtend", MotorModel.TalonSRX)).apply { // Higher speed motor
         setInverted(InvertType.InvertMotorOutput)
 
-        control(ControlMode.Disabled, FPIDConfig(), DutyCycleConfig(0.8))
+        control(ControlMode.Disabled, FPIDConfig(), DutyCycleConfig(0.4))
 
         selectedSensorPosition = 0
     }

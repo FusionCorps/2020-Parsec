@@ -22,7 +22,6 @@ class AimToTargetPID : CommandBase() {
         it.setpoint = 0.0
         it.setTolerance(acceptableError)
     }
-//    private val distancePIDController = PIDController(0.01, 0.01, 0.0)
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
@@ -46,8 +45,6 @@ class AimToTargetPID : CommandBase() {
     override fun initialize() {
         KotlinLogging.logger("AimToTargetPID").info { "AimToTargetPID started" }
 
-        Cameras.driverMode = false
-
         timer.reset()
         timer.start()
     }
@@ -67,11 +64,11 @@ class AimToTargetPID : CommandBase() {
 
         Chassis.tankDrive(0.0, 0.0)
 
-        Cameras.driverMode = true
+        Cameras.limelightDriverMode = true
     }
 
     override fun isFinished(): Boolean {
         // Timer makes sure limelight has enough time to switch modes
-        return (timer.hasPeriodPassed(1.0) && tz != 1.0) || (aimPIDController.atSetpoint())
+        return Cameras.limelightHasTarget || aimPIDController.atSetpoint()
     }
 }

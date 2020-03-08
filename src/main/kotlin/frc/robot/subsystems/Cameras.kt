@@ -22,7 +22,7 @@ object Cameras : SubsystemBase(), Sendable {
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
-    var driverMode = true
+    var limelightDriverMode = true
 
     lateinit var switcher: MjpegServer
 
@@ -34,10 +34,14 @@ object Cameras : SubsystemBase(), Sendable {
 
     var limelightPipeline: Int
         get() {
-            return limelightTable.getEntry("getpipe").getNumber(1).toInt()
+            return limelightTable.getEntry("getpipe").getNumber(0).toInt()
         }
         set(value) {
             limelightTable.getEntry("pipeline").setNumber(value)
+        }
+    val limelightHasTarget: Boolean
+        get() {
+            return limelightTable.getEntry("tv").getDouble(0.0) < 1.0
         }
 
     var switcherSource: VideoSource
@@ -49,7 +53,7 @@ object Cameras : SubsystemBase(), Sendable {
         }
 
     override fun periodic() {
-        if (driverMode) {
+        if (limelightDriverMode) {
             if (limelightTable.getEntry("camMode").getDouble(0.0) != 1.0) {
                 limelightTable.getEntry("camMode").setDouble(1.0)
             }
@@ -69,7 +73,7 @@ object Cameras : SubsystemBase(), Sendable {
     override fun initSendable(builder: SendableBuilder?) {
         builder!!.setSmartDashboardType("RobotPreferences")
 
-        builder.addBooleanProperty("Driver Mode", { driverMode }, { x: Boolean -> driverMode = x })
+        builder.addBooleanProperty("Driver Mode", { limelightDriverMode }, { x: Boolean -> limelightDriverMode = x })
         builder.addDoubleProperty("Limelight Pipeline", { limelightPipeline.toDouble() }, { x: Double -> limelightPipeline = x.toInt() })
     }
 }

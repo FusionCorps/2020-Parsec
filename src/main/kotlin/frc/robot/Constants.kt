@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics
  * constants are needed, to reduce verbosity.
  */
 object Constants {
-    const val SCHEDULER_RATE = 20 // ms
-
     object Inputs {
         const val ID_CONTROLLER = 0
     }
@@ -35,7 +33,7 @@ object Constants {
         const val VOLT_SEC_SQUARED_PER_METER = 2.0
 
         private const val TRACK_WIDTH_METERS = 2.3622
-        const val WHEEL_RADIUS_METERS = 0.5842
+        const val WHEEL_RADIUS_METERS = 0.09906
 
         val DRIVE_KINEMATICS = DifferentialDriveKinematics(TRACK_WIDTH_METERS)
 
@@ -93,8 +91,8 @@ object Constants {
         const val kI = 0.0
         const val kD = 0.0
 
-        const val TARGET_VELOCITY = 15000.0
-        const val TARGET_ACCELERATION = 500.0
+        const val INITIAL_TARGET_VELOCITY = 15000.0
+        const val INITIAL_TARGET_ACCELERATION = 500.0
     }
 
     object Spinner {
