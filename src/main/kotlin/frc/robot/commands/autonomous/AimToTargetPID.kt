@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.controller.PIDController
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Cameras
 import frc.robot.subsystems.Chassis
@@ -62,8 +61,8 @@ class AimToTargetPID : CommandBase(), Sendable {
     override fun initSendable(builder: SendableBuilder?) {
         builder!!.setSmartDashboardType("RobotPreferences")
 
-        builder.addDoubleProperty("p", {aimPIDController.p},{x: Double -> aimPIDController.p = x})
-        builder.addDoubleProperty("i", {aimPIDController.i},{x: Double -> aimPIDController.i = x})
-        builder.addDoubleProperty("d", {aimPIDController.d},{x: Double -> aimPIDController.d = x})
+        builder.addDoubleProperty("p", { aimPIDController.p }, { x: Double -> aimPIDController.p = x })
+        builder.addDoubleProperty("i", { aimPIDController.i }, { x: Double -> aimPIDController.i = x })
+        builder.addDoubleProperty("d", { aimPIDController.d }, { x: Double -> aimPIDController.d = x })
     }
 }
