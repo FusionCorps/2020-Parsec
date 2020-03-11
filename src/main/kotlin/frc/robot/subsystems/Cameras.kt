@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 object Cameras : SubsystemBase(), Sendable {
     val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0)
     val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intake", 1)
+
     val limelight = CameraServer.getInstance().startAutomaticCapture(
         HttpCamera(
             "limelight",
@@ -34,17 +35,12 @@ object Cameras : SubsystemBase(), Sendable {
             field = value
         }
 
-    var limelightPipeline: Int
-        get() {
-            return limelightTable.getEntry("getpipe").getNumber(0).toInt()
-        }
+    var limelightPipeline: Int get() = limelightTable.getEntry("getpipe").getNumber(0).toInt()
         set(value) {
             limelightTable.getEntry("pipeline").setNumber(value)
         }
-    val limelightHasTarget: Boolean
-        get() {
-            return limelightTable.getEntry("tv").getDouble(0.0) >= 1.0
-        }
+
+    val limelightHasTarget: Boolean get() = limelightTable.getEntry("tv").getDouble(0.0) >= 1.0
 
     var switcher: MjpegServer
 

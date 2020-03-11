@@ -86,7 +86,6 @@ interface FMotorController<T> : Sendable {
                 control(motionCharacteristics.controlMode)
             }
         )
-//        builder.addBooleanProperty("Disabled", { motionCharacteristics.controlMode == ControlMode.Disabled }, { x: Boolean -> if (x) control(ControlMode.Disabled) })
     }
 }
 
