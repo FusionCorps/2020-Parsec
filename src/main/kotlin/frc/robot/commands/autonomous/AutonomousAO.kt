@@ -3,7 +3,6 @@ package frc.robot.commands.autonomous
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.commands.chassis.ChassisDriveAmt
 import frc.robot.commands.shooter.ShooterRunAndShoot
-import frc.robot.subsystems.Chassis
 
 class AutonomousAO : SequentialCommandGroup() {
     init {

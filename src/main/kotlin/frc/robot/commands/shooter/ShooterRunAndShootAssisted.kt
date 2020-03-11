@@ -20,7 +20,7 @@ class ShooterRunAndShootAssisted : CommandBase() {
     }
 
     override fun initialize() {
-        KotlinLogging.logger("VelocityAssisted").info { "VelocityAssisted started" }
+        KotlinLogging.logger("VelocityAssisted").info { "${this::class.simpleName!!} started" }
     }
 
     override fun execute() {

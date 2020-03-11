@@ -22,15 +22,17 @@ object Cameras : SubsystemBase(), Sendable {
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
-    var limelightDriverMode = true
-
-    lateinit var switcher: MjpegServer
-
-    init {
-        SmartDashboard.putBoolean("Driver Mode", false)
-        switcher = CameraServer.getInstance().addSwitchedCamera("switcher")
-        switcher.source = intakeCamera
-    }
+    var limelightDriverMode = false
+        set(value) {
+            if (value) {
+                limelightTable.getEntry("camMode").setDouble(1.0)
+                limelightTable.getEntry("ledMode").setDouble(1.0)
+            } else {
+                limelightTable.getEntry("camMode").setDouble(0.0)
+                limelightTable.getEntry("ledMode").setDouble(3.0)
+            }
+            field = value
+        }
 
     var limelightPipeline: Int
         get() {
@@ -41,8 +43,10 @@ object Cameras : SubsystemBase(), Sendable {
         }
     val limelightHasTarget: Boolean
         get() {
-            return limelightTable.getEntry("tv").getDouble(0.0) < 1.0
+            return limelightTable.getEntry("tv").getDouble(0.0) >= 1.0
         }
+
+    var switcher: MjpegServer
 
     var switcherSource: VideoSource
         get() = switcher.source
@@ -50,22 +54,10 @@ object Cameras : SubsystemBase(), Sendable {
             switcher.source = value
         }
 
-    override fun periodic() {
-        if (limelightDriverMode) {
-            if (limelightTable.getEntry("camMode").getDouble(0.0) != 1.0) {
-                limelightTable.getEntry("camMode").setDouble(1.0)
-            }
-            if (limelightTable.getEntry("ledMode").getDouble(0.0) != 1.0) {
-                limelightTable.getEntry("ledMode").setDouble(1.0)
-            }
-        } else {
-            if (limelightTable.getEntry("camMode").getDouble(0.0) != 0.0) {
-                limelightTable.getEntry("camMode").setDouble(0.0)
-            }
-            if (limelightTable.getEntry("ledMode").getDouble(0.0) != 0.0) {
-                limelightTable.getEntry("ledMode").setDouble(3.0)
-            }
-        }
+    init {
+        SmartDashboard.putBoolean("Driver Mode", false)
+        switcher = CameraServer.getInstance().addSwitchedCamera("switcher")
+        switcher.source = intakeCamera
     }
 
     override fun initSendable(builder: SendableBuilder?) {
