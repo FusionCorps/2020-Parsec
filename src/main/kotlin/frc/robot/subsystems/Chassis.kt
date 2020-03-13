@@ -28,24 +28,24 @@ object Chassis : SubsystemBase() {
     private val talonFXFrontLeft = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_F_L, "talonFXFrontLeft", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
         setInverted(TalonFXInvertType.Clockwise)
-        configNeutralDeadband(0.05)
+        configNeutralDeadband(0.1)
         selectedSensorPosition = 0
     }
     private val talonFXBackLeft = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_B_L, "talonFXBackLeft", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.FollowMaster)
         control(ControlMode.Follower, FollowerConfig(talonFXFrontLeft))
-        configNeutralDeadband(0.05)
+        configNeutralDeadband(0.1)
     }
     private val talonFXFrontRight = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_F_R, "talonFXFrontRight", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
         setInverted(TalonFXInvertType.CounterClockwise)
-        configNeutralDeadband(0.05)
+        configNeutralDeadband(0.1)
         selectedSensorPosition = 0
     }
     private val talonFXBackRight = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_B_R, "talonFXBackRight", MotorModel.TalonFX)).apply {
         setInverted(TalonFXInvertType.FollowMaster)
         control(ControlMode.Follower, FollowerConfig(talonFXFrontRight))
-        configNeutralDeadband(0.05)
+        configNeutralDeadband(0.1)
     }
 
     val leftPosition: Double get() = talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS

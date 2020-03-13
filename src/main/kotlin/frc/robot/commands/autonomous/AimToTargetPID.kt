@@ -2,6 +2,7 @@ package frc.robot.commands.autonomous
 
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.Sendable
+import edu.wpi.first.wpilibj.SlewRateLimiter
 import edu.wpi.first.wpilibj.controller.PIDController
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Cameras
 import frc.robot.subsystems.Chassis
 import mu.KotlinLogging
+import kotlin.math.absoluteValue
 
 class AimToTargetPID : CommandBase(), Sendable {
     private fun pidToOutput(angle: Double): Double {
@@ -17,9 +19,13 @@ class AimToTargetPID : CommandBase(), Sendable {
 
     companion object {
         private val acceptableError = 1.0
-        private val maxRotationSpd = 0.7
 
-        private val aimPIDController = PIDController(2.0, 4.0, 0.0).also { it.setpoint = 0.0 }
+        private val rateLimiter = SlewRateLimiter(2.0)
+
+        private val aimPIDController = PIDController(2.0, 4.0, 0.0).also {
+            it.setpoint = 0.0
+            it.setTolerance(acceptableError)
+        }
     }
 
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
@@ -36,11 +42,15 @@ class AimToTargetPID : CommandBase(), Sendable {
 
     override fun initialize() {
         KotlinLogging.logger("AimToTargetPID").info { "AimToTargetPID started" }
+
+        if (tx.absoluteValue < acceptableError) {
+            this.cancel()
+        }
     }
 
     override fun execute() {
         // Please note tankDrive is inverted on the right side. To drive straight invert the right output.
-        val aimAmt = pidToOutput(aimPIDController.calculate(tx)) * maxRotationSpd
+        val aimAmt = rateLimiter.calculate(aimPIDController.calculate(tx))
 
         Chassis.tankDrive(
             aimAmt,
@@ -64,5 +74,13 @@ class AimToTargetPID : CommandBase(), Sendable {
         builder.addDoubleProperty("p", { aimPIDController.p }, { x: Double -> aimPIDController.p = x })
         builder.addDoubleProperty("i", { aimPIDController.i }, { x: Double -> aimPIDController.i = x })
         builder.addDoubleProperty("d", { aimPIDController.d }, { x: Double -> aimPIDController.d = x })
+
+        builder.getEntry("p").setPersistent()
+        builder.getEntry("i").setPersistent()
+        builder.getEntry("d").setPersistent()
+    }
+
+    init {
+        Shuffleboard.getTab("Shooter").add(this)
     }
 }
