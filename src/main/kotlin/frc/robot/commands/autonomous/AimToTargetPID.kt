@@ -1,7 +1,6 @@
 package frc.robot.commands.autonomous
 
 import edu.wpi.first.networktables.NetworkTableInstance
-import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.SlewRateLimiter
 import edu.wpi.first.wpilibj.controller.PIDController
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
@@ -12,15 +11,9 @@ import frc.robot.subsystems.Chassis
 import mu.KotlinLogging
 import kotlin.math.absoluteValue
 
-class AimToTargetPID : CommandBase(), Sendable {
-    private fun pidToOutput(angle: Double): Double {
-        return angle / 27.0
-    }
-
+class AimToTargetPID : CommandBase() {
     companion object {
-        private val acceptableError = 1.0
-
-        private val rateLimiter = SlewRateLimiter(2.0)
+        private val acceptableError = 0.5
 
         private val aimPIDController = PIDController(2.0, 4.0, 0.0).also {
             it.setpoint = 0.0
@@ -31,8 +24,8 @@ class AimToTargetPID : CommandBase(), Sendable {
     private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
 
     private val tx: Double get() = limelightTable.getEntry("tx").getDouble(0.0)
-    private val ty: Double get() = limelightTable.getEntry("ty").getDouble(0.0)
-    private val tz: Double get() = limelightTable.getEntry("tz").getDouble(0.0)
+//    private val ty: Double get() = limelightTable.getEntry("ty").getDouble(0.0)
+//    private val tz: Double get() = limelightTable.getEntry("tz").getDouble(0.0)
 
     init {
         addRequirements(Chassis)
@@ -50,7 +43,7 @@ class AimToTargetPID : CommandBase(), Sendable {
 
     override fun execute() {
         // Please note tankDrive is inverted on the right side. To drive straight invert the right output.
-        val aimAmt = rateLimiter.calculate(aimPIDController.calculate(tx))
+        val aimAmt = aimPIDController.calculate(tx)
 
         Chassis.tankDrive(
             aimAmt,

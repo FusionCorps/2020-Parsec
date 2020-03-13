@@ -56,11 +56,9 @@ object Chassis : SubsystemBase() {
             talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
         )
 
-    private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
+    private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight).apply { expiration = 400.0 }
 
-    private val ahrs = AHRS(SPI.Port.kMXP).apply {
-        calibrate()
-    }
+    private val ahrs = AHRS(SPI.Port.kMXP).apply { calibrate() }
 
     var generalMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
 
