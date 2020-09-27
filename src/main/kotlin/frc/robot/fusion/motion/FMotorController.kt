@@ -11,22 +11,22 @@ import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry
 
-enum class MotorModel(val model: String) {
+enum class MotorModel(val model: String) { // Define the 4 motors we use
     TalonFX("Talon FX"),
     TalonSRX("Talon SRX"),
     VictorSPX("Victor SPX"),
     CANSparkMax("CAN Spark Max")
 }
 
-interface FMotorController<T> : Sendable {
+interface FMotorController<T> : Sendable { // Set up Motor controller base
     val motorID: MotorID
     val motionCharacteristics: MotionCharacteristics
 
     fun control(vararg config: MotionConfig)
-    fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig)
+    fun control(motionCharacteristics: MotionCharacteristics, motor: T, vararg config: MotionConfig) // Set motion configs
 
     override fun initSendable(builder: SendableBuilder?) {
-        builder!!.setSmartDashboardType("RobotPreferences")
+        builder!!.setSmartDashboardType("RobotPreferences") // Set up data for dashboard
 
         builder.addDoubleProperty(
             "f", { motionCharacteristics.fpidConfig?.f ?: 0.0 },
@@ -90,13 +90,13 @@ interface FMotorController<T> : Sendable {
     }
 }
 
-interface REVMotor : Sendable, FMotorController<CANSparkMax> {
+interface REVMotor : Sendable, FMotorController<CANSparkMax> { // Run motor class for CANSparkMax
     override fun control(motionCharacteristics: MotionCharacteristics, motor: CANSparkMax, vararg config: MotionConfig) {
         motionCharacteristics.update(*config)
 
         when (motionCharacteristics.controlMode) {
-            ControlMode.Disabled -> motor.stopMotor()
-            ControlMode.Position, ControlMode.Velocity -> {
+            ControlMode.Disabled -> motor.stopMotor() // Stop when disabled
+            ControlMode.Position, ControlMode.Velocity -> { // Use PID to run to pos/velocity
                 motionCharacteristics.fpidConfig?.let {
                     motor.pidController.run {
                         ff = it.f
@@ -116,13 +116,13 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
                     }
                 } ?: throw IllegalStateException("Tried to configure Position with null configuration!")
             }
-            ControlMode.AssistedMotion -> {
+            ControlMode.AssistedMotion -> { // Motion w/ PID
                 motionCharacteristics.assistedMotionConfig?.let {
                     motor.pidController.run {
                         setSmartMotionMaxAccel(motionCharacteristics.assistedMotionConfig!!.acceleration.toDouble(), 0)
                     }
                 } ?: throw IllegalStateException("Tried to configure AssistedMotion with null assistedMotionConfig!")
-                motionCharacteristics.velocityConfig?.let {
+                motionCharacteristics.velocityConfig?.let {// Run PID to Velocity
                     motor.pidController.run {
                         setSmartMotionMaxVelocity(motionCharacteristics.velocityConfig!!.velocity.toDouble(), 0)
 
@@ -130,12 +130,12 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
                     }
                 } ?: throw IllegalStateException("Tried to configure AssistedMotion with null velocityConfig!")
             }
-            ControlMode.DutyCycle -> {
+            ControlMode.DutyCycle -> { // Run Duty Cycle
                 motionCharacteristics.dutyCycleConfig?.let {
                     motor.set(motionCharacteristics.dutyCycleConfig!!.dutyCycle)
                 }
             }
-            ControlMode.Follower -> {
+            ControlMode.Follower -> { // Run follower
                 motionCharacteristics.followerConfig?.let {
                     if (motionCharacteristics.followerConfig!!.ctreMaster != null && motionCharacteristics.followerConfig!!.revMaster != null) {
                         throw IllegalArgumentException("Tried to use FollowerConfig with both CTRE and Rev configuration!")
@@ -149,18 +149,18 @@ interface REVMotor : Sendable, FMotorController<CANSparkMax> {
         }
     }
 
-    override fun initSendable(builder: SendableBuilder?) {
+    override fun initSendable(builder: SendableBuilder?) { // Dashboard sender
         super.initSendable(builder)
     }
 }
 
-interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
+interface FCTREMotor : Sendable, FMotorController<BaseMotorController> { // Running motor class for CTRE
     override fun control(motionCharacteristics: MotionCharacteristics, motor: BaseMotorController, vararg config: MotionConfig) {
         motionCharacteristics.update(*config)
 
         when (motionCharacteristics.controlMode) {
-            ControlMode.Disabled -> motor.set(CTREControlMode.Disabled, 0.0)
-            ControlMode.Position, ControlMode.Velocity -> {
+            ControlMode.Disabled -> motor.set(CTREControlMode.Disabled, 0.0) // Stop motor
+            ControlMode.Position, ControlMode.Velocity -> { // Run PID to pos/vel
                 motionCharacteristics.fpidConfig?.let {
                     motor.run {
                         selectProfileSlot(0, 0)
@@ -172,13 +172,13 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
                     }
                 } ?: throw IllegalStateException("Tried to configure FPID with null configuration!")
 
-                if (motionCharacteristics.controlMode == ControlMode.Position) {
+                if (motionCharacteristics.controlMode == ControlMode.Position) { // Run as postion
                     motor.set(CTREControlMode.Position, motionCharacteristics.positionConfig!!.targetPosition.toDouble())
-                } else {
+                } else { // Catch case
                     motor.set(CTREControlMode.Velocity, motionCharacteristics.velocityConfig!!.velocity.toDouble())
                 }
             }
-            ControlMode.AssistedMotion -> {
+            ControlMode.AssistedMotion -> { // Run with Motion S Curve
                 motionCharacteristics.assistedMotionConfig?.let {
                     motor.run {
                         configMotionAcceleration(it.acceleration)
@@ -189,8 +189,9 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
 
                 motor.set(CTREControlMode.MotionMagic, motionCharacteristics.positionConfig?.targetPosition?.toDouble() ?: throw IllegalStateException("Tried to configure AssistedMotion with null Position configuration!"))
             }
+            // Duty Cycle
             ControlMode.DutyCycle -> motionCharacteristics.dutyCycleConfig?.let { motor.set(CTREControlMode.PercentOutput, it.dutyCycle) } ?: throw IllegalStateException("Tried to configure DutyCycle with null configuration!")
-            ControlMode.Follower -> {
+            ControlMode.Follower -> { // Run Follower
                 motionCharacteristics.followerConfig?.let {
                     motor.follow(it.ctreMaster ?: throw IllegalStateException("Tried to configure Follower with null configuration!"))
                 } ?: throw IllegalStateException("Tried to configure Follower with null configuration!")
@@ -198,12 +199,12 @@ interface FCTREMotor : Sendable, FMotorController<BaseMotorController> {
         }
     }
 
-    override fun initSendable(builder: SendableBuilder?) {
+    override fun initSendable(builder: SendableBuilder?) { // Dashboard
         super.initSendable(builder)
     }
 }
 
-data class MotorID(val id: Int, val name: String, val model: MotorModel) {
+data class MotorID(val id: Int, val name: String, val model: MotorModel) { // Class to store motor data
     companion object {
         var motorIDs = mutableMapOf<Int, MotorID>()
     }
@@ -216,7 +217,7 @@ data class MotorID(val id: Int, val name: String, val model: MotorModel) {
     }
 }
 
-class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor {
+class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor { // Run Talon of CTRE base
     override val motorID = id
     override var motionCharacteristics = MotionCharacteristics()
 
@@ -236,7 +237,7 @@ class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor {
     }
 }
 
-class FTalonSRX(id: MotorID) : WPI_TalonSRX(id.id), FCTREMotor {
+class FTalonSRX(id: MotorID) : WPI_TalonSRX(id.id), FCTREMotor { // Run SRX off CTRE above
     override val motorID = id
     override var motionCharacteristics = MotionCharacteristics()
 
@@ -253,7 +254,7 @@ class FTalonSRX(id: MotorID) : WPI_TalonSRX(id.id), FCTREMotor {
     }
 }
 
-class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor {
+class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor { // Run Victor with CTRE base
     override val motorID = id
     override var motionCharacteristics = MotionCharacteristics()
 
@@ -270,7 +271,7 @@ class FVictorSPX(id: MotorID) : WPI_VictorSPX(id.id), FCTREMotor {
     }
 }
 
-class FCANSparkMax(id: MotorID, type: MotorType) : CANSparkMax(id.id, type), REVMotor {
+class FCANSparkMax(id: MotorID, type: MotorType) : CANSparkMax(id.id, type), REVMotor { // Run CANSparkMax as above
     override val motorID = id
     override var motionCharacteristics = MotionCharacteristics()
 

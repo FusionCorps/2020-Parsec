@@ -82,7 +82,7 @@ object Chassis : SubsystemBase() { // Start by defining motors
     val pose: Pose2d get() = odometry.poseMeters
 
     init {
-        defaultCommand = ChassisRunJoystick()
+        defaultCommand = ChassisRunJoystick() // Set default state to run with joystick
 
         Shuffleboard.getTab("Chassis").add(talonFXFrontRight)
         Shuffleboard.getTab("Chassis").add(talonFXFrontLeft)
@@ -93,17 +93,17 @@ object Chassis : SubsystemBase() { // Start by defining motors
     }
 
     override fun periodic() {
-        odometry.update(Rotation2d(heading), leftPosition, rightPosition)
+        odometry.update(Rotation2d(heading), leftPosition, rightPosition) // Update sensor data
     }
 
     fun joystickDrive(x: Double, z: Double) {
-        drive.curvatureDrive(
+        drive.curvatureDrive( // Run with joystick
             x * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle,
             z * generalMotionCharacteristics.dutyCycleConfig!!.dutyCycle, true
         )
     }
 
-    fun tankDrive(left: Double, right: Double) {
+    fun tankDrive(left: Double, right: Double) { // Run as tank
         drive.tankDrive(left, right)
     }
 }
