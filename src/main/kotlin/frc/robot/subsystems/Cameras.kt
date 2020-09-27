@@ -10,19 +10,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 
-object Cameras : SubsystemBase(), Sendable {
-    val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0)
-    val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intake", 1)
-    val limelight = CameraServer.getInstance().startAutomaticCapture(
+object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
+    val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0) // lift
+    val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intake", 1) // intake
+    val limelight = CameraServer.getInstance().startAutomaticCapture( // limelight shooter
         HttpCamera(
             "limelight",
             "http://10.66.72.11:5800/video/stream.mjpg"
         )
     )
 
-    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
+    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
 
-    var driverMode = true
+    var driverMode = true // don't do b/w highlighting
 
     lateinit var switcher: MjpegServer
 
@@ -39,7 +39,7 @@ object Cameras : SubsystemBase(), Sendable {
         }
 
     override fun periodic() {
-        if (driverMode) {
+        if (driverMode) { // setting stuff for limelight
             if (limelightTable.getEntry("camMode").getDouble(0.0) != 1.0) {
                 limelightTable.getEntry("camMode").setDouble(1.0)
             }

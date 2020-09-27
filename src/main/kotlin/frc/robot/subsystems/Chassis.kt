@@ -23,7 +23,7 @@ import frc.robot.fusion.motion.MotorModel
 import kotlin.math.IEEErem
 import kotlin.math.PI
 
-object Chassis : SubsystemBase() {
+object Chassis : SubsystemBase() { // Start by defining motors
     // Motor Controllers
     private val talonFXFrontLeft = FTalonFX(MotorID(Constants.Chassis.ID_TALONFX_F_L, "talonFXFrontLeft", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
@@ -48,6 +48,7 @@ object Chassis : SubsystemBase() {
         configNeutralDeadband(0.05)
     }
 
+    // wheel position sensor sets
     val leftPosition: Double get() = talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
     val rightPosition: Double get() = talonFXFrontRight.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
     val wheelSpeeds: DifferentialDriveWheelSpeeds
@@ -56,10 +57,10 @@ object Chassis : SubsystemBase() {
             talonFXFrontRight.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10
         )
 
-    private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight)
+    private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight) // set drive
 
     private val ahrs = AHRS(SPI.Port.kMXP).apply {
-        calibrate()
+        calibrate() // motion sensor
     }
 
     var generalMotionCharacteristics = MotionCharacteristics(ControlMode.DutyCycle, dutyCycleConfig = DutyCycleConfig(0.5))
