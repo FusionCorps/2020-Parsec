@@ -11,12 +11,12 @@ import mu.KotlinLogging
 class AimToTargetPID : CommandBase() {
     private val timer = Timer()
 
-    private val acceptableError = 1.0
+    private val acceptableError = 0.1 // Set constants
     private val maxRotationSpd = 0.2
 
     private fun pidToOutput(angle: Double): Double {
         return angle / 27.0
-    }
+    } // Convert to usable
 
     private val aimPIDController = PIDController(0.2, 0.0, 0.0).also {
         it.setpoint = 0.0
