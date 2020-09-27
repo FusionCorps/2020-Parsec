@@ -6,7 +6,7 @@ import frc.robot.Controls
 import frc.robot.subsystems.Chassis
 
 class ChassisRunJoystick : CommandBase() {
-    private val speedLimiter = SlewRateLimiter(2.5)
+    private val speedLimiter = SlewRateLimiter(2.5) // Cap accel and sens
     private val rotationLimiter = SlewRateLimiter(2.5)
 
     init {
@@ -15,7 +15,7 @@ class ChassisRunJoystick : CommandBase() {
 
     override fun execute() {
         Chassis.joystickDrive(
-            -speedLimiter.calculate(Controls.controller.getRawAxis(4)),
+            -speedLimiter.calculate(Controls.controller.getRawAxis(4)), // Drive Chassis
             rotationLimiter.calculate(Controls.controller.getRawAxis(1))
         )
     }

@@ -6,6 +6,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.PositionConfig
 import frc.robot.subsystems.Indexer
 
+// Command for managing indexer
+
 class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : CommandBase() {
     val mDirection = direction
     val mTimes = times
@@ -19,7 +21,7 @@ class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : Command
 
     override fun initialize() {
         if (Indexer.isBallTop) {
-            end(true)
+            end(true) // Stop moving if ball at top
         }
 
         mTargetIndexerPosition = Indexer.beltPosition +
@@ -30,18 +32,18 @@ class IndexerMove(direction: IndexerMovementDirection, times: Int = 1) : Command
                     )
                 )
 
-        Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
+        Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt())) // Move indexer
     }
 
     override fun isFinished(): Boolean {
         val currentPosition = Indexer.beltPosition
 
-        return currentPosition > (mTargetIndexerPosition - errorThreshold)
+        return currentPosition > (mTargetIndexerPosition - errorThreshold) // Check if destination reached
     }
 
     override fun end(interrupted: Boolean) {
         if (interrupted) {
-            Indexer.control(ControlMode.Disabled)
+            Indexer.control(ControlMode.Disabled) // Stop if canceled
         }
     }
 }

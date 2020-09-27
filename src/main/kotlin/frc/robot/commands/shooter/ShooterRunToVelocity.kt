@@ -6,6 +6,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Shooter
 
+// Run shooter to a velocity
+
 class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY) : CommandBase() {
     val mVelocity = velocity
 

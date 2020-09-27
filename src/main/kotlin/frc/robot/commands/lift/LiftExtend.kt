@@ -5,6 +5,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Lift
 
+// TODO: Rework
+
 class LiftExtend : CommandBase() { // Run the extension motor at 10%
     init {
         addRequirements(Lift)

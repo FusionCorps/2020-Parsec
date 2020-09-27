@@ -9,6 +9,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Intake
 
+// Run intake from the joystick
+
 class IntakeRunJoystick : CommandBase() {
     private val slewRateLimiter = SlewRateLimiter(5.0)
 

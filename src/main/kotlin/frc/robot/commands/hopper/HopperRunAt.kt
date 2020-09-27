@@ -5,6 +5,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.subsystems.Hopper
 
+// Run hopper at fixed speed
+
 class HopperRunAt(controlMode: ControlMode = ControlMode.DutyCycle, value: Double) : CommandBase() {
     val mControlMode = controlMode
     val mValue = value

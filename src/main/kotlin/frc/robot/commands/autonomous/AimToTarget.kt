@@ -8,17 +8,17 @@ import kotlin.math.absoluteValue
 import mu.KotlinLogging
 
 class AimToTarget : CommandBase() {
-    private val acceptableError = 1.0
+    private val acceptableError = 1.0 // Degrees of target
 
-    private val timer = Timer()
+    private val timer = Timer() // Start Timer
 
-    private val kAim = -0.05
+    private val kAim = -0.05 // PID Constant start
     private val kDistance = -0.1
     private val minAim = 0.00
 
     private var steeringAdjust = 0.0
 
-    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight")
+    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // Limelight Data get
 
     private val tx: Double
         get() {
@@ -37,18 +37,20 @@ class AimToTarget : CommandBase() {
             return -ty
         }
 
+    // Convert Data
+
     init {
         addRequirements(Chassis)
     }
 
     override fun initialize() {
-        KotlinLogging.logger("AimToTarget").info { "AimToTarget started" }
+        KotlinLogging.logger("AimToTarget").info { "AimToTarget started" } // Print to Console
 
         timer.reset()
         timer.start()
     }
 
-    override fun execute() {
+    override fun execute() { // Initiate tank drive with autoaim constants
         if (tx > 1.0) {
             steeringAdjust = kAim * headingError - minAim
         } else if (tx < 1.0) {
@@ -62,13 +64,13 @@ class AimToTarget : CommandBase() {
         Chassis.tankDrive(-steeringAdjust + distanceAdjust, -(steeringAdjust + distanceAdjust))
     }
 
-    override fun isFinished(): Boolean {
+    override fun isFinished(): Boolean { // Finish command
         KotlinLogging.logger("AimToTargetPure").info { "AimToTargetPure ended" }
 
         return (timer.hasPeriodPassed(2.0) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
     }
 
-    override fun end(interrupted: Boolean) {
+    override fun end(interrupted: Boolean) { // Reset tank
         Chassis.tankDrive(0.0, 0.0)
     }
 }

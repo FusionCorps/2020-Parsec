@@ -5,6 +5,8 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.MotionConfig
 import frc.robot.subsystems.Intake
 
+// Run intake with a configuration
+
 class IntakeRunAt(
     vararg config: MotionConfig
 ) : CommandBase() {
