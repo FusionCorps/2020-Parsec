@@ -11,6 +11,9 @@ class HopperRunAt(controlMode: ControlMode = ControlMode.DutyCycle, value: Doubl
     val mControlMode = controlMode
     val mValue = value
 
+    // ControlMode is a type (like int) that lets us define how the motors take inputs
+    // e.g. Duty Cycle, Voltage, etc.
+
     init {
         addRequirements(Hopper)
     }
