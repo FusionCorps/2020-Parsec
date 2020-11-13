@@ -16,6 +16,10 @@ import mu.KotlinLogging
 object Intake : SubsystemBase() {
     private val logger = KotlinLogging.logger("Intake")
 
+    // Check if the interface is correct
+
+    // object.apply{thing1() thing2() thing() } = object.thing1()  object.thing2()  object.thing3()
+
     private val victorSPXIntake = FTalonFX(MotorID(Constants.Intake.ID_VICTORSPX, "victorSPXIntake", MotorModel.VictorSPX)).apply {
         configFactoryDefault()
 
