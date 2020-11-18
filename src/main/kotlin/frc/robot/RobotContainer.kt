@@ -31,6 +31,7 @@ import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.lift.LiftExtendRetract
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
+import frc.robot.commands.shooter.ShooterCompensateUp
 import frc.robot.commands.shooter.ShooterRunToVelocity
 import frc.robot.subsystems.Cameras
 import frc.robot.subsystems.Chassis
@@ -89,16 +90,18 @@ class RobotContainer {
             .whenReleased(ShooterCoastDown())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
             .whileHeld(IndexerRunAtDutyCycle())
-        JoystickButton(Controls.controller, XboxController.Button.kY.value)
-            .whileHeld(LiftExtendRetract())
+//        JoystickButton(Controls.controller, XboxController.Button.kY.value)
+//            .whileHeld(LiftExtendRetract())
 //        JoystickButton(Controls.controller, XboxController.Button.kY.value)
 //            .whileHeld(AimToTargetPID())
-        JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whileHeld(LiftExtend())
-        JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-            .whileHeld(LiftRetract())
+//        JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
+//            .whileHeld(LiftExtend())
+//        JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
+//            .whileHeld(LiftRetract())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
             .whenPressed(CamerasSwitch())
+        JoystickButton(Controls.controller, XboxController.Button.kStickLeft.value)
+                .whenPressed(ShooterCompensateUp())
     }
 
     fun generateRamsete(): Command {
