@@ -47,6 +47,31 @@ object Chassis : SubsystemBase() { // Start by defining motors
         control(ControlMode.Follower, FollowerConfig(talonFXFrontRight))
         configNeutralDeadband(0.05)
     }
+    private val axisControllerFrontLeft = FTalonFX(MotorID(Constants.Chassis.ID_AXIS_F_L, "axisFrontLeft", MotorModel.TalonFX)).apply {
+        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
+        setInverted(TalonFXInvertType.Clockwise)
+        configNeutralDeadband(0.05)
+        selectedSensorPosition = 0
+    }
+    private val axisControllerBackLeft = FTalonFX(MotorID(Constants.Chassis.ID_AXIS_B_L, "axisBackLeft", MotorModel.TalonFX)).apply {
+        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
+        setInverted(TalonFXInvertType.Clockwise)
+        configNeutralDeadband(0.05)
+        selectedSensorPosition = 0
+    }
+    private val axisControllerFrontRight = FTalonFX(MotorID(Constants.Chassis.ID_AXIS_F_R, "axisFrontRight", MotorModel.TalonFX)).apply {
+        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
+        setInverted(TalonFXInvertType.Clockwise)
+        configNeutralDeadband(0.05)
+        selectedSensorPosition = 0
+    }
+    private val axisControllerBackRight = FTalonFX(MotorID(Constants.Chassis.ID_AXIS_B_R, "axisBackRight", MotorModel.TalonFX)).apply {
+        configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
+        setInverted(TalonFXInvertType.Clockwise)
+        configNeutralDeadband(0.05)
+        selectedSensorPosition = 0
+    }
+
 
     // wheel position sensor sets
     val leftPosition: Double get() = talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
@@ -117,7 +142,7 @@ object Chassis : SubsystemBase() { // Start by defining motors
      *  |                          |
      *  |             ___          |
      *  |           /    \         |  STRAFING
-     *  |          |     ^         | --->
+     *  |          ^  X  |         | --->
      *  |          \ ___/          |
      *  |         ROTATION         |
      *  |                          |
@@ -128,7 +153,17 @@ object Chassis : SubsystemBase() { // Start by defining motors
      *  The Y AXIS of the LEFT joystick controls forward motion
      *  The X AXIS of the RIGHT joystick controls rotation
      *
-     *  
+     *  See https://docs.google.com/document/d/1iRMtpHU5ED9dGsRdzCR48bUF6w-XXB84SJX8Oc-fEmo/edit?usp=sharing
+     *  for derivation
+     *
+     *  Command: forward, strafe are wheel speeds (percentage for now)
+     *           rotation is clockwise
+     *
+     *  Axis motors are configured to turn counterclockwise (we install them upside down)
      */
+
+    fun swerveDrive(foward: Double, strafe: Double, rotation: Double) {
+        
+    }
 
 }
