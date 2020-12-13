@@ -106,4 +106,29 @@ object Chassis : SubsystemBase() { // Start by defining motors
     fun tankDrive(left: Double, right: Double) { // Run as tank
         drive.tankDrive(left, right)
     }
+
+    /** SWERVE DRIVE EXPLANATION:
+     *
+     *              ^
+     *              \ FORWARD
+     *  ____________\______________
+     *  |                          |
+     *  |                          |
+     *  |                          |
+     *  |             ___          |
+     *  |           /    \         |  STRAFING
+     *  |          |     ^         | --->
+     *  |          \ ___/          |
+     *  |         ROTATION         |
+     *  |                          |
+     *  |                          |
+     *  |__________________________|
+     *
+     *  The X AXIS of the LEFT joystick controls strafing
+     *  The Y AXIS of the LEFT joystick controls forward motion
+     *  The X AXIS of the RIGHT joystick controls rotation
+     *
+     *  
+     */
+
 }
