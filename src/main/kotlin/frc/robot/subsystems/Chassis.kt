@@ -175,12 +175,29 @@ object Chassis : SubsystemBase() { // Start by defining motors
 
         val alpha = atan(TRACK_LENGTH_METERS / TRACK_WIDTH_METERS)/2
         val distance_to_wheel = sqrt((TRACK_LENGTH_METERS).pow(2) + TRACK_WIDTH_METERS.pow(2))/2
+        var rotation_added_speed = rot_speed*distance_to_wheel
 
-        var angleFrontLeft = atan((sin(alpha)*rot_speed*distance_to_wheel - strafe_speed)/
-                (cos(alpha)*rot_speed*distance_to_wheel+forward_speed))
-        var speedFrontLeft = sqrt((sin(alpha)*rot_speed*distance_to_wheel - strafe_speed).pow(2) + (cos(alpha)
-                *rot_speed*distance_to_wheel+forward_speed.pow(2)))
-        
+        var angleFrontLeft = atan((rotation_added_speed* sin(alpha) - strafe_speed)/(forward_speed -
+                rotation_added_speed* cos(alpha)))
+        var speedFrontLeft = ((forward_speed - rotation_added_speed* cos(alpha)).pow(2) + (rotation_added_speed* sin(alpha)
+                - strafe_speed).pow(2)).pow(1/2)
+
+        var angleBackLeft = atan((-rotation_added_speed* sin(alpha) - strafe_speed)/(forward_speed -
+                rotation_added_speed* cos(alpha)))
+        var speedBackLeft = ((forward_speed - rotation_added_speed* cos(alpha)).pow(2) + (-rotation_added_speed* sin(alpha)
+                - strafe_speed).pow(2)).pow(1/2)
+
+        var angleFrontRight = atan((rotation_added_speed*sin(alpha) - strafe_speed)/(rotation_added_speed*cos(alpha)
+                + forward_speed))
+        var speedFrontRight = ((rotation_added_speed*sin(alpha) - strafe_speed).pow(2) + (rotation_added_speed*cos(alpha)
+                + forward_speed).pow(2)).pow(1/2)
+
+        var angleBackRight = atan((-rotation_added_speed*sin(alpha) - strafe_speed)/(rotation_added_speed*cos(alpha)
+                + forward_speed))
+        var speedBackRight = ((-rotation_added_speed*sin(alpha) - strafe_speed).pow(2) + (rotation_added_speed*cos(alpha)
+                + forward_speed).pow(2)).pow(1/2)
+
+        // TODO : Convert m/s -> wheel speeds, set up PID for axis motors
 
     }
 
