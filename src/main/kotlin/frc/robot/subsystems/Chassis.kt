@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
+import frc.robot.Constants.Chassis.SWERVE_FORWARD_SPEED_MAX
+import frc.robot.Constants.Chassis.SWERVE_ROT_SPEED_MAX
+import frc.robot.Constants.Chassis.SWERVE_STRAFE_SPEED_MAX
+import frc.robot.Constants.Chassis.TRACK_WIDTH_METERS
 import frc.robot.commands.chassis.ChassisRunJoystick
 import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
@@ -20,8 +24,7 @@ import frc.robot.fusion.motion.FollowerConfig
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotorID
 import frc.robot.fusion.motion.MotorModel
-import kotlin.math.IEEErem
-import kotlin.math.PI
+import kotlin.math.*
 
 object Chassis : SubsystemBase() { // Start by defining motors
     // Motor Controllers
@@ -142,7 +145,7 @@ object Chassis : SubsystemBase() { // Start by defining motors
      *  |                          |
      *  |             ___          |
      *  |           /    \         |  STRAFING
-     *  |          ^  X  |         | --->
+     *  |          V  X  |         | --->
      *  |          \ ___/          |
      *  |         ROTATION         |
      *  |                          |
@@ -153,16 +156,31 @@ object Chassis : SubsystemBase() { // Start by defining motors
      *  The Y AXIS of the LEFT joystick controls forward motion
      *  The X AXIS of the RIGHT joystick controls rotation
      *
-     *  See https://docs.google.com/document/d/1iRMtpHU5ED9dGsRdzCR48bUF6w-XXB84SJX8Oc-fEmo/edit?usp=sharing
-     *  for derivation
      *
-     *  Command: forward, strafe are wheel speeds
+     *
+     *  Command: forward, strafe are percentages
      *           rotation is counterclockwise
      *
      *  Axis motors are configured to turn counterclockwise (we install them upside down)
      */
 
-    fun swerveDrive(foward: Double, strafe: Double, rotation: Double) {
+    // TODO : Implement efficient axis turning (limit to 180 degrees of motion)
+    // TODO : PID Tune everything
+    // TODO : Set Safe Max speed for testing
+
+    fun swerveDrive(forward_input:Double, strafe_input:Double, rot_speed: Double) {
+
+        var forward_speed = forward_input*SWERVE_FORWARD_SPEED_MAX
+        var strafe_speed = strafe_input*SWERVE_STRAFE_SPEED_MAX
+
+        val alpha = atan(TRACK_LENGTH_METERS / TRACK_WIDTH_METERS)/2
+        val distance_to_wheel = sqrt((TRACK_LENGTH_METERS).pow(2) + TRACK_WIDTH_METERS.pow(2))/2
+
+        var angleFrontLeft = atan((sin(alpha)*rot_speed*distance_to_wheel - strafe_speed)/
+                (cos(alpha)*rot_speed*distance_to_wheel+forward_speed))
+        var speedFrontLeft = sqrt((sin(alpha)*rot_speed*distance_to_wheel - strafe_speed).pow(2) + (cos(alpha)
+                *rot_speed*distance_to_wheel+forward_speed.pow(2)))
+        
 
     }
 
