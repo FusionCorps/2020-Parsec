@@ -35,7 +35,8 @@ object Constants {
         const val VOLT_SEC_PER_METER = 5.0
         const val VOLT_SEC_SQUARED_PER_METER = 2.0
 
-        const val TRACK_WIDTH_METERS = 2.3622
+        const val TRACK_WIDTH_METERS = 0.3429
+        const val TRACK_LENGTH_METERS = 0.3429
         const val WHEEL_RADIUS_METERS = 0.5842
 
         val DRIVE_KINEMATICS = DifferentialDriveKinematics(TRACK_WIDTH_METERS)
