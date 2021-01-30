@@ -7,6 +7,8 @@
 
 package frc.robot
 
+import edu.wpi.first.wpilibj.DriverStation
+import edu.wpi.first.wpilibj.Filesystem
 import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj.controller.PIDController
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.RamseteCommand
@@ -39,6 +42,7 @@ import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Intake
 import frc.robot.subsystems.Lift
 import frc.robot.subsystems.Shooter
+import java.io.IOException
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -83,71 +87,74 @@ class RobotContainer {
      */
     fun configureButtonBindings() {
         JoystickButton(Controls.controller, XboxController.Button.kB.value)
-            .whileHeld(HopperRunAt(value = Constants.Hopper.TARGET_VELOCITY))
+                .whileHeld(HopperRunAt(value = Constants.Hopper.TARGET_VELOCITY))
         JoystickButton(Controls.controller, XboxController.Button.kA.value)
-            .whenPressed(ShooterRunToVelocity())
-            .whenReleased(ShooterCoastDown())
+                .whenPressed(ShooterRunToVelocity())
+                .whenReleased(ShooterCoastDown())
         JoystickButton(Controls.controller, XboxController.Button.kX.value)
-            .whileHeld(IndexerRunAtDutyCycle())
+                .whileHeld(IndexerRunAtDutyCycle())
         JoystickButton(Controls.controller, XboxController.Button.kY.value)
-            .whileHeld(LiftExtendRetract())
+                .whileHeld(LiftExtendRetract())
 //        JoystickButton(Controls.controller, XboxController.Button.kY.value)
 //            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whileHeld(LiftExtend())
+                .whileHeld(LiftExtend())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-            .whileHeld(LiftRetract())
+                .whileHeld(LiftRetract())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
-            .whenPressed(CamerasSwitch())
+                .whenPressed(CamerasSwitch())
     }
 
     fun generateRamsete(): Command {
         var autoVoltageConstraint = DifferentialDriveVoltageConstraint(
-            SimpleMotorFeedforward(
-                Constants.Chassis.VOLTS,
-                Constants.Chassis.VOLT_SEC_PER_METER,
-                Constants.Chassis.VOLT_SEC_SQUARED_PER_METER
-            ),
-            Constants.Chassis.DRIVE_KINEMATICS,
-            10.0
+                SimpleMotorFeedforward(
+                        Constants.Chassis.VOLTS,
+                        Constants.Chassis.VOLT_SEC_PER_METER,
+                        Constants.Chassis.VOLT_SEC_SQUARED_PER_METER
+                ),
+                Constants.Chassis.DRIVE_KINEMATICS,
+                10.0
         )
         val config = TrajectoryConfig(
-            Constants.Chassis.MAX_SPEED_METERS_PER_SEC,
-            Constants.Chassis.MAX_ACCEL_METERS_PER_SEC_SQUARED
+                Constants.Chassis.MAX_SPEED_METERS_PER_SEC,
+                Constants.Chassis.MAX_ACCEL_METERS_PER_SEC_SQUARED
         )
-            .setKinematics(Constants.Chassis.DRIVE_KINEMATICS)
-            .addConstraint(autoVoltageConstraint)
+                .setKinematics(Constants.Chassis.DRIVE_KINEMATICS)
+                .addConstraint(autoVoltageConstraint)
 
         val trajectory = TrajectoryGenerator.generateTrajectory(
-            Pose2d(0.0, 0.0, Rotation2d(0.0)),
-            listOf(
-                Translation2d(0.5, 0.5),
-                Translation2d(-1.0, 0.5)
-            ),
-            Pose2d(1.5, 0.0, Rotation2d(0.0)),
-            config
+                Pose2d(0.0, 0.0, Rotation2d(0.0)),
+                listOf(
+                        Translation2d(0.5, 0.5),
+                        Translation2d(-1.0, 0.5)
+                ),
+                Pose2d(1.5, 0.0, Rotation2d(0.0)),
+                config
         )
 
         return RamseteCommand(
-            trajectory,
-            { Chassis.pose },
-            RamseteController(Constants.Chassis.RAMSETE_B, Constants.Chassis.RAMSETE_ZETA),
-            SimpleMotorFeedforward(Constants.Chassis.VOLTS, Constants.Chassis.VOLT_SEC_PER_METER, Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
-            Constants.Chassis.DRIVE_KINEMATICS,
-            { Chassis.wheelSpeeds },
-            PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
-            PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
-            Chassis::tankDrive,
-            arrayOf(Chassis)
+                trajectory,
+                { Chassis.pose },
+                RamseteController(Constants.Chassis.RAMSETE_B, Constants.Chassis.RAMSETE_ZETA),
+                SimpleMotorFeedforward(Constants.Chassis.VOLTS, Constants.Chassis.VOLT_SEC_PER_METER, Constants.Chassis.VOLT_SEC_SQUARED_PER_METER),
+                Constants.Chassis.DRIVE_KINEMATICS,
+                { Chassis.wheelSpeeds },
+                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+                PIDController(Constants.Chassis.P_DRIVE_VEL, 0.0, 0.0),
+                Chassis::tankDrive,
+                arrayOf(Chassis)
         ).andThen(Runnable { Chassis.tankDrive(0.0, 0.0) })
     }
 
-    fun getAutonomousCommand(): Command {
-        // Return the selected command
-        if (mAutoCommandChooser.selected == mAutonomousSad) {
-            return mAutonomousSad
-        } else {
-            return generateRamsete()
+    fun getAutonomousCommand() {
+        //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+        try {
+            val trajectoryJSON = "paths/Unnamed_0.wpilib.json"
+            var trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+            var trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath)
+
+        } catch (ex: IOException) {
+            DriverStation.reportError("Unable to open trajectory: trajectoryJSON", ex.getStackTrace());
         }
     }
 }
