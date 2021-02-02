@@ -9,8 +9,13 @@ package frc.robot
 
 import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.TimedRobot
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim
+import edu.wpi.first.wpilibj.system.plant.DCMotor
+import edu.wpi.first.wpilibj.util.Units
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import edu.wpi.first.wpiutil.math.VecBuilder
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,6 +31,22 @@ class Robot : TimedRobot() {
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
+
+    var m_driveSim: DifferentialDrivetrainSim? = DifferentialDrivetrainSim(
+            DCMotor.getNEO(2),  // 2 NEO motors on each side of the drivetrain.
+            7.29,  // 7.29:1 gearing reduction.
+            7.5,  // MOI of 7.5 kg m^2 (from CAD model).
+            60.0,  // The mass of the robot is 60 kg.
+            Units.inchesToMeters(3.0),  // The robot uses 3" radius wheels.
+            0.7112,  // The track width is 0.7112 meters.
+// The standard deviations for measurement noise:
+// x and y:          0.001 m
+// heading:          0.001 rad
+// l and r velocity: 0.1   m/s
+// l and r position: 0.005 m
+            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005))
+
+
     override fun robotInit() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
