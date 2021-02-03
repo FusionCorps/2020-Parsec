@@ -8,8 +8,14 @@
 package frc.robot
 
 import edu.wpi.first.networktables.NetworkTableInstance
+import edu.wpi.first.wpilibj.AnalogGyro
+import edu.wpi.first.wpilibj.Encoder
 import edu.wpi.first.wpilibj.TimedRobot
+import edu.wpi.first.wpilibj.simulation.AnalogGyroSim
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim
+import edu.wpi.first.wpilibj.simulation.EncoderSim
+import edu.wpi.first.wpilibj.smartdashboard.Field2d
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj.system.plant.DCMotor
 import edu.wpi.first.wpilibj.util.Units
 import edu.wpi.first.wpilibj2.command.Command
@@ -32,19 +38,31 @@ class Robot : TimedRobot() {
      * initialization code.
      */
 
-    var m_driveSim: DifferentialDrivetrainSim? = DifferentialDrivetrainSim(
+    private val m_field = Field2d()
+
+    private val m_leftEncoder: Encoder = Encoder(0, 1)
+    private val m_rightEncoder: Encoder = Encoder(2, 3)
+
+    private val m_leftEncoderSim = EncoderSim(m_leftEncoder)
+    private val m_rightEncoderSim = EncoderSim(m_rightEncoder)
+
+    private val m_gyro = AnalogGyro(1)
+
+    private val m_gyroSim = AnalogGyroSim(m_gyro)
+
+    var m_driveSim = DifferentialDrivetrainSim(
             DCMotor.getNEO(2),  // 2 NEO motors on each side of the drivetrain.
             7.29,  // 7.29:1 gearing reduction.
             7.5,  // MOI of 7.5 kg m^2 (from CAD model).
             60.0,  // The mass of the robot is 60 kg.
             Units.inchesToMeters(3.0),  // The robot uses 3" radius wheels.
             0.7112,  // The track width is 0.7112 meters.
-// The standard deviations for measurement noise:
-// x and y:          0.001 m
-// heading:          0.001 rad
-// l and r velocity: 0.1   m/s
-// l and r position: 0.005 m
             VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005))
+
+    init {
+        SmartDashboard.putData("Field", m_field)
+    }
+
 
 
     override fun robotInit() {
@@ -56,6 +74,9 @@ class Robot : TimedRobot() {
 
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1)
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1)
+
+        val mField = Field2d()
+        SmartDashboard.putData("Field", mField)
     }
 
     /**
@@ -122,4 +143,21 @@ class Robot : TimedRobot() {
      */
     override fun testPeriodic() {
     }
+
+    override fun simulationPeriodic() {
+
+        SmartDashboard.putData("Field", m_field)
+
+        m_driveSim.setInputs(12.0* Controls.controller.getRawAxis(1) - 6.0* Controls.controller.getRawAxis(0),
+                12.0* Controls.controller.getRawAxis(1) - 6.0* Controls.controller.getRawAxis(0))
+
+        m_driveSim.update(0.02)
+
+        m_leftEncoderSim.distance = m_driveSim.leftPositionMeters
+        m_leftEncoderSim.rate = m_driveSim.leftVelocityMetersPerSecond
+        m_rightEncoderSim.distance = m_driveSim.rightPositionMeters
+        m_rightEncoderSim.rate = m_driveSim.rightVelocityMetersPerSecond
+        m_gyroSim.angle = -m_driveSim.heading.degrees
+    }
+
 }
