@@ -13,9 +13,9 @@ class AutonomousBarrelRace : SequentialCommandGroup() {
 
     init {
 
-        val percentOneFtPerSec = 0.1
-        val percentRunningAt = 0.1
-        val radPerSec = 1.0
+        val percentOneFtPerSec = 0.25
+        val percentRunningAt = 0.5
+        val radPerSec = 0.5
 
         addCommands(ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
                 7.5/percentRunningAt*percentOneFtPerSec),
