@@ -15,16 +15,9 @@ class IndexerRunAtDutyCycle(dutyCycleConfig: DutyCycleConfig = DutyCycleConfig(0
     }
 
     override fun initialize() {
-        if (!Indexer.isBallTop) {
-            Indexer.control(ControlMode.DutyCycle, mDutyCycleConfig)
-        } else {
-            end(true)
-        }
+        Indexer.control(ControlMode.DutyCycle, mDutyCycleConfig)
     }
 
-    override fun isFinished(): Boolean {
-        return Indexer.isBallTop
-    }
 
     override fun end(interrupted: Boolean) {
         Indexer.control(ControlMode.Disabled)

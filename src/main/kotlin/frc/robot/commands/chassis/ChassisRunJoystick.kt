@@ -14,7 +14,7 @@ class ChassisRunJoystick : CommandBase() {
     }
 
     override fun execute() {
-        Chassis.tankDrive(
+        Chassis.joystickDrive(
             -speedLimiter.calculate(Controls.controller.getRawAxis(4)), // Drive Chassis
             rotationLimiter.calculate(Controls.controller.getRawAxis(1))
         )
