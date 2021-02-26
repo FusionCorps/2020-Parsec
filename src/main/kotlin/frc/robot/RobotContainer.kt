@@ -61,7 +61,7 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
 
-    private val mAutonomousSad = AutonomousCircle()
+    private val mAutonomousSad = AutonomousBarrelRace()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.

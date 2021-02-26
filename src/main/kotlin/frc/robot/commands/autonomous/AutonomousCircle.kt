@@ -15,9 +15,7 @@ class AutonomousCircle : SequentialCommandGroup() {
     init {
 
 
-        addCommands(ChassisDriveAmt(-0.39,
-                -0.5,
-                4.3)
+        addCommands(ChassisDriveAmt(-0.39, -0.5, 4.3)
         )
 
     }
