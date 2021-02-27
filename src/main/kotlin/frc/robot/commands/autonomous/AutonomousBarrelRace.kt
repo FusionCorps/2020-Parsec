@@ -19,13 +19,13 @@ class AutonomousBarrelRace : SequentialCommandGroup() {
         val percentRunningAt = 0.5
         val radPerSec = 0.6
 
-        addCommands(ChassisDriveAmt(0.0, -0.8, 1.476),
-                ChassisDriveAmt(-0.39, -0.5, 3.581),
-                ChassisDriveAmt(0.0, -0.8, 1.5901),
-                ChassisDriveAmt(0.39, -0.5, 3.6729),
+        addCommands(ChassisDriveAmt(0.0, -0.8, 1.633),
+                ChassisDriveAmt(-0.32, -0.5, 5.45),
+                ChassisDriveAmt(0.0, -0.8, 1.4201),
+                ChassisDriveAmt(0.33, -0.5, 4.3729),
                 ChassisDriveAmt(0.0, -0.8, 1.392),
-                ChassisDriveAmt(0.39, -0.5, 2.9875),
-                ChassisDriveAmt(0.0, -0.8, 3.937)
+                ChassisDriveAmt(0.27, -0.5, 4.6875),
+                ChassisDriveAmt(0.0, -0.8, 3.437)
         )
 
     }

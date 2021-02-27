@@ -17,39 +17,7 @@ class AutonomousSlalom: SequentialCommandGroup() {
         val radPerSec = 1.0
 
         addCommands(
-                ChassisDriveTankAmt(0.5*percentOneFtPerSec*radPerSec,
-                        3.5*percentOneFtPerSec*radPerSec,
-                        ((53.13)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        3/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((53.13)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        10/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((53.13)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        3/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(0.5*percentOneFtPerSec*radPerSec,
-                        3.5*percentOneFtPerSec*radPerSec,
-                        ((286.26)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        3/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((53.13)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        10/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((53.13)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        3/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(0.5*percentOneFtPerSec*radPerSec,
-                        3.5*percentOneFtPerSec*radPerSec,
-                        ((286.26)/360*2* PI /radPerSec))
+            ChassisDriveTankAmt()
         )
 
 

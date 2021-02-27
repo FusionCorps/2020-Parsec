@@ -17,7 +17,7 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 
     override fun initialize() {
         Shooter.control(
-            ControlMode.Velocity
+            ControlMode.DutyCycle
         )
     }
 
@@ -25,9 +25,9 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
         if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity - 150 &&
             Shooter.velocity <= Shooter.motionCharacteristics.velocityConfig!!.velocity + 150
         ) {
-            if (Indexer.motionCharacteristics.controlMode != ControlMode.DutyCycle) {
-                Indexer.control(ControlMode.DutyCycle)
-            }
+
+            Indexer.control(ControlMode.DutyCycle)
+
         }
     }
 

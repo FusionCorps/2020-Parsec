@@ -8,15 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
-import frc.robot.fusion.motion.ControlMode
-import frc.robot.fusion.motion.FPIDConfig
-import frc.robot.fusion.motion.FTalonFX
-import frc.robot.fusion.motion.FollowerConfig
-import frc.robot.fusion.motion.MotionCharacteristics
-import frc.robot.fusion.motion.MotionConfig
-import frc.robot.fusion.motion.MotorID
-import frc.robot.fusion.motion.MotorModel
-import frc.robot.fusion.motion.VelocityConfig
+import frc.robot.fusion.motion.*
 import kotlin.math.cos
 import kotlin.math.sqrt
 import kotlin.math.tan
@@ -36,7 +28,8 @@ object Shooter : SubsystemBase() {
 
         control(
             FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD),
-            VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt())
+            VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt()),
+            DutyCycleConfig(0.75)
         )
 
         selectedSensorPosition = 0
