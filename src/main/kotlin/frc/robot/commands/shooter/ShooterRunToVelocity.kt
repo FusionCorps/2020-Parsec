@@ -5,6 +5,7 @@ import frc.robot.Constants
 import frc.robot.fusion.motion.ControlMode
 import frc.robot.subsystems.Indexer
 import frc.robot.subsystems.Shooter
+import mu.KotlinLogging
 
 // Run shooter to a velocity (and also indexer)
 
@@ -17,18 +18,17 @@ class ShooterRunToVelocity(velocity: Double = Constants.Shooter.TARGET_VELOCITY)
 
     override fun initialize() {
         Shooter.control(
-            ControlMode.Velocity
+            ControlMode.DutyCycle
         )
     }
 
     override fun execute() {
-        if (Shooter.velocity >= Shooter.motionCharacteristics.velocityConfig!!.velocity - 150 &&
-            Shooter.velocity <= Shooter.motionCharacteristics.velocityConfig!!.velocity + 150
+        if (Shooter.velocity >= 20000*0.85 - 150 &&
+            Shooter.velocity <= 20000*0.85 + 150
         ) {
-            if (Indexer.motionCharacteristics.controlMode != ControlMode.DutyCycle) {
                 Indexer.control(ControlMode.DutyCycle)
-            }
         }
+        KotlinLogging.logger("Shooter Velocity").info {Shooter.velocity}
     }
 
 //    override fun isFinished(): Boolean {

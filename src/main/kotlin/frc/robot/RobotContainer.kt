@@ -146,15 +146,8 @@ class RobotContainer {
         ).andThen(Runnable { Chassis.tankDrive(0.0, 0.0) })
     }
 
-    fun getAutonomousCommand() {
+    fun getAutonomousCommand(): Command {
         //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        try {
-            val trajectoryJSON = "paths/Unnamed_0.wpilib.json"
-            var trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-            var trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath)
-
-        } catch (ex: IOException) {
-            DriverStation.reportError("Unable to open trajectory: trajectoryJSON", ex.getStackTrace());
-        }
+        return mAutonomousSad
     }
 }

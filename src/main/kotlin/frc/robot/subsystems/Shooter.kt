@@ -12,6 +12,7 @@ import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.FPIDConfig
 import frc.robot.fusion.motion.FTalonFX
 import frc.robot.fusion.motion.FollowerConfig
+import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.MotionCharacteristics
 import frc.robot.fusion.motion.MotionConfig
 import frc.robot.fusion.motion.MotorID
@@ -38,6 +39,8 @@ object Shooter : SubsystemBase() {
             FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD),
             VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt())
         )
+
+        control(DutyCycleConfig(0.85))
 
         selectedSensorPosition = 0
     }

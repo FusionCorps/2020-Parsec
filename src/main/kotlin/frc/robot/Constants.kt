@@ -93,7 +93,7 @@ object Constants {
         const val kI = 0.0
         const val kD = 0.0
 
-        const val TARGET_VELOCITY = 20000.0
+        const val TARGET_VELOCITY = 15000.0
         const val TARGET_ACCELERATION = 500.0
     }
 
