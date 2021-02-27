@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
+import frc.robot.commands.chassis.ChassisDriveAmt
 import frc.robot.commands.chassis.ChassisDriveTankAmt
 import kotlin.math.PI
 
@@ -17,7 +18,11 @@ class AutonomousSlalom: SequentialCommandGroup() {
         val radPerSec = 1.0
 
         addCommands(
-            ChassisDriveTankAmt()
+            ChassisDriveAmt(0.00, -0.5, 0.25),
+            ChassisDriveAmt(0.20, -0.5, 1.5),
+            ChassisDriveAmt(-0.22, -0.5, 1.7),
+            ChassisDriveAmt(0.00, -0.8, 1.50),
+            ChassisDriveAmt(-0.22, -0.5, 1.7)
         )
 
 
