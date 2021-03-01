@@ -17,7 +17,7 @@ class ChassisRunJoystick : CommandBase() {
     override fun execute() {
         Chassis.joystickDrive(
             -0.8*speedLimiter.calculate(Controls.controller.getRawAxis(4)), // Drive Chassis
-            0.5*rotationLimiter.calculate(Controls.controller.getRawAxis(1))
+            rotationLimiter.calculate(Controls.controller.getRawAxis(1))
         )
 
         KotlinLogging.logger("Drive Forward").info {-speedLimiter.calculate(Controls.controller.getRawAxis(4))}
