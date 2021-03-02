@@ -23,10 +23,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
-import frc.robot.commands.autonomous.AutonomousBarrelRace
-import frc.robot.commands.autonomous.AutonomousCircle
-import frc.robot.commands.autonomous.AutonomousSad
-import frc.robot.commands.autonomous.AutonomousSlalom
+import frc.robot.commands.autonomous.*
 import frc.robot.commands.cameras.CamerasSwitch
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
@@ -62,7 +59,7 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
 
-    private val mAutonomousSad = AutonomousSlalom()
+    private val mAutonomousSad = AutonomousBounce()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.

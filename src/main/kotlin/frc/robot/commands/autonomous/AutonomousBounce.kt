@@ -1,6 +1,7 @@
 package frc.robot.commands.autonomous
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
+import frc.robot.commands.chassis.ChassisDriveAmt
 import frc.robot.commands.chassis.ChassisDriveTankAmt
 import kotlin.math.PI
 
@@ -16,42 +17,8 @@ class AutonomousBounce : SequentialCommandGroup() {
         val percentRunningAt = 0.1
         val radPerSec = 1.0
 
-        addCommands(ChassisDriveTankAmt(1.0*percentOneFtPerSec*radPerSec,
-                4.0*percentOneFtPerSec*radPerSec,
-                ((90)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        2.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(-1.5*percentOneFtPerSec*radPerSec,
-                        1.5*percentOneFtPerSec*radPerSec,
-                        ((17.59)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(-percentRunningAt, -percentRunningAt,
-                        8.66/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(-3.5*percentOneFtPerSec*radPerSec,
-                        -0.5*percentOneFtPerSec*radPerSec,
-                        ((180-17.59)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(-percentRunningAt, -percentRunningAt,
-                        7.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(0.0,0.0,
-                        0.3),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        7.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((90)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        2.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(3.5*percentOneFtPerSec*radPerSec,
-                        0.5*percentOneFtPerSec*radPerSec,
-                        ((90)/360*2* PI /radPerSec)),
-                ChassisDriveTankAmt(percentRunningAt, percentRunningAt,
-                        7.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(0.0,0.0,
-                        0.3),
-                ChassisDriveTankAmt(-percentRunningAt, -percentRunningAt,
-                        2.5/percentRunningAt*percentOneFtPerSec),
-                ChassisDriveTankAmt(-4.0*percentOneFtPerSec*radPerSec,
-                        -1.0*percentOneFtPerSec*radPerSec,
-                        ((90)/360*2* PI /radPerSec))
+        addCommands(
+                ChassisDriveAmt(0.2, -0.5, 1.5)
         )
 
     }
