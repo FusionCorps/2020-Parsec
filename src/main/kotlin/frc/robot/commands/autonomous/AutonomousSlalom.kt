@@ -18,24 +18,26 @@ class AutonomousSlalom: SequentialCommandGroup() {
         val radPerSec = 1.0
 
         addCommands(
-            ChassisDriveAmt(0.00, -0.5, 0.38),
-            ChassisDriveAmt(0.20, -0.5, 1.5),
-            ChassisDriveAmt(-0.22, -0.5, 1.7),
-            ChassisDriveAmt(0.00, -0.8, 0.8),
-            ChassisDriveAmt(-0.22, -0.5, 1.5),
-            ChassisDriveAmt(0.0, -0.5, 0.5),
-            ChassisDriveAmt(0.22, -0.5, 1.5),
-            ChassisDriveAmt(0.32, -0.5, 2.52),
-            ChassisDriveAmt(0.0, -0.5, 0.2),
-            ChassisDriveAmt(0.22, -0.5, 1.5),
-            ChassisDriveAmt(0.0, -0.5, 0.2),
-            ChassisDriveAmt(-0.22, -0.5, 1.45),
-            ChassisDriveAmt(0.00, -0.8, 0.8)
+                ChassisDriveAmt(0.00, -0.5, 0.38),
+                ChassisDriveAmt(0.20, -0.5, 1.5),
+                ChassisDriveAmt(-0.22, -0.5, 1.7),
+                ChassisDriveAmt(0.00, -0.8, 0.8),
+                ChassisDriveAmt(-0.22, -0.5, 1.5),
+                ChassisDriveAmt(0.0, -0.5, 0.5),
+                ChassisDriveAmt(0.22, -0.5, 1.5),
+                ChassisDriveAmt(0.31, -0.5, 2.57),
+                ChassisDriveAmt(0.0, -0.5, 0.18),
+                ChassisDriveAmt(0.22, -0.5, 1.5),
+                ChassisDriveAmt(0.0, -0.5, 0.57),
+                ChassisDriveAmt(-0.22, -0.5, 1.43),
+                ChassisDriveAmt(0.00, -0.8, 0.9),
+                ChassisDriveAmt(-0.22, -0.5, 1.5),
+                ChassisDriveAmt(0.22, -0.5, 1.5),
+                ChassisDriveAmt(0.00, -0.5, 0.38)
         )
 
 
-
-
     }
+
 
 }
