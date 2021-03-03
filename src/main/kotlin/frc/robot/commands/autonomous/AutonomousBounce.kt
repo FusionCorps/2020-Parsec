@@ -18,7 +18,23 @@ class AutonomousBounce : SequentialCommandGroup() {
         val radPerSec = 1.0
 
         addCommands(
-                ChassisDriveAmt(0.2, -0.5, 1.5)
+                ChassisDriveAmt(0.0, -0.5, 0.48),
+                ChassisDriveAmt(0.24, -0.5, 1.7),
+                ChassisDriveAmt(0.0, -0.5, 0.2),
+                ChassisDriveAmt(0.0, -0.2, 0.2),
+                ChassisDriveAmt(0.0, 0.2, 0.2),
+                ChassisDriveAmt(0.0, 0.5, 0.2),
+                ChassisDriveAmt(0.22, 0.5, 0.85),
+                ChassisDriveAmt(0.0, 0.8, 1.0),
+                ChassisDriveAmt(0.42, 0.5, 1.85),
+                ChassisDriveAmt(0.0, 0.8, 0.8),
+                ChassisDriveAmt(0.0, 0.5, 0.3),
+                ChassisDriveAmt(0.0, 0.0, 0.4),
+                ChassisDriveAmt(0.0, -0.5, 1.0),
+                ChassisDriveAmt(0.0, -0.8, 0.9),
+                ChassisDriveAmt(0.42, -0.5, 1.85)
+
+
         )
 
     }
