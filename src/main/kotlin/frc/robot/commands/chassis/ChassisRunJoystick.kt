@@ -7,7 +7,7 @@ import frc.robot.subsystems.Chassis
 import mu.KotlinLogging
 
 class ChassisRunJoystick : CommandBase() {
-    private val speedLimiter = SlewRateLimiter(6.5) // Cap accel and sens
+    private val speedLimiter = SlewRateLimiter(7.5) // Cap accel and sens
     private val rotationLimiter = SlewRateLimiter(3.5)
 
     init {

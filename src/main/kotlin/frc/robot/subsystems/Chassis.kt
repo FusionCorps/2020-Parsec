@@ -3,6 +3,7 @@ package frc.robot.subsystems
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.wpilibj.BuiltInAccelerometer
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.geometry.Pose2d
@@ -51,6 +52,12 @@ object Chassis : SubsystemBase() { // Start by defining motors
     // wheel position sensor sets
     val leftPosition: Double get() = talonFXFrontLeft.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
     val rightPosition: Double get() = talonFXFrontRight.selectedSensorPosition / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS
+
+    val accelerometer = BuiltInAccelerometer()
+
+    val accelX: Double get() = accelerometer.x
+    val accelY: Double get() = accelerometer.y
+
     val wheelSpeeds: DifferentialDriveWheelSpeeds
         get() = DifferentialDriveWheelSpeeds(
             talonFXFrontLeft.selectedSensorVelocity.toDouble() / 4096 * 2 * PI * Constants.Chassis.WHEEL_RADIUS_METERS * 10,
