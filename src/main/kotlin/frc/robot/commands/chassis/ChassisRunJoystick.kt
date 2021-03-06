@@ -7,8 +7,8 @@ import frc.robot.subsystems.Chassis
 import mu.KotlinLogging
 
 class ChassisRunJoystick : CommandBase() {
-    private val speedLimiter = SlewRateLimiter(2.5) // Cap accel and sens
-    private val rotationLimiter = SlewRateLimiter(2.5)
+    private val speedLimiter = SlewRateLimiter(6.5) // Cap accel and sens
+    private val rotationLimiter = SlewRateLimiter(3.5)
 
     init {
         addRequirements(Chassis)
@@ -16,7 +16,7 @@ class ChassisRunJoystick : CommandBase() {
 
     override fun execute() {
         Chassis.joystickDrive(
-            -0.6*speedLimiter.calculate(Controls.controller.getRawAxis(4)), // Drive Chassis
+            -0.7*speedLimiter.calculate(Controls.controller.getRawAxis(4)), // Drive Chassis
             rotationLimiter.calculate(Controls.controller.getRawAxis(1))
         )
 
