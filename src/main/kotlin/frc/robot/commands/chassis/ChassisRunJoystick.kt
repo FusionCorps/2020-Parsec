@@ -20,8 +20,7 @@ class ChassisRunJoystick : CommandBase() {
             rotationLimiter.calculate(Controls.controller.getRawAxis(1))
         )
 
-        KotlinLogging.logger("Drive Forward").info {-speedLimiter.calculate(Controls.controller.getRawAxis(4))}
-        KotlinLogging.logger("Drive Rotation").info {rotationLimiter.calculate(Controls.controller.getRawAxis(1))}
+
 
     }
 }

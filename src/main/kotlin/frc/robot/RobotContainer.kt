@@ -32,13 +32,7 @@ import frc.robot.commands.lift.LiftExtendRetract
 import frc.robot.commands.lift.LiftRetract
 import frc.robot.commands.shooter.ShooterCoastDown
 import frc.robot.commands.shooter.ShooterRunToVelocity
-import frc.robot.subsystems.Cameras
-import frc.robot.subsystems.Chassis
-import frc.robot.subsystems.Hopper
-import frc.robot.subsystems.Indexer
-import frc.robot.subsystems.Intake
-import frc.robot.subsystems.Lift
-import frc.robot.subsystems.Shooter
+import frc.robot.subsystems.*
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -54,6 +48,7 @@ class RobotContainer {
     private val mIndexer = Indexer
     private val mShooter = Shooter
     private val mLift = Lift
+    private val mShuffleboard = ShuffleboardPlacer
 
     private lateinit var mCameras: Cameras
 

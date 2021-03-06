@@ -59,7 +59,7 @@ object Chassis : SubsystemBase() { // Start by defining motors
 
     private val drive = DifferentialDrive(talonFXFrontLeft, talonFXFrontRight) // set drive
 
-    private val ahrs = AHRS(SPI.Port.kMXP).apply {
+    val ahrs = AHRS(SPI.Port.kMXP).apply {
         calibrate() // motion sensor
     }
 
