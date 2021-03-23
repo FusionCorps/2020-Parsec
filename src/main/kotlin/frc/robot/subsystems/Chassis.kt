@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants
 import frc.robot.commands.chassis.ChassisRunJoystick
+import frc.robot.commands.chassis.ChassisRunJoystickRecord
 import frc.robot.fusion.motion.ControlMode
 import frc.robot.fusion.motion.DutyCycleConfig
 import frc.robot.fusion.motion.FTalonFX
@@ -89,7 +90,7 @@ object Chassis : SubsystemBase() { // Start by defining motors
     val pose: Pose2d get() = odometry.poseMeters
 
     init {
-        defaultCommand = ChassisRunJoystick() // Set default state to run with joystick
+        defaultCommand = ChassisRunJoystickRecord() // Set default state to run with joystick
 
         Shuffleboard.getTab("Chassis").add(talonFXFrontRight)
         Shuffleboard.getTab("Chassis").add(talonFXFrontLeft)
