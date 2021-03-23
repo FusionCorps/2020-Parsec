@@ -3,6 +3,7 @@ package frc.robot.commands.chassis
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Chassis
+import mu.KotlinLogging
 
 class ChassisDriveAmt(xSpd: Double, zSpd: Double, timeout: Double) : CommandBase() {
     val mXSpd = xSpd
@@ -18,10 +19,15 @@ class ChassisDriveAmt(xSpd: Double, zSpd: Double, timeout: Double) : CommandBase
     override fun initialize() {
         timer.reset()
         timer.start()
+
+
+
     }
 
     override fun execute() {
         Chassis.joystickDrive(mXSpd, mZSpd)
+
+        KotlinLogging.logger("Testing").info{ mXSpd }
 
     }
 
