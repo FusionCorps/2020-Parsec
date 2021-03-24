@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Sendable
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import frc.robot.commands.cameras.CamerasTest
 
 object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
     val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0) // lift
@@ -20,7 +21,7 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
         )
     )
 
-    private val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
+    val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
 
     var driverMode = true // don't do b/w highlighting
 
@@ -30,6 +31,7 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
         SmartDashboard.putBoolean("Driver Mode", false)
         switcher = CameraServer.getInstance().addSwitchedCamera("switcher")
         switcher.source = intakeCamera
+        defaultCommand = CamerasTest()
     }
 
     var switcherSource: VideoSource
