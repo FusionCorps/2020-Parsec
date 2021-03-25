@@ -31,7 +31,6 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
         SmartDashboard.putBoolean("Driver Mode", false)
         switcher = CameraServer.getInstance().addSwitchedCamera("switcher")
         switcher.source = intakeCamera
-        defaultCommand = CamerasTest()
     }
 
     var switcherSource: VideoSource
