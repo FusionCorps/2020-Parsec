@@ -27,7 +27,7 @@ class ChassisReplay: CommandBase() {
         timer.reset()
         timer.start()
 
-        while (!timer.hasPeriodPassed(0.040)){
+        while (!timer.hasPeriodPassed(0.030)){
             Chassis.joystickDrive(inputs[index][0], inputs[index][1])
         }
 
