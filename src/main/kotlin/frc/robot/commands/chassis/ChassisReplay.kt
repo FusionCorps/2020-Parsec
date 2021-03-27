@@ -22,17 +22,17 @@ class ChassisReplay: CommandBase() {
 
     override fun execute() {
 
-        index += 1
 
-        timer.reset()
+
         timer.start()
 
         while (!timer.hasPeriodPassed(0.030)){
             Chassis.joystickDrive(inputs[index][0], inputs[index][1])
         }
 
+        index += 1
 
-
+        timer.reset()
 
     }
 

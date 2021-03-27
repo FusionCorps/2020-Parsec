@@ -232,6 +232,8 @@ class FTalonFX(id: MotorID) : WPI_TalonFX(id.id), FCTREMotor { // Run Talon of C
         builder.addDoubleProperty("SensorPosition", { this.selectedSensorPosition.toDouble() }, { })
     }
 
+
+
     init {
         configFactoryDefault()
     }

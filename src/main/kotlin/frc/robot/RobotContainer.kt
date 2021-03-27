@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.robot.commands.autonomous.*
 import frc.robot.commands.cameras.CamerasSwitch
+import frc.robot.commands.chassis.RecordToggle
 import frc.robot.commands.chassis.ReplayReset
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
@@ -55,7 +56,7 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
 
-    private val mAutonomousSad = AutonomousFromRecording()
+    private val mAutonomousSad = AutonomousSad()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -90,9 +91,9 @@ class RobotContainer {
 //        JoystickButton(Controls.controller, XboxController.Button.kY.value)
 //            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whenPressed(ReplayReset())
+            .whenPressed(AimToTarget())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-            .whenPressed(AutonomousRecordingTest())
+            .whenPressed(RecordToggle())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
             .whenPressed(CamerasSwitch())
     }

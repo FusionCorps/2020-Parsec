@@ -12,7 +12,7 @@ class AimToTarget : CommandBase() {
 
     private val timer = Timer() // Start Timer
 
-    private val kAim = -0.05 // PID Constant start
+    private val kAim = -0.0435 // PID Constant start
     private val kDistance = -0.1
     private val minAim = 0.00
 
@@ -61,13 +61,13 @@ class AimToTarget : CommandBase() {
 
         val distanceAdjust = 0
 
-        Chassis.tankDrive(-steeringAdjust + distanceAdjust, -(steeringAdjust + distanceAdjust))
+        Chassis.joystickDrive(-steeringAdjust, 0.0)
     }
 
     override fun isFinished(): Boolean { // Finish command
         KotlinLogging.logger("AimToTargetPure").info { "AimToTargetPure ended" }
 
-        return (timer.hasPeriodPassed(2.0) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
+        return (timer.hasPeriodPassed(0.5) || (tx.absoluteValue < acceptableError && ty.absoluteValue < acceptableError))
     }
 
     override fun end(interrupted: Boolean) { // Reset tank

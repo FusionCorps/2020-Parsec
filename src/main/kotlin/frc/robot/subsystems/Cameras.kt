@@ -23,7 +23,7 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
 
     val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
 
-    var driverMode = true // don't do b/w highlighting
+    var driverMode = false // don't do b/w highlighting
 
     lateinit var switcher: MjpegServer
 
@@ -31,6 +31,7 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
         SmartDashboard.putBoolean("Driver Mode", false)
         switcher = CameraServer.getInstance().addSwitchedCamera("switcher")
         switcher.source = intakeCamera
+        defaultCommand = CamerasTest()
     }
 
     var switcherSource: VideoSource
