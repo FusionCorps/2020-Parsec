@@ -17,7 +17,7 @@ object Shooter : SubsystemBase() {
     private val talonFXTop = FTalonFX(MotorID(Constants.Shooter.ID_TALONFX_TOP, "ShooterTalonT", MotorModel.TalonFX)).apply {
         configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor)
 
-        setInverted(TalonFXInvertType.Clockwise)
+        setInverted(TalonFXInvertType.CounterClockwise)
 
         setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10)
         setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10)
