@@ -23,7 +23,7 @@ object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
 
     val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
 
-    var driverMode = false // don't do b/w highlighting
+    var driverMode = true // don't do b/w highlighting
 
     lateinit var switcher: MjpegServer
 

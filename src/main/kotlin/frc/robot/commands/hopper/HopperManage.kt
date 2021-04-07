@@ -22,6 +22,7 @@ class HopperManage : SequentialCommandGroup() {
     }
 
     init {
-        addCommands(HopperWait(), hopperIntake, hopperReverse)
+//        addCommands(HopperWait(), hopperIntake, hopperReverse)
+        addCommands(HopperWait())
     }
 }
