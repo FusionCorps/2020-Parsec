@@ -14,19 +14,23 @@ class IndexerAutomate : CommandBase() {
     }
 
     override fun execute() {
-        if (Indexer.isBallTop) {
-            Indexer.control(ControlMode.Disabled)
-        } else if (Indexer.motionCharacteristics.controlMode == ControlMode.DutyCycle) {
-            if (!Indexer.isBallFront) {
+        if (Indexer.isAutomating) {
+            if (Indexer.isBallTop) {
                 Indexer.control(ControlMode.Disabled)
+            } else if (Indexer.motionCharacteristics.controlMode == ControlMode.DutyCycle) {
+                if (!Indexer.isBallFront) {
+                    Indexer.control(ControlMode.Disabled)
+                }
+            } else if (Indexer.isBallFront) {
+                //            Indexer.beltPosition = 0
+                //
+                //            mTargetIndexerPosition = Indexer.beltPosition + Constants.Indexer.SHIFT_TICKS
+                //
+                //            Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
+                Indexer.control(ControlMode.DutyCycle)
             }
-        } else if (Indexer.isBallFront) {
-//            Indexer.beltPosition = 0
-//
-//            mTargetIndexerPosition = Indexer.beltPosition + Constants.Indexer.SHIFT_TICKS
-//
-//            Indexer.control(ControlMode.Position, PositionConfig(mTargetIndexerPosition.toInt()))
-            Indexer.control(ControlMode.DutyCycle)
+        } else {
+            Indexer.control(ControlMode.Disabled)
         }
     }
 

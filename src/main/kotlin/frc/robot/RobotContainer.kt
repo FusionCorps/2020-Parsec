@@ -29,6 +29,7 @@ import frc.robot.commands.chassis.RecordToggle
 import frc.robot.commands.chassis.ReplayReset
 import frc.robot.commands.hopper.HopperRunAt
 import frc.robot.commands.indexer.IndexerRunAtDutyCycle
+import frc.robot.commands.indexer.IndexerToggle
 import frc.robot.commands.lift.LiftExtend
 import frc.robot.commands.lift.LiftExtendRetract
 import frc.robot.commands.lift.LiftRetract
@@ -56,7 +57,7 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
 
-    private val mAutonomousSad = AutonomousBarrelRace()
+    private val mAutonomousSad = AutonomousBounce()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -93,7 +94,7 @@ class RobotContainer {
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
             .whenPressed(AimToTarget())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
-            .whenPressed(RecordToggle())
+            .whenPressed(IndexerToggle())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
             .whenPressed(CamerasSwitch())
     }

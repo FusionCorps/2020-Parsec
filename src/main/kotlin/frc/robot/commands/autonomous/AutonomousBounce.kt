@@ -26,7 +26,7 @@ class AutonomousBounce : SequentialCommandGroup() {
                 ChassisDriveAmt(0.0, 0.5, 0.2),
                 ChassisDriveAmt(0.20, 0.5, 0.92),
                 ChassisDriveAmt(0.0, 0.8, 1.0),
-                ChassisDriveAmt(0.42, 0.5, 1.94),
+                ChassisDriveAmt(0.42, 0.5, 1.80),
                 ChassisDriveAmt(0.0, 0.8, 0.8),
                 ChassisDriveAmt(0.0, 0.5, 0.3),
                 ChassisDriveAmt(0.0, 0.0, 0.4),
@@ -34,12 +34,12 @@ class AutonomousBounce : SequentialCommandGroup() {
                 ChassisDriveAmt(0.0, -0.8, 0.8),
                 ChassisDriveAmt(0.41, -0.5, 0.84),
                 ChassisDriveAmt(0.0, -0.8, 0.75),
-                ChassisDriveAmt(0.41, -0.5, 0.90),
+                ChassisDriveAmt(0.41, -0.5, 0.84),
                 ChassisDriveAmt(0.0, -0.8, 1.40),
                 ChassisDriveAmt(0.0, -0.3, 0.75),
                 ChassisDriveAmt(0.0, -0.0, 0.2),
                 ChassisDriveAmt(0.0, 0.3, 0.2),
-                ChassisDriveAmt(0.0, 0.5, 0.50),
+                ChassisDriveAmt(0.0, 0.5, 0.75),
                 ChassisDriveAmt(0.41, 0.5, 1.25)
 
 

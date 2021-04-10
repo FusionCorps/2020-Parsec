@@ -14,7 +14,7 @@ class AimToTarget : CommandBase() {
 
     private val kAim = -0.0435 // PID Constant start
     private val kDistance = -0.1
-    private val minAim = 0.00
+    private val minAim = 0.04
 
     private var steeringAdjust = 0.0
 

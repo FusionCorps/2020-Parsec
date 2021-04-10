@@ -10,6 +10,6 @@ class CamerasTest : CommandBase() {
     }
 
     override fun execute() {
-        KotlinLogging.logger("Camera Test").info { Cameras.limelightTable.getEntry("tx").getDouble(0.0) }
+        // KotlinLogging.logger("Camera Test").info { Cameras.limelightTable.getEntry("tx").getDouble(0.0) }
     }
 }
