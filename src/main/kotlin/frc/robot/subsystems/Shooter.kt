@@ -29,7 +29,7 @@ object Shooter : SubsystemBase() {
         control(
             FPIDConfig(Constants.Shooter.kF, Constants.Shooter.kP, Constants.Shooter.kI, Constants.Shooter.kD),
             VelocityConfig(Constants.Shooter.TARGET_VELOCITY.toInt()),
-            DutyCycleConfig(0.8)
+            DutyCycleConfig(0.9)
         )
 
         selectedSensorPosition = 0
