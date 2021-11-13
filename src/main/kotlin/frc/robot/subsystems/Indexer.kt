@@ -53,7 +53,7 @@ object Indexer : SubsystemBase() {
 
     val motionCharacteristics: MotionCharacteristics get() = talonFXBelt.motionCharacteristics
 
-    var isAutomating = true
+    var isAutomating = false
 
     var beltPosition: Int
         set(value) {

@@ -22,9 +22,11 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.RamseteCommand
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 import frc.robot.commands.autonomous.*
 import frc.robot.commands.cameras.CamerasSwitch
+import frc.robot.commands.chassis.AimToggle
 import frc.robot.commands.chassis.RecordToggle
 import frc.robot.commands.chassis.ReplayReset
 import frc.robot.commands.hopper.HopperRunAt
@@ -57,7 +59,7 @@ class RobotContainer {
 
     private var mAutoCommandChooser: SendableChooser<Command> = SendableChooser()
 
-    private val mAutonomousSad = AutonomousBounce()
+    private val mAutonomousSad = SequentialCommandGroup()
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -69,6 +71,7 @@ class RobotContainer {
         SmartDashboard.putData("Auto mode", mAutoCommandChooser)
 
         if (RobotBase.isReal()) {
+
             mCameras = Cameras
         }
     }
@@ -92,7 +95,7 @@ class RobotContainer {
 //        JoystickButton(Controls.controller, XboxController.Button.kY.value)
 //            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
-            .whenPressed(AimToTarget())
+            .whenPressed(AimToggle())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whenPressed(IndexerToggle())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
