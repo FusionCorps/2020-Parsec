@@ -14,16 +14,16 @@ import frc.robot.commands.cameras.CamerasTest
 object Cameras : SubsystemBase(), Sendable { // Defining onboard cams
     val liftCamera = CameraServer.getInstance().startAutomaticCapture("lift", 0) // lift
     val intakeCamera = CameraServer.getInstance().startAutomaticCapture("intake", 1) // intake
-    val limelight = CameraServer.getInstance().startAutomaticCapture( // limelight shooter
+    val limelightCamera = CameraServer.getInstance().startAutomaticCapture( // limelight shooter
         HttpCamera(
             "limelight",
-            "http://10.66.72.11:5800/video/stream.mjpg"
+            "http://10.66.72.108:5800/video/stream.mjpg"
         )
     )
 
     val limelightTable = NetworkTableInstance.getDefault().getTable("limelight") // limelight data
 
-    var driverMode = true // don't do b/w highlighting
+    var driverMode = false // don't do b/w highlighting
 
     lateinit var switcher: MjpegServer
 

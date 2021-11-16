@@ -96,6 +96,7 @@ class RobotContainer {
 //            .whileHeld(AimToTargetPID())
         JoystickButton(Controls.controller, XboxController.Button.kBumperLeft.value)
             .whenPressed(AimToggle())
+            .whenReleased(AimToggle())
         JoystickButton(Controls.controller, XboxController.Button.kBumperRight.value)
             .whenPressed(IndexerToggle())
         JoystickButton(Controls.controller, XboxController.Button.kStart.value)
